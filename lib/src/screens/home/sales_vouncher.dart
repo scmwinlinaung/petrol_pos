@@ -1,251 +1,229 @@
-
-
-// class SalesVouncher extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(appBar: AppBar(
-//         centerTitle: true,
-//         backgroundColor: Theme.of(context).primaryColor,
-//         title: Text(
-//           'အရောင်းဘောင်ချာထုတ်ရန်',
-//           style: Theme.of(context).textTheme.title,
-//         ),
-//         iconTheme: new IconThemeData(color: Colors.white),
-//       ),
-      
-//       );
-//   }
-// }
-
-import 'dart:io';
-import 'dart:typed_data';
+import 'package:OilPos/src/screens/home/print_vouncher.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class SalesVouncher extends StatefulWidget {
- @override
- _SalesVouncherState createState() => new _SalesVouncherState();
+  @override
+  State<StatefulWidget> createState() {
+    return _SalesVouncherState();
+  }
 }
 
 class _SalesVouncherState extends State<SalesVouncher> {
-
-  BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
-
-  List<BluetoothDevice> _devices = [];
-  BluetoothDevice _device;
-  bool _connected = false;
-  bool _pressed = false;
-  String pathImage;
-
+  DateTime _dateTime = DateTime.now();
+  String _formatDate;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController customerTextFieldCtrl = new TextEditingController();
+  TextEditingController quantityTextFieldCtrl = new TextEditingController();
+  TextEditingController priceTextFieldCtrl = new TextEditingController();
+  TextEditingController debtTextFieldCtrl = new TextEditingController();
   @override
-  void initState() {
-   super.initState();
-   initPlatformState();
-   initSavetoPath();
-  }
-
- initSavetoPath()async{
-    //read and write
-    //image max 300px X 300px
-    final filename = 'yourlogo.png';
-    var bytes = await rootBundle.load("assets/images/yourlogo.png");
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    writeToFile(bytes,'$dir/$filename');
-    setState(() {
-     pathImage='$dir/$filename';
-   });
- }
-
-  Future<void> initPlatformState() async {
-    List<BluetoothDevice> devices = [];
-
-   try {
-     devices = await bluetooth.getBondedDevices();
-   } on PlatformException {
-     // TODO - Error
-   }
-
-   bluetooth.onStateChanged().listen((state) {
-     switch (state) {
-        case BlueThermalPrinter.CONNECTED:
-          setState(() {
-            _connected = true;
-            _pressed = false;
-         });
-         break;
-        case BlueThermalPrinter.DISCONNECTED:
-         setState(() {
-           _connected = false;
-           _pressed = false;
-          });
-         break;
-        default:
-          print(state);
-          break;
-     }
-   });
-
-    if (!mounted) return;
-   setState(() {
-      _devices = devices;
-   });
-  }
-
- @override
- Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
-        leading: IconButton(icon:Icon(Icons.arrow_back),
-          onPressed:() => Navigator.pop(context, false),
+        title: Text(
+          'အချက်အလက်ထည့်ရန်',
+          style: Theme.of(context).textTheme.title,
         ),
-          title: Text(
-            'အရောင်းဘောင်ချာထုတ်ရန်',
-            style: Theme.of(context).textTheme.title
-            ),
-       ),
-        body: Container(
-         child: ListView(
-           children: <Widget>[
-             Padding(
-               padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: <Widget>[
-                   Text(
-                      'Device:',
-                     style: Theme.of(context).textTheme.body1
-                    ),
-                   DropdownButton(
-                      items: _getDeviceItems(),
-                      onChanged: (value) => setState(() => _device = value),
-                      value: _device,
-                   ),
-                   RaisedButton(
-                      onPressed:
-                     _pressed ? null : _connected ? _disconnect : _connect,
-                      child: Text(
-                        _connected ? 'မချိတ်ဆက်ပါ' : 'ချိတ်ဆက်သည်',
-                        style: Theme.of(context).textTheme.title
-                        ),
-                      
-                    ),
-                 ],
-               ),
-             ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
-                child:  RaisedButton(
-                  color: Colors.lightBlueAccent,
-                  textColor: Colors.white,
-                  onPressed: _connected ? _tesPrint : null,
-                 child: Text(
-                   'ဘောင်ချာထုတ်ရန်',
-                    style: Theme.of(context).textTheme.title
-                   ),
-               ),
-             ),
-            ],
-         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, false),
         ),
-     ),
-   );
- }
- List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
-    List<DropdownMenuItem<BluetoothDevice>> items = [];
-   if (_devices.isEmpty) {
-     items.add(DropdownMenuItem(
-       child: Text('NONE'),
-     ));
-    } else {
-     _devices.forEach((device) {
-       items.add(DropdownMenuItem(
-        child: Text(device.name),
-          value: device,
-       ));
-     });
-   }
-   return items;
+        iconTheme: new IconThemeData(color: Colors.white),
+      ),
+      body: _buildForm(),
+    );
   }
-  void _connect() {
-    if (_device == null) {
-     show('No device selected.');
-   } else {
-      bluetooth.isConnected.then((isConnected) {
-       if (!isConnected) {
-          bluetooth.connect(_device).catchError((error) {
-           setState(() => _pressed = false);
-         });
-         setState(() => _pressed = true);
-       }
-      });
-    }
- }
-  void _disconnect() {
-    bluetooth.disconnect();
-    setState(() => _pressed = true);
- }
 
-//write to app path
- Future<void> writeToFile(ByteData data, String path) {
-    final buffer = data.buffer;
-    return new File(path).writeAsBytes(
-        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
- }
-
-  void _tesPrint() async {
-    //SIZE
-    // 0- normal size text
-    // 1- only bold text
-   // 2- bold with medium text
-   // 3- bold with large text
-   //ALIGN
-   // 0- ESC_ALIGN_LEFT
-   // 1- ESC_ALIGN_CENTER
-    // 2- ESC_ALIGN_RIGHT
-    bluetooth.isConnected.then((isConnected) {
-      if (isConnected) {
-        bluetooth.printCustom("HEADER",3,1);
-        bluetooth.printNewLine();
-        bluetooth.printImage(pathImage);
-        bluetooth.printNewLine();
-        bluetooth.printLeftRight("LEFT", "RIGHT",0);
-        bluetooth.printLeftRight("LEFT", "RIGHT",1);
-        bluetooth.printNewLine();
-        bluetooth.printLeftRight("LEFT", "RIGHT",2);
-        bluetooth.printCustom("Body left",1,0);
-        bluetooth.printCustom("Body right",0,2);
-        bluetooth.printNewLine();
-        bluetooth.printCustom("Terimakasih",2,1);
-        bluetooth.printNewLine();
-        // bluetooth.printQRcode("Insert Your Own Text to Generate");
-        bluetooth.printNewLine();
-        bluetooth.printNewLine();
-        bluetooth.paperCut();
-        }
-   });
-  }
-   Future show(
-      String message, {
-       Duration duration: const Duration(seconds: 3),
-      }) async {
-    await new Future.delayed(new Duration(milliseconds: 100));
-   Scaffold.of(context).showSnackBar(
-      new SnackBar(
-        content: new Text(
-          message,
-         style: new TextStyle(
-            color: Colors.white,
-          ),
-       ),
-        duration: duration,
+  Widget _buildForm() {
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width - 20,
+        height: MediaQuery.of(context).size.height - 100,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 1),
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: Form(
+            key: _formKey,
+            child: Container(
+                padding: EdgeInsets.fromLTRB(20, 100, 20, 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _buildTable(),
+                    SizedBox(height: 150),
+                    _buildSubmitButton()
+                  ],
+                  //  _buildTable()
+                ))),
       ),
     );
- }
+  }
+
+  Widget _buildTable() {
+    return Table(
+        defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+        children: [
+          TableRow(children: [
+            Container(
+                height: 60,
+                child: Text(
+                  'ဖောက်သည်အမည်',
+                  style: Theme.of(context).textTheme.body1,
+                )),
+            Container(
+              height: 60,
+              child: _buildCustomerField(),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              height: 60,
+              child: Text(
+                'ရက်စွဲ',
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+            Container(
+              height: 60,
+              child: _buildDateField(),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              height: 60,
+              child: Text(
+                'လီတာ',
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+            Container(
+              height: 60,
+              child: _buildQuantityField(),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              height: 60,
+              child: Text(
+                'ဈေးနှုန်း',
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+            Container(
+              height: 60,
+              child: _buildPriceField(),
+            ),
+          ]),
+          TableRow(children: [
+            Container(
+              height: 60,
+              child: Text(
+                'ရှင်းရန်ကျန်ငွေ',
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+            Container(
+              height: 60,
+              child: _buildDebtField(),
+            ),
+          ]),
+        ]);
+  }
+
+  Widget _buildCustomerField() {
+    return TextFormField(
+      controller: customerTextFieldCtrl,
+      textAlign: TextAlign.left,
+    );
+  }
+
+  Widget _buildDateField() {
+    if (_dateTime != null)
+      _formatDate = new DateFormat.yMMMd().format(_dateTime);
+    print(_dateTime.toString());
+    return MaterialButton(
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            Icon(
+              FontAwesomeIcons.calendar,
+              color: Colors.lightBlue,
+              size: 20,
+            ),
+            SizedBox(width: 5),
+            Expanded(
+                child: Text(
+              _dateTime != null ? _formatDate.toString() : 'ရက်ဆွဲထည့်ပါ',
+              style: Theme.of(context).textTheme.body1,
+            ))
+          ],
+        ),
+        onPressed: () {
+          showDatePicker(
+                  context: context,
+                  initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime(2100))
+              .then((date) {
+            setState(() {
+              _dateTime = date;
+            });
+          });
+        });
+  }
+
+  Widget _buildPriceField() {
+    return TextFormField(
+      controller: priceTextFieldCtrl,
+      keyboardType: TextInputType.numberWithOptions(),
+    );
+  }
+
+  Widget _buildQuantityField() {
+    return TextFormField(
+      controller: quantityTextFieldCtrl,
+      keyboardType: TextInputType.numberWithOptions(),
+    );
+  }
+
+  Widget _buildDebtField() {
+    return TextFormField(
+      controller: debtTextFieldCtrl,
+      keyboardType: TextInputType.numberWithOptions(),
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return MaterialButton(
+      height: 50,
+      minWidth: 350,
+      color: Colors.lightBlue,
+      child: Text(
+        'ဆက်လုပ်မည်',
+        style: Theme.of(context).textTheme.title,
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PrintVouncher(
+                    customerName: customerTextFieldCtrl.text,
+                    date: _formatDate,
+                    quantity: quantityTextFieldCtrl.text,
+                    price: priceTextFieldCtrl.text,
+                    debt: debtTextFieldCtrl.text,
+                  )),
+        );
+      },
+      // child: Text(
+      //   'ဆက်လုပ်မည်',
+      //   style: Theme.of(context).textTheme.title,
+      //   ),
+    );
+  }
 }

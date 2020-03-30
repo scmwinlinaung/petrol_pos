@@ -1,4 +1,4 @@
-package com.example.win_petrol_pos
+package com.example.petrol_pos
 
 import io.flutter.embedding.android.FlutterActivity
 
