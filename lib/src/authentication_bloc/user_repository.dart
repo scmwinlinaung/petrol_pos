@@ -1,32 +1,20 @@
 import 'dart:async';
 import 'dart:convert'; // for the utf8.encode method
-import 'package:OilPos/src/common/general.dart';
-import 'package:graphql/client.dart';
+import 'dart:typed_data';
+import 'package:OilPos/src/common/api_call/api_call.dart';
 import 'package:http/http.dart' as http;
-import 'package:pointycastle/digests/sha1.dart';
-
 import 'package:meta/meta.dart';
-
-import 'package:jose/jose.dart';
 
 class UserRepository {
   var user;
   String token;
   String username;
+  String phoneNum;
+  String userId;
+  String email;
+  String errorMessage = "  ";
 
-  final GraphQLClient client = GraphQLClient(
-      cache: InMemoryCache(),
-      link: HttpLink(uri: 'http://127.0.0.1:3000/graphql/public'));
-
-  String getJsonFromJWT(String splittedToken) {
-    String normalizedSource = base64Url.normalize('MY_SECRET');
-    print('normalizedSource = ' + normalizedSource.toString());
-    print('base64Url.decode(normalizedSource) = ' +
-        base64Url.decode(normalizedSource).toString());
-    print('utf8.decode(base64Url.decode(normalizedSource)) = ' +
-        utf8.decode(base64Url.decode(normalizedSource)).toString());
-    return utf8.decode(base64Url.decode(normalizedSource));
-  }
+  ApiCall apiCall = ApiCallService();
 
   Future<String> authenticate({
     @required String username,
@@ -38,25 +26,40 @@ class UserRepository {
     return token;
   }
 
-  Future<String> signInWithCredentials(String email, String password) async {
-    var bytes = utf8.encode(password); // data being hashed
-    var sha1 = SHA1Digest();
-    print('bytes = ' + bytes.toString());
-    print('sha1 = ' + sha1.toString());
-    var digest = sha1.process(bytes);
-    print('digest = ' + digest.toString());
-    var result = await http.post('http://127.0.0.1:3000/login',
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(
-            {'username': email, 'password': formatBytesAsHexString(digest)}));
-    print('result.body = ' + result.body);
-    print('json.decode(result.body) = ' + json.decode(result.body));
-    var jsonResponse = json.decode(result.body);
-    this.token = jsonResponse['token'];
-    var claims = parseJwt(this.token);
-    print('claims = ' + claims.toString());
-    this.username = claims['sub'];
+  Future<String> signInWithCredentials(String phoneNum, String password) async {
+    var jsonResponse = await apiCall.callSignInApi(phoneNum, password);
+    this.errorMessage =
+        jsonResponse['message']; // need to add top of other data item
+    this.token = jsonResponse['token'].toString();
+    this.phoneNum = jsonResponse['phone'].toString();
+    this.username = jsonResponse['name'].toString();
+    this.email = jsonResponse['email'].toString();
     return this.token;
+  }
+
+  // Future<String> signUpWithCredentials(
+  //     String username, String phoneNum, String password) async {
+  //   var salt = Salt.generateAsBase64String(10);
+  //   var jsonResponse =
+  //       await apiCall.callSignUpApi(username, phoneNum, password, salt);
+  //   this.errorMessage =
+  //       jsonResponse['message']; // need to add top of other data item
+  //   this.token = jsonResponse['token'].toString();
+  //   this.phoneNum = jsonResponse['user']['phone'].toString();
+  //   this.username = jsonResponse['user']['name'].toString();
+  //   this.email = jsonResponse['user']['email'].toString();
+  //   this.userId = jsonResponse['user']['_id'].toString();
+
+  //   return this.token;
+  // }
+
+  String formatBytesAsHexString(Uint8List bytes) {
+    var result = StringBuffer();
+    for (var i = 0; i < bytes.lengthInBytes; i++) {
+      var part = bytes[i];
+      result.write('${part < 16 ? '0' : ''}${part.toRadixString(16)}');
+    }
+    return result.toString();
   }
 
   Future<void> deleteToken() async {
@@ -84,7 +87,14 @@ class UserRepository {
   }
 
   getUser() {
-    return {'username': this.username, 'token': this.token};
+    return {
+      'phone': this.phoneNum,
+      'token': this.token,
+      'userId': this.userId,
+      'name': this.username,
+      'email': this.email,
+      'message': this.errorMessage
+    };
   }
 
   Future<bool> signOut() async {

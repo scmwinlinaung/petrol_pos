@@ -1,6 +1,7 @@
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
+import 'package:OilPos/src/screens/sale/sale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql/client.dart';
@@ -14,7 +15,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Home',
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline1,
         ),
         actions: <Widget>[
           IconButton(
@@ -33,7 +34,7 @@ class MyHomePage extends StatelessWidget {
             DrawerHeader(
               child: Text(
                 'လှမြဆီရောင်းဝယ်ရေး',
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline1,
                 textAlign: TextAlign.center,
               ),
               decoration: BoxDecoration(
@@ -49,7 +50,7 @@ class MyHomePage extends StatelessWidget {
                 ),
                 title: Text(
                   'အချက်အလက်',
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -64,12 +65,12 @@ class MyHomePage extends StatelessWidget {
                     width: 30),
                 title: Text(
                   'အရောင်းစာရင်း',
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return null;
+                    return SalePage();
                   }));
                 },
               ),
@@ -82,7 +83,7 @@ class MyHomePage extends StatelessWidget {
                     width: 30),
                 title: Text(
                   'အဝယ်စာရင်း',
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 enabled: false,
               ),
@@ -95,7 +96,7 @@ class MyHomePage extends StatelessWidget {
                     width: 30),
                 title: Text(
                   'အရောင်းဘောင်ချာထုတ်ရန်',
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 onTap: () {
                   Navigator.pop(context);

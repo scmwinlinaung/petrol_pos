@@ -1,30 +1,24 @@
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-class SimpleBlocDelegate extends HydratedBlocDelegate {
-  SimpleBlocDelegate(HydratedStorage storage) : super(storage);
-
-  // static Future<HydratedBlocDelegate> build({Directory storageDirectory}){
-  //   return HydratedBlocDelegate.build(storageDirectory: storageDirectory);
-  // }
-
+class SimpleBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object event) {
     super.onEvent(bloc, event);
-    print(event);
   }
 
   @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
+  void onChange(Cubit cubit, Change change) {
+    super.onChange(cubit, change);
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition);
+  }
+
+  @override
+  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
+    super.onError(cubit, error, stackTrace);
   }
 }

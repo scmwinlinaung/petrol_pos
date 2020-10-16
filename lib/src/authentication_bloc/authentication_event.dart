@@ -9,4 +9,12 @@ class AppStarted extends AuthenticationEvent {}
 
 class LoggedIn extends AuthenticationEvent {}
 
-class LoggedOut extends AuthenticationEvent {}
+class LoggedOut extends AuthenticationEvent {
+  final token;
+
+  LoggedOut({this.token});
+  @override
+  List<Object> get props => [token];
+}
+
+class Register extends AuthenticationEvent {}

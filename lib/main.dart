@@ -15,28 +15,11 @@ import 'package:graphql/client.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 final appTitle = 'Home';
-String get host {
-  if (Platform.isAndroid) {
-    return '10.0.2.2';
-  } else {
-    return '127.0.0.1';
-  }
-}
-
-final String GRAPHQL_ENDPOINT = 'http://$host:3000/graphql';
-final String SUBSCRIPTION_ENDPOINT = 'ws://$host:3000/subscriptions';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // setTargetPlatformForDesktop();
-  if (Platform.isIOS || Platform.isAndroid) {
-    BlocSupervisor.delegate =
-        SimpleBlocDelegate(await HydratedBlocStorage.getInstance());
-  } else if (Platform.isMacOS || Platform.isLinux) {
-    BlocSupervisor.delegate = SimpleBlocDelegate(
-        await HydratedBlocStorage.getInstance(
-            storageDirectory: Directory('.')));
-  }
+  Bloc.observer = SimpleBlocObserver();
+  HydratedCubit.storage = await HydratedStorage.build();
 
   final UserRepository userRepository = UserRepository();
   // application.onLocaleChanged = onLocaleChange;
@@ -55,43 +38,66 @@ void main() async {
 class App extends StatelessWidget {
   final UserRepository _userRepository;
 
-  App({Key key, @required UserRepository userRepository})
-      : assert(userRepository != null),
+  App({
+    Key key,
+    @required UserRepository userRepository,
+  })  : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // var notiContract = await contractDeploy("Noti.sol",args);
+    const mainColorHex = const Color(0xff396b50);
+    const indicatorColorHex = const Color(0xff5e87d4);
+    const articleIndicatorColorHex = const Color(0xff86a5df);
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Pyidaungsu',
+        primaryColor: mainColorHex,
+        indicatorColor: indicatorColorHex,
+        accentColor: articleIndicatorColorHex,
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            wordSpacing: 0.5,
+            color: Colors.white
+          ),
+          headline5: TextStyle(
+              fontSize: 14.0,
+              wordSpacing: 0.5,
+              color: mainColorHex,
+              fontWeight: FontWeight.bold),
+          headline2: TextStyle(
+              fontSize: 18.0, fontWeight: FontWeight.bold, wordSpacing: 0.5),
+          headline3: TextStyle(fontSize: 16.0, wordSpacing: 0.5),
+          headline6: TextStyle(
+              fontSize: 36.0, fontStyle: FontStyle.italic, wordSpacing: 0.5),
+          bodyText1: TextStyle(fontSize: 13.0, wordSpacing: 0.5),
+          bodyText2: TextStyle(
+              fontSize: 16.0,
+              color: Colors.white,
+              wordSpacing: 0.8,
+              letterSpacing: 0.4),
+        ),
+      ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
-          print(state.state);
           if (state.state == AuthStates.UNAUTHENTICATED) {
             return LoginScreen(userRepository: _userRepository);
           } else if (state.state == AuthStates.AUTHENTICATED) {
-            String jwt = state.token;
-            final HttpLink _httpLink = HttpLink(
-              uri: GRAPHQL_ENDPOINT,
-            );
-            final WebSocketLink websocketLink = WebSocketLink(
-              url: SUBSCRIPTION_ENDPOINT,
-              config: SocketClientConfig(
-                  autoReconnect: true,
-                  inactivityTimeout: null,
-                  initPayload: () => {'token': '$jwt'}),
-            );
+            String jwtToken = state.token;
+            String userId = state.userId;
+            String phone = state.phoneNum;
+            String name = state.name;
+            String email = state.email;
+  
+            print("Phone" + phone);  
 
-            final AuthLink _authLink = AuthLink(getToken: () => 'Bearer $jwt');
-            final Link _link = Link.from([_authLink, _httpLink, websocketLink]);
-
-            final GraphQLClient gqlclient = GraphQLClient(
-              cache: OptimisticCache(
-                dataIdFromObject: typenameDataIdFromObject,
-              ),
-              link: _link,
-            );
             return MyHomePage();
           }
+
           return SplashPage();
         },
       ),
