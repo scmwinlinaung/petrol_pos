@@ -77,7 +77,7 @@ class App extends StatelessWidget {
           bodyText1: TextStyle(fontSize: 13.0, wordSpacing: 0.5),
           bodyText2: TextStyle(
               fontSize: 16.0,
-              color: Colors.white,
+              color: Colors.black,
               wordSpacing: 0.8,
               letterSpacing: 0.4),
         ),

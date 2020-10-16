@@ -1,16 +1,16 @@
-import 'package:OilPos/src/screens/sale/bloc/sale_state.dart';
+import 'package:OilPos/src/screens/purchase/bloc/bloc.dart';
 import 'package:OilPos/src/widgets/LoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/sale_bloc.dart';
+import 'bloc/purchase_bloc.dart';
 
-class SaleListBody extends StatelessWidget {
+class PurchaseListBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      print(state.saleRecords.toString());
-      if (state.saleRecords.length > 0) {
+    return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
+      print(state.purchaseRecords.toString());
+      if (state.purchaseRecords.length > 0) {
         return DataTable(
           headingRowColor: MaterialStateProperty.all(Colors.grey),
           headingTextStyle: TextStyle(color: Colors.white),
@@ -59,13 +59,13 @@ class SaleListBody extends StatelessWidget {
             ),
           ],
           rows: state
-              .saleRecords // Loops through dataColumnText, each iteration assigning the value to element
+              .purchaseRecords // Loops through dataColumnText, each iteration assigning the value to element
               .map(
                 ((sale) => DataRow(
                       cells: <DataCell>[
-                        DataCell(Text(sale.customerName,
+                        DataCell(Text(sale.companyName,
                             style: Theme.of(context).textTheme.bodyText2)),
-                        DataCell(Text(sale.customerPhone,
+                        DataCell(Text(sale.companyPhone,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.goodType,
                             style: Theme.of(context).textTheme.bodyText2)),

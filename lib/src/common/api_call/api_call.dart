@@ -4,7 +4,8 @@ import '../general.dart';
 
 abstract class ApiCall {
   Future<dynamic> callSignInApi(String phoneNum, String password);
-
+  Future<List> callSalesListApi();
+  Future<List> callPurchasesListApi();
 }
 
 class ApiCallService implements ApiCall {
@@ -14,5 +15,23 @@ class ApiCallService implements ApiCall {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'phone': phoneNum, 'password': password}));
     return json.decode(result.body);
+  }
+
+   @override
+  Future<List> callSalesListApi() async {
+    var result = await http.get(
+      '$host/sale_records',
+
+    );
+    return json.decode(result.body) as List;
+  }
+
+     @override
+  Future<List> callPurchasesListApi() async {
+    var result = await http.get(
+      '$host/purchase_records',
+
+    );
+    return json.decode(result.body) as List;
   }
 }

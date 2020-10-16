@@ -1,6 +1,7 @@
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
+import 'package:OilPos/src/screens/purchase/purchase_page.dart';
 import 'package:OilPos/src/screens/sale/sale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +86,12 @@ class MyHomePage extends StatelessWidget {
                   'အဝယ်စာရင်း',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
-                enabled: false,
+                 onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return PurchasePage();
+                  }));
+                },
               ),
             ),
             Card(
