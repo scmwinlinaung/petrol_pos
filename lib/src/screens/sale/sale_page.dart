@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/bloc.dart';
+import 'create_sale.dart';
 
 class SalePage extends StatelessWidget {
   @override
@@ -18,7 +19,11 @@ class SalePage extends StatelessWidget {
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: SalesList())),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+           Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return CreateSale();
+                  }));
+        },
         child: Icon(
           Icons.add,
           color: Colors.white,

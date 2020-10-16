@@ -18,42 +18,49 @@ class SaleListBody extends StatelessWidget {
             DataColumn(
               label: Text(
                 'အမည်',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'ဖုန်း',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'အမျိုးအစား',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'အရေအတွက်',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'နှုန်း',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'ငွေပေးချေမည့်ပုံစံ',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
             DataColumn(
               label: Text(
                 'စုစုပေါင်း',
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14),
               ),
             ),
@@ -64,18 +71,25 @@ class SaleListBody extends StatelessWidget {
                 ((sale) => DataRow(
                       cells: <DataCell>[
                         DataCell(Text(sale.customerName,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.customerPhone,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.goodType,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.quantity.toString(),
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.rateFixed.toString(),
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.paymentType,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.total.toString(),
+                            textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                       ],
                     )),

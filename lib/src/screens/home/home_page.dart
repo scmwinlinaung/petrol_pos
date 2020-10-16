@@ -120,98 +120,98 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget _buildMainDesign() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: 200,
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            color: Colors.lightBlue[700],
-            child: ListTile(
-              leading: Image(
-                image: AssetImage('assets/images/oil_pump.png'),
-                height: 50,
-                width: 50,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Brent Oil',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                'ယ‌နေ့ပေါက်ဈေး',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-              trailing: Text(
-                '\$ 30',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        Container(
-          height: 200,
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Card(
-            shadowColor: Colors.grey,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            color: Colors.lightBlue[700],
-            child: ListTile(
-              leading: Image(
-                image: AssetImage('assets/images/oil_pump.png'),
-                height: 50,
-                width: 50,
-                color: Colors.white,
-              ),
-              title: Text(
-                'WTI Oil',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                'ယ‌နေ့ပေါက်ဈေး',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-              trailing: Text(
-                '\$ 30',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
+    // return Column(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: <Widget>[
+    //     Container(
+    //       height: 200,
+    //       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+    //       child: Card(
+    //         shape: RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.circular(10.0),
+    //         ),
+    //         color: Colors.lightBlue[700],
+    //         child: ListTile(
+    //           leading: Image(
+    //             image: AssetImage('assets/images/oil_pump.png'),
+    //             height: 50,
+    //             width: 50,
+    //             color: Colors.white,
+    //           ),
+    //           title: Text(
+    //             'Brent Oil',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 30,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //           subtitle: Text(
+    //             'ယ‌နေ့ပေါက်ဈေး',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 25,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //           trailing: Text(
+    //             '\$ 30',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 30,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //     SizedBox(
+    //       height: 40,
+    //     ),
+    //     Container(
+    //       height: 200,
+    //       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+    //       child: Card(
+    //         shadowColor: Colors.grey,
+    //         shape: RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.circular(10.0),
+    //         ),
+    //         color: Colors.lightBlue[700],
+    //         child: ListTile(
+    //           leading: Image(
+    //             image: AssetImage('assets/images/oil_pump.png'),
+    //             height: 50,
+    //             width: 50,
+    //             color: Colors.white,
+    //           ),
+    //           title: Text(
+    //             'WTI Oil',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 30,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //           subtitle: Text(
+    //             'ယ‌နေ့ပေါက်ဈေး',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 25,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //           trailing: Text(
+    //             '\$ 30',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 color: Colors.white,
+    //                 fontSize: 30,
+    //                 fontWeight: FontWeight.bold),
+    //           ),
+    //         ),
+    //       ),
+    //     )
+    //   ],
+    // );
   }
 }
