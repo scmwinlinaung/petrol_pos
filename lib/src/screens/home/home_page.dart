@@ -82,6 +82,36 @@ class MyHomePage extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: Image(
+                    image: AssetImage('assets/images/sales_record.png'),
+                    height: 30,
+                    width: 30),
+                title: Text(
+                  'အရောင်းကြွေးကျန်',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Image(
+                    image: AssetImage('assets/images/purchases_record.png'),
+                    height: 30,
+                    width: 30),
+                title: Text(
+                  'အဝယ်ကြွေးကျန်',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Image(
                   image: AssetImage('assets/images/data.png'),
                   height: 30,
                   width: 30,

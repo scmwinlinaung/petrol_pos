@@ -24,15 +24,16 @@ class PurchaseBloc
   Stream<PurchaseState> _mapGetPurchasesList() async* {
     var jsonResponse = await apiCall.callPurchasesListApi();
     if (jsonResponse.length > 0) {
-      final _purchaseList = jsonResponse.map((sale) {
+      final _purchaseList = jsonResponse.map((purchase) {
         return Purchase(
-            companyName: sale["companyName"],
-            companyPhone: sale["companyPhone"],
-            goodType: sale["goodType"],
-            quantity: sale["quantity"],
-            rateFixed: sale["rateFixed"],
-            paymentType: sale["paymentType"],
-            total: sale["total"]
+            companyName: purchase["companyName"],
+            companyPhone: purchase["companyPhone"],
+            goodType: purchase["goodType"],
+            quantity: purchase["quantity"],
+            rateFixed: purchase["rateFixed"],
+            paymentType: purchase["paymentType"],
+            total: purchase["total"],
+            createdAt: purchase["createdAt"]
             );
       }).toList();
       print("saleList = " + _purchaseList.toString());

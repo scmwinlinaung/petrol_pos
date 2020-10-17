@@ -9,11 +9,12 @@ class Sale extends Equatable {
   final String paymentType;
   final int total;
   final String status;
+  final String createdAt;
 
-  Sale({ this.customerName, this.customerPhone, this.goodType, this.quantity, this.rateFixed, this.paymentType, this.total, this.status});
+  Sale({ this.customerName, this.customerPhone, this.goodType, this.quantity, this.rateFixed, this.paymentType, this.total, this.status, this.createdAt});
   
   @override
-  List<Object> get props => [customerName, customerPhone, goodType, quantity, rateFixed, paymentType, total, status];
+  List<Object> get props => [customerName, customerPhone, goodType, quantity, rateFixed, paymentType, total, status, createdAt];
 
   @override
   String toString() => 'Sale { customerName: $customerName }';

@@ -1,10 +1,13 @@
+import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentTypeDropDown extends StatefulWidget {
   final String hint;
   final List<String> itemList;
 
-  const PaymentTypeDropDown({Key key, this.hint, this.itemList}) : super(key: key);
+  const PaymentTypeDropDown({Key key, this.hint, this.itemList})
+      : super(key: key);
   @override
   _PaymentTypeDropDownState createState() => _PaymentTypeDropDownState();
 }
@@ -13,6 +16,14 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
   String dropdownValue = 'အကြွေး';
   String get _hint => widget.hint;
   List<String> get _itemList => widget.itemList;
+
+  SaleBloc _saleBloc;
+
+  @override
+  void initState() {
+    _saleBloc = BlocProvider.of(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
           setState(() {
             dropdownValue = newValue;
           });
+          _saleBloc.add(AddPaymentTypeButtonPressed(newValue));
         },
         items: <String>["အကြွေး", "လက်ငင်း"]
             .map<DropdownMenuItem<String>>((String value) {

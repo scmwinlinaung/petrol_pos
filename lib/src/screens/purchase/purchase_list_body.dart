@@ -14,6 +14,7 @@ class PurchaseListBody extends StatelessWidget {
         return DataTable(
           headingRowColor: MaterialStateProperty.all(Colors.grey),
           headingTextStyle: TextStyle(color: Colors.white),
+          sortAscending: false,
           columns: const <DataColumn>[
             DataColumn(
               label: Text(
@@ -64,6 +65,13 @@ class PurchaseListBody extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
             ),
+            DataColumn(
+              label: Text(
+                'ရက်စွဲ',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
           ],
           rows: state
               .purchaseRecords // Loops through dataColumnText, each iteration assigning the value to element
@@ -89,6 +97,9 @@ class PurchaseListBody extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.total.toString() + " ကျပ်",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyText2)),
+                        DataCell(Text(sale.createdAt,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                       ],

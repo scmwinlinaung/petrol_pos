@@ -1,4 +1,7 @@
+import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
+import 'package:OilPos/src/screens/sale/bloc/sale_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GoodTypeDropDown extends StatefulWidget {
   final String hint;
@@ -13,6 +16,14 @@ class _GoodTypeDropDownState extends State<GoodTypeDropDown> {
   String dropdownValue = 'နိုင်ငံခြားဆီ';
   String get _hint => widget.hint;
   List<String> get _itemList => widget.itemList;
+
+  SaleBloc _saleBloc;
+
+  @override
+  void initState() {
+    _saleBloc = BlocProvider.of(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,7 @@ class _GoodTypeDropDownState extends State<GoodTypeDropDown> {
           setState(() {
             dropdownValue = newValue;
           });
+          _saleBloc.add(AddGoodTypeButtonPressed(newValue));
         },
         items: <String>["နိုင်ငံခြားဆီ", "ချက်ဆီ"]
             .map<DropdownMenuItem<String>>((String value) {

@@ -9,7 +9,6 @@ class SaleListBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      print(state.saleRecords.toString());
       if (state.saleRecords.length > 0) {
         return DataTable(
           headingRowColor: MaterialStateProperty.all(Colors.grey),
@@ -64,6 +63,13 @@ class SaleListBody extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
             ),
+            DataColumn(
+              label: Text(
+                'ရက်စွဲ',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
           ],
           rows: state
               .saleRecords // Loops through dataColumnText, each iteration assigning the value to element
@@ -89,6 +95,9 @@ class SaleListBody extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.total.toString() + " ကျပ်",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyText2)),
+                        DataCell(Text(sale.createdAt,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                       ],
