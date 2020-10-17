@@ -6,6 +6,7 @@ abstract class ApiCall {
   Future<dynamic> callSignInApi(String phoneNum, String password);
   Future<List> callSalesListApi();
   Future<List> callPurchasesListApi();
+  Future<List> callInStockListApi();
 }
 
 class ApiCallService implements ApiCall {
@@ -30,6 +31,15 @@ class ApiCallService implements ApiCall {
   Future<List> callPurchasesListApi() async {
     var result = await http.get(
       '$host/purchase_records',
+
+    );
+    return json.decode(result.body) as List;
+  }
+
+  @override
+  Future<List> callInStockListApi() async {
+        var result = await http.get(
+      '$host/in_stock_records',
 
     );
     return json.decode(result.body) as List;

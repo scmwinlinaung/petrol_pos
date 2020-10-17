@@ -17,11 +17,11 @@ class PurchaseBloc
       PurchaseEvent event) async* {
     if (event is GetPurchasesList) {
       print("GetSalesList");
-      yield* _mapGetSalesList();
+      yield* _mapGetPurchasesList();
     } 
   }
 
-  Stream<PurchaseState> _mapGetSalesList() async* {
+  Stream<PurchaseState> _mapGetPurchasesList() async* {
     var jsonResponse = await apiCall.callPurchasesListApi();
     if (jsonResponse.length > 0) {
       final _purchaseList = jsonResponse.map((sale) {

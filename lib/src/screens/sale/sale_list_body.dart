@@ -79,16 +79,16 @@ class SaleListBody extends StatelessWidget {
                         DataCell(Text(sale.goodType,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
-                        DataCell(Text(sale.quantity.toString(),
+                        DataCell(Text(sale.quantity.toString() + " လီတာ",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
-                        DataCell(Text(sale.rateFixed.toString(),
+                        DataCell(Text(sale.rateFixed.toString() + " ကျပ်",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                         DataCell(Text(sale.paymentType,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
-                        DataCell(Text(sale.total.toString(),
+                        DataCell(Text(sale.total.toString() + " ကျပ်",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
                       ],
@@ -97,7 +97,7 @@ class SaleListBody extends StatelessWidget {
               .toList(),
         );
       } else {
-        return LoadingIndicator();
+        return Center(child: LoadingIndicator());
       }
     });
   }

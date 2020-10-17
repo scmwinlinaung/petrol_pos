@@ -1,6 +1,7 @@
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
+import 'package:OilPos/src/screens/in_stock/in_stock_page.dart';
 import 'package:OilPos/src/screens/purchase/purchase_page.dart';
 import 'package:OilPos/src/screens/sale/sale_page.dart';
 import 'package:flutter/material.dart';
@@ -45,22 +46,6 @@ class MyHomePage extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: Image(
-                  image: AssetImage('assets/images/data.png'),
-                  height: 30,
-                  width: 30,
-                ),
-                title: Text(
-                  'အချက်အလက်',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: Image(
                     image: AssetImage('assets/images/purchases_record.png'),
                     height: 30,
                     width: 30),
@@ -86,11 +71,46 @@ class MyHomePage extends StatelessWidget {
                   'အဝယ်စာရင်း',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
-                 onTap: () {
+                onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
                     return PurchasePage();
                   }));
+                },
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Image(
+                  image: AssetImage('assets/images/data.png'),
+                  height: 30,
+                  width: 30,
+                ),
+                title: Text(
+                  'ပစ္စည်းလက်ကျန်',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return InStockPage();
+                  }));
+                },
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Image(
+                  image: AssetImage('assets/images/data.png'),
+                  height: 30,
+                  width: 30,
+                ),
+                title: Text(
+                  'အရှုး/အမြတ်',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
                 },
               ),
             ),
