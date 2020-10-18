@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
 import 'package:OilPos/src/screens/sale/bloc/sale_bloc.dart';
+import 'package:OilPos/src/widgets/CreateRecordButton.dart';
 import 'package:OilPos/src/widgets/GoodTypeDropDown.dart';
 import 'package:OilPos/src/widgets/PaymentTypeDropDown.dart';
 import 'package:OilPos/src/widgets/PrimaryButton.dart';
@@ -221,10 +222,11 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: <Widget>[
-                                    ButtonPrimary(
+                                    CreateRecordButton(
                                       color: _enabled
                                           ? Theme.of(context).primaryColor
                                           : Colors.grey,
+                                      title: "အရောင်းစာရင်း အသစ်ထည့်မယ်",
                                       onPressed: () {
                                         if (_enabled) {
                                           return _createSaleRecord(
@@ -233,8 +235,21 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                         } else
                                           return null;
                                       },
-                                      title: "အရောင်းစာရင်း အသစ်ထည့်မယ်",
-                                    ),
+                                    )
+                                    // ButtonPrimary(
+                                    //   color: _enabled
+                                    //       ? Theme.of(context).primaryColor
+                                    //       : Colors.grey,
+                                    //   onPressed: () {
+                                    //     if (_enabled) {
+                                    //       return _createSaleRecord(
+                                    //           state.goodType,
+                                    //           state.paymentType);
+                                    //     } else
+                                    //       return null;
+                                    //   },
+                                    //   title: "အရောင်းစာရင်း အသစ်ထည့်မယ်",
+                                    // ),
                                   ],
                                 ),
                               ),
