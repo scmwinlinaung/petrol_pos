@@ -6,8 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class GoodTypeDropDown extends StatefulWidget {
   final String hint;
   final List<String> itemList;
+  final TextEditingController goodType;
 
-  const GoodTypeDropDown({Key key, this.hint, this.itemList}) : super(key: key);
+  const GoodTypeDropDown({Key key, this.hint, this.itemList, this.goodType}) : super(key: key);
   @override
   _GoodTypeDropDownState createState() => _GoodTypeDropDownState();
 }
@@ -17,11 +18,16 @@ class _GoodTypeDropDownState extends State<GoodTypeDropDown> {
   String get _hint => widget.hint;
   List<String> get _itemList => widget.itemList;
 
-  SaleBloc _saleBloc;
+  TextEditingController get _goodType => widget.goodType;
+  
+  set _goodType(TextEditingController goodType) {
+    this._goodType = goodType;
+  }
+
 
   @override
   void initState() {
-    _saleBloc = BlocProvider.of(context);
+    _goodType.text = dropdownValue;
     super.initState();
   }
 
@@ -43,7 +49,7 @@ class _GoodTypeDropDownState extends State<GoodTypeDropDown> {
           setState(() {
             dropdownValue = newValue;
           });
-          _saleBloc.add(AddGoodTypeButtonPressed(newValue));
+          _goodType.text = newValue;
         },
         items: <String>["နိုင်ငံခြားဆီ", "ချက်ဆီ"]
             .map<DropdownMenuItem<String>>((String value) {

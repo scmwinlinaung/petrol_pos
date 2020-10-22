@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PaymentTypeDropDown extends StatefulWidget {
   final String hint;
   final List<String> itemList;
+  final TextEditingController paymentType;
 
-  const PaymentTypeDropDown({Key key, this.hint, this.itemList})
+  const PaymentTypeDropDown(
+      {Key key, this.hint, this.itemList, this.paymentType})
       : super(key: key);
   @override
   _PaymentTypeDropDownState createState() => _PaymentTypeDropDownState();
@@ -17,11 +19,15 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
   String get _hint => widget.hint;
   List<String> get _itemList => widget.itemList;
 
-  SaleBloc _saleBloc;
+  TextEditingController get _paymentType => widget.paymentType;
+
+  set _paymentType(TextEditingController paymentType) {
+    this._paymentType = paymentType;
+  }
 
   @override
   void initState() {
-    _saleBloc = BlocProvider.of(context);
+    _paymentType.text = dropdownValue;
     super.initState();
   }
 
@@ -43,7 +49,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
           setState(() {
             dropdownValue = newValue;
           });
-          _saleBloc.add(AddPaymentTypeButtonPressed(newValue));
+         _paymentType.text = newValue;
         },
         items: <String>["အကြွေး", "လက်ငင်း"]
             .map<DropdownMenuItem<String>>((String value) {

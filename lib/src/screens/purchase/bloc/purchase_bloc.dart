@@ -16,9 +16,28 @@ class PurchaseBloc
   Stream<PurchaseState> mapEventToState(
       PurchaseEvent event) async* {
     if (event is GetPurchasesList) {
-      print("GetSalesList");
+      print("GetPurchasesList");
       yield* _mapGetPurchasesList();
+    }  else if (event is CreatePurchaseButtonPressed) {
+      yield* _mapCreatePurchase(event.purchase);
     } 
+  }
+
+    Stream<PurchaseState> _mapCreatePurchase(Purchase purchase) async* {
+
+    try {
+      await apiCall.callCreatePurchaseApi(
+          purchase.companyName,
+          purchase.companyPhone,
+          purchase.goodType,
+          purchase.quantity,
+          purchase.rateFixed,
+          purchase.paymentType,
+          purchase.total);
+      yield PurchaseState.success();
+    } catch (err) {
+      yield PurchaseState.fail();
+    }
   }
 
   Stream<PurchaseState> _mapGetPurchasesList() async* {

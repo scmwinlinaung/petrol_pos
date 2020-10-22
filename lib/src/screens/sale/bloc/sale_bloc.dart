@@ -18,21 +18,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapGetSalesList();
     } else if (event is CreateSaleButtonPressed) {
       yield* _mapCreateSale(event.sale);
-    } else if (event is AddGoodTypeButtonPressed) {
-      yield* _mapAddGoodType(event.goodType);
-    } else if (event is AddPaymentTypeButtonPressed) {
-      yield* _mapAddPaymentType(event.paymentType);
-    }
+    } 
   }
-
-  Stream<SaleState> _mapAddGoodType(String goodType) async* {
-    yield state.update(goodType: goodType);
-  }
-
-  Stream<SaleState> _mapAddPaymentType(String paymentType) async* {
-    yield state.update(paymentType: paymentType);
-  }
-
   Stream<SaleState> _mapCreateSale(Sale sale) async* {
 
     print(sale.customerPhone);

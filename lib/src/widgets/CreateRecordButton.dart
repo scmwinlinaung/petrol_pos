@@ -43,25 +43,26 @@ class _CreateRecordButtonState extends State<CreateRecordButton> {
 
   Widget setUpButtonChild() {
     if (color == Colors.grey) {
-      return Row(
+      return Stack(
         children: [
           Align(
-              alignment: AlignmentDirectional.center,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-              )),
-          Align(
-            alignment: AlignmentDirectional.centerEnd,
-            heightFactor: 0.8,
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            alignment: AlignmentDirectional.center,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
               ),
-            
+            ),
           ),
+          Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ))),
         ],
       );
     } else {

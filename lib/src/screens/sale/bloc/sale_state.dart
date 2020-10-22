@@ -6,15 +6,11 @@ class SaleState {
   final List<Sale> saleRecords;
   final bool isSuccess;
   final bool isFail;
-  final String goodType;
-  final String paymentType;
 
   SaleState(
       {this.saleRecords,
       this.isSuccess,
-      this.isFail,
-      this.goodType,
-      this.paymentType});
+      this.isFail,});
 
   factory SaleState.success() {
     return SaleState(isFail: false, isSuccess: true);
@@ -28,9 +24,7 @@ class SaleState {
     return SaleState(
         saleRecords: [],
         isSuccess: false,
-        isFail: false,
-        goodType: "နိုင်ငံခြားဆီ",
-        paymentType: "အကြွေး");
+        isFail: false,);
   }
 
   SaleState update({
@@ -52,8 +46,6 @@ class SaleState {
   }) {
     return SaleState(
       saleRecords: saleRecords ?? this.saleRecords,
-      goodType: goodType ?? this.goodType,
-      paymentType: paymentType ?? this.paymentType
     );
   }
 

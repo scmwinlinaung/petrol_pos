@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/bloc.dart';
+import 'create_purchase.dart';
 
 class PurchasePage extends StatelessWidget {
   @override
@@ -17,7 +18,11 @@ class PurchasePage extends StatelessWidget {
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: PurchasesList())),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return CreatePurchase();
+                  }));
+        },
         child: Icon(
           Icons.add,
           color: Colors.white,

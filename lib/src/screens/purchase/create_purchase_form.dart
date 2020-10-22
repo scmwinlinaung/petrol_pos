@@ -1,24 +1,24 @@
 import 'dart:async';
 
+import 'package:OilPos/src/screens/purchase/bloc/bloc.dart';
+import 'package:OilPos/src/screens/purchase/bloc/purchase_event.dart';
+import 'package:OilPos/src/screens/purchase/model/Purchase.dart';
 import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
 import 'package:OilPos/src/screens/sale/bloc/sale_bloc.dart';
 import 'package:OilPos/src/widgets/CreateRecordButton.dart';
 import 'package:OilPos/src/widgets/GoodTypeDropDown.dart';
 import 'package:OilPos/src/widgets/PaymentTypeDropDown.dart';
-import 'package:OilPos/src/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'model/Sale.dart';
-
-class CreateSaleForm extends StatefulWidget {
+class CreatePurchaseForm extends StatefulWidget {
   @override
-  _CreateSaleFormState createState() => _CreateSaleFormState();
+  _CreatePurchaseFormState createState() => _CreatePurchaseFormState();
 }
 
-class _CreateSaleFormState extends State<CreateSaleForm> {
-  TextEditingController _customerNameCtrl = new TextEditingController();
-  TextEditingController _customerPhoneCtrl = new TextEditingController();
+class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
+  TextEditingController _companyNameCtrl = new TextEditingController();
+  TextEditingController _companyPhoneCtrl = new TextEditingController();
   TextEditingController _goodTypeCtrl = new TextEditingController();
   TextEditingController _quantityCtrl = new TextEditingController();
   TextEditingController _rateFixedCtrl = new TextEditingController();
@@ -27,13 +27,13 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   bool _enabled = true;
 
-  SaleBloc _saleBloc;
+  PurchaseBloc _purchaseBloc;
 
   void _createSaleRecord() async {
-    _saleBloc.add(CreateSaleButtonPressed(
-        sale: Sale(
-            customerName: _customerNameCtrl.text,
-            customerPhone: _customerPhoneCtrl.text,
+    _purchaseBloc.add(CreatePurchaseButtonPressed(
+        purchase: Purchase(
+            companyName: _companyNameCtrl.text,
+            companyPhone: _companyPhoneCtrl.text,
             goodType: _goodTypeCtrl.text,
             quantity: int.parse(_quantityCtrl.text),
             rateFixed: int.parse(_rateFixedCtrl.text),
@@ -48,14 +48,14 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   @override
   void initState() {
-    _saleBloc = BlocProvider.of(context);
+    _purchaseBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   void dispose() {
-    _customerNameCtrl.dispose();
-    _customerPhoneCtrl.dispose();
+    _companyNameCtrl.dispose();
+    _companyPhoneCtrl.dispose();
     _goodTypeCtrl.dispose();
     _quantityCtrl.dispose();
     _rateFixedCtrl.dispose();
@@ -75,7 +75,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
           titleTextStyle: Theme.of(context).textTheme.headline2,
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[Text("အရောင်းစာရင်း အသစ်ထည့်ပြီးပါပြီ")],
+              children: <Widget>[Text("အဝယ်စာရင်း အသစ်ထည့်ပြီးပါပြီ")],
             ),
           ),
           actions: <Widget>[
@@ -94,7 +94,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+    return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
       return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 35),
           child: Card(
@@ -110,7 +110,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                           child: Column(
                             children: [
                               TextFormField(
-                                controller: _customerNameCtrl,
+                                controller: _companyNameCtrl,
                                 decoration: InputDecoration(
                                   icon: Icon(
                                     Icons.supervised_user_circle,
@@ -134,7 +134,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                 height: 10,
                               ),
                               TextFormField(
-                                controller: _customerPhoneCtrl,
+                                controller: _companyPhoneCtrl,
                                 decoration: InputDecoration(
                                   icon: Icon(
                                     Icons.phone_iphone,
@@ -228,11 +228,10 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                       color: _enabled
                                           ? Theme.of(context).primaryColor
                                           : Colors.grey,
-                                      title: "အရောင်းစာရင်းအသစ်ထည့်မယ်",
+                                      title: "အဝယ်စာရင်းအသစ် ထည့်မယ်",
                                       onPressed: () {
                                         if (_enabled) {
-                                          return _createSaleRecord(
-                                            );
+                                          return _createSaleRecord();
                                         } else
                                           return null;
                                       },

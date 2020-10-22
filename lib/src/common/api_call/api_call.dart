@@ -15,6 +15,14 @@ abstract class ApiCall {
       int rateFixed,
       String paymentType,
       int total);
+  Future<dynamic> callCreatePurchaseApi(
+      String companyName,
+      String companyPhone,
+      String goodType,
+      int quantity,
+      int rateFixed,
+      String paymentType,
+      int total);
 }
 
 class ApiCallService implements ApiCall {
@@ -64,6 +72,31 @@ class ApiCallService implements ApiCall {
         body: json.encode({
           "customerName": customerName,
           "customerPhone": customerPhone,
+          "goodType": goodType,
+          "quantity": quantity,
+          "rateFixed": rateFixed,
+          "paymentType": paymentType,
+          "total": total,
+          "status": "active"
+        }));
+    print(result.body);
+    return json.decode(result.body);
+  }
+
+   @override
+  Future<dynamic> callCreatePurchaseApi(
+      String companyName,
+      String companyPhone,
+      String goodType,
+      int quantity,
+      int rateFixed,
+      String paymentType,
+      int total) async {
+    var result = await http.post("$host/purchase_records",
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "companyName": companyName,
+          "companyPhone": companyPhone,
           "goodType": goodType,
           "quantity": quantity,
           "rateFixed": rateFixed,

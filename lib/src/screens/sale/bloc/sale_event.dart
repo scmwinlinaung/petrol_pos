@@ -8,28 +8,6 @@ abstract class SaleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddGoodTypeButtonPressed extends SaleEvent {
-  final String goodType;
-
-  AddGoodTypeButtonPressed(this.goodType);
-  @override
-  List<Object> get props => [goodType];
-
-  @override
-  String toString() => 'AddGoodTypeButtonPressed { }';
-}
-
-class AddPaymentTypeButtonPressed extends SaleEvent {
-  final String paymentType;
-
-  AddPaymentTypeButtonPressed(this.paymentType);
-  @override
-  List<Object> get props => [paymentType];
-
-  @override
-  String toString() => 'AddPaymentTypeButtonPressed { }';
-}
-
 class CreateSaleButtonPressed extends SaleEvent {
   final Sale sale;
   const CreateSaleButtonPressed({this.sale});
