@@ -5,26 +5,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc.dart';
 
-class PurchaseBloc
-    extends Bloc<PurchaseEvent, PurchaseState> {
+class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   ApiCall apiCall = new ApiCallService();
   PurchaseBloc()
       : assert(true),
         super(PurchaseState.initial());
 
   @override
-  Stream<PurchaseState> mapEventToState(
-      PurchaseEvent event) async* {
+  Stream<PurchaseState> mapEventToState(PurchaseEvent event) async* {
     if (event is GetPurchasesList) {
       print("GetPurchasesList");
       yield* _mapGetPurchasesList();
-    }  else if (event is CreatePurchaseButtonPressed) {
+    } else if (event is CreatePurchaseButtonPressed) {
       yield* _mapCreatePurchase(event.purchase);
-    } 
+    }
   }
 
-    Stream<PurchaseState> _mapCreatePurchase(Purchase purchase) async* {
-
+  Stream<PurchaseState> _mapCreatePurchase(Purchase purchase) async* {
     try {
       await apiCall.callCreatePurchaseApi(
           purchase.companyName,
@@ -42,8 +39,9 @@ class PurchaseBloc
 
   Stream<PurchaseState> _mapGetPurchasesList() async* {
     var jsonResponse = await apiCall.callPurchasesListApi();
+    List purchaseRecords = jsonResponse["purchaseRecord"];
     if (jsonResponse.length > 0) {
-      final _purchaseList = jsonResponse.map((purchase) {
+      final _purchaseList = purchaseRecords.map((purchase) {
         return Purchase(
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
@@ -52,17 +50,14 @@ class PurchaseBloc
             rateFixed: purchase["rateFixed"],
             paymentType: purchase["paymentType"],
             total: purchase["total"],
-            createdAt: purchase["createdAt"]
-            );
+            createdAt: purchase["createdAt"]);
       }).toList();
       print("saleList = " + _purchaseList.toString());
       yield state.update(
         purchaseRecords: _purchaseList,
       );
     }
-    
   }
-
 
   // }
 }

@@ -3,7 +3,9 @@ import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
 import 'package:OilPos/src/screens/in_stock/in_stock_page.dart';
 import 'package:OilPos/src/screens/purchase/purchase_page.dart';
+import 'package:OilPos/src/screens/purchase_debt/purchase_debt_page.dart';
 import 'package:OilPos/src/screens/sale/sale_page.dart';
+import 'package:OilPos/src/screens/sale_debt/sale_debt_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql/client.dart';
@@ -91,6 +93,9 @@ class MyHomePage extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return SaleDebtPage();
+                  }));
                 },
               ),
             ),
@@ -106,6 +111,9 @@ class MyHomePage extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return PurchaseDebtPage();
+                  }));
                 },
               ),
             ),

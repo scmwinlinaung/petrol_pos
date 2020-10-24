@@ -18,10 +18,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapGetSalesList();
     } else if (event is CreateSaleButtonPressed) {
       yield* _mapCreateSale(event.sale);
-    } 
+    }
   }
-  Stream<SaleState> _mapCreateSale(Sale sale) async* {
 
+  Stream<SaleState> _mapCreateSale(Sale sale) async* {
     print(sale.customerPhone);
     print(sale.goodType);
     print(sale.quantity);
@@ -45,8 +45,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Stream<SaleState> _mapGetSalesList() async* {
     var jsonResponse = await apiCall.callSalesListApi();
-    if (jsonResponse.length > 0) {
-      final _salesList = jsonResponse.map((sale) {
+    print("Sale Record - " + jsonResponse["saleRecord"].toString());
+    List saleRecords = jsonResponse["saleRecord"];
+    if (saleRecords.length > 0) {
+      final _salesList = saleRecords.map((sale) {
         DateTime parseCreatedDate =
             new DateFormat("yyyy-MM-ddThh:mm:s").parse(sale["createdAt"]);
         return Sale(

@@ -4,8 +4,10 @@ import "../general.dart";
 
 abstract class ApiCall {
   Future<dynamic> callSignInApi(String phoneNum, String password);
-  Future<List> callSalesListApi();
-  Future<List> callPurchasesListApi();
+  Future<dynamic> callSalesListApi();
+  Future<List> callSalesDebtListApi();
+  Future<List> callPurchaseDebtListApi();
+  Future<dynamic> callPurchasesListApi();
   Future<List> callInStockListApi();
   Future<dynamic> callCreateSaleApi(
       String customerName,
@@ -35,19 +37,19 @@ class ApiCallService implements ApiCall {
   }
 
   @override
-  Future<List> callSalesListApi() async {
+  Future<dynamic> callSalesListApi() async {
     var result = await http.get(
-      "$host/sale_records",
+      "$host/sale_records_with_pagination?sort[createdAt]=-1",
     );
-    return json.decode(result.body) as List;
+    return json.decode(result.body);
   }
 
   @override
-  Future<List> callPurchasesListApi() async {
+  Future<dynamic> callPurchasesListApi() async {
     var result = await http.get(
-      "$host/purchase_records",
+      "$host/purchase_records_with_pagination?sort[createdAt]=-1",
     );
-    return json.decode(result.body) as List;
+    return json.decode(result.body);
   }
 
   @override
@@ -83,7 +85,7 @@ class ApiCallService implements ApiCall {
     return json.decode(result.body);
   }
 
-   @override
+  @override
   Future<dynamic> callCreatePurchaseApi(
       String companyName,
       String companyPhone,
@@ -106,5 +108,21 @@ class ApiCallService implements ApiCall {
         }));
     print(result.body);
     return json.decode(result.body);
+  }
+
+  @override
+  Future<List> callSalesDebtListApi() async {
+    var result = await http.get(
+      "$host/sale_debt_records",
+    );
+    return json.decode(result.body) as List;
+  }
+
+  @override
+  Future<List> callPurchaseDebtListApi() async {
+    var result = await http.get(
+      "$host/purchase_debt_records",
+    );
+    return json.decode(result.body) as List;
   }
 }
