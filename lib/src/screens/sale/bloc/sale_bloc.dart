@@ -18,16 +18,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapGetSalesList();
     } else if (event is CreateSaleButtonPressed) {
       yield* _mapCreateSale(event.sale);
+    } else if (event is UpdatePaymentTypeButtonPressed) {
+      yield* _mapUpdatePaymentType(event.saleId, event.paymentType);
     }
   }
 
   Stream<SaleState> _mapCreateSale(Sale sale) async* {
-    print(sale.customerPhone);
-    print(sale.goodType);
-    print(sale.quantity);
-    print(sale.rateFixed);
-    print(sale.paymentType);
-    print(sale.total);
     try {
       await apiCall.callCreateSaleApi(
           sale.customerName,
@@ -52,6 +48,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         DateTime parseCreatedDate =
             new DateFormat("yyyy-MM-ddThh:mm:s").parse(sale["createdAt"]);
         return Sale(
+            id: sale["_id"],
             customerName: sale["customerName"],
             customerPhone: sale["customerPhone"],
             goodType: sale["goodType"],
@@ -65,6 +62,16 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield state.update(
         saleRecords: _salesList,
       );
+    }
+  }
+
+  Stream<SaleState> _mapUpdatePaymentType(
+      String saleId, String paymentType) async* {
+    try {
+      await apiCall.callUpdatePaymentTypeInSaleApi(saleId, paymentType);
+      yield* _mapGetSalesList();
+    } catch (err) {
+      yield SaleState.fail();
     }
   }
 

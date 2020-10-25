@@ -19,12 +19,23 @@ class CreateSaleButtonPressed extends SaleEvent {
   String toString() => 'CreateSaleButtonPressed { }';
 }
 
-class GetSalesList extends SaleEvent {
-  final List<Sale> sale;
-  const GetSalesList({this.sale});
+class UpdatePaymentTypeButtonPressed extends SaleEvent {
+  final String saleId;
+  final String paymentType;
+  const UpdatePaymentTypeButtonPressed({this.saleId, this.paymentType});
 
   @override
-  List<Object> get props => [sale];
+  List<Object> get props => [saleId, paymentType];
+
+  @override
+  String toString() => 'UpdatePaymentTypeButtonPressed { }';
+}
+
+class GetSalesList extends SaleEvent {
+  const GetSalesList();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => 'GetSalesList { }';

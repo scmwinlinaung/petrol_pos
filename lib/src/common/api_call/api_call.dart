@@ -25,6 +25,9 @@ abstract class ApiCall {
       int rateFixed,
       String paymentType,
       int total);
+
+  Future<dynamic> callUpdatePaymentTypeInSaleApi(
+      String saleId, String paymentType);
 }
 
 class ApiCallService implements ApiCall {
@@ -124,5 +127,17 @@ class ApiCallService implements ApiCall {
       "$host/purchase_debt_records",
     );
     return json.decode(result.body) as List;
+  }
+
+  @override
+  Future callUpdatePaymentTypeInSaleApi(
+      String saleId, String paymentType) async {
+    var result = await http.put("$host/sale_records/" + saleId,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "paymentType": paymentType,
+        }));
+    print(result.body);
+    return json.decode(result.body);
   }
 }

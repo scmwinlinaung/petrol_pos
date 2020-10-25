@@ -6,25 +6,25 @@ class SaleState {
   final List<Sale> saleRecords;
   final bool isSuccess;
   final bool isFail;
+  final bool loading;
 
-  SaleState(
-      {this.saleRecords,
-      this.isSuccess,
-      this.isFail,});
+  SaleState({this.saleRecords, this.isSuccess, this.isFail, this.loading});
+
+  factory SaleState.loading() {
+    return SaleState(isFail: false, isSuccess: true, loading: true);
+  }
 
   factory SaleState.success() {
-    return SaleState(isFail: false, isSuccess: true);
+    return SaleState(isFail: false, isSuccess: true, loading: false);
   }
 
   factory SaleState.fail() {
-    return SaleState(isFail: true, isSuccess: false);
+    return SaleState(isFail: true, isSuccess: false, loading: false);
   }
 
   factory SaleState.initial() {
     return SaleState(
-        saleRecords: [],
-        isSuccess: false,
-        isFail: false,);
+        saleRecords: [], isSuccess: false, isFail: false, loading: false);
   }
 
   SaleState update({
@@ -33,10 +33,7 @@ class SaleState {
     String paymentType,
   }) {
     return copyWith(
-      saleRecords: saleRecords,
-      goodType: goodType,
-      paymentType: paymentType
-    );
+        saleRecords: saleRecords, goodType: goodType, paymentType: paymentType);
   }
 
   SaleState copyWith({

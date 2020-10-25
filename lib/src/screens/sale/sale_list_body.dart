@@ -1,11 +1,26 @@
+import 'package:OilPos/src/screens/sale/bloc/sale_event.dart';
 import 'package:OilPos/src/screens/sale/bloc/sale_state.dart';
 import 'package:OilPos/src/widgets/LoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/PaymentTypeDropDown.dart';
 import 'bloc/sale_bloc.dart';
 
-class SaleListBody extends StatelessWidget {
+class SaleListBody extends StatefulWidget {
+  @override
+  _SaleListBodyState createState() => _SaleListBodyState();
+}
+
+class _SaleListBodyState extends State<SaleListBody> {
+  SaleBloc _saleBloc;
+
+  @override
+  void initState() {
+    _saleBloc = BlocProvider.of(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -91,9 +106,38 @@ class SaleListBody extends StatelessWidget {
                         DataCell(Text(sale.rateFixed.toString() + " ကျပ်",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
-                        DataCell(Text(sale.paymentType,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyText2)),
+                        // DataCell(Text(sale.paymentType,
+                        //     textAlign: TextAlign.center,
+                        //     style: Theme.of(context).textTheme.bodyText2)),
+                        DataCell(
+                          DropdownButton<String>(
+                            hint: Text("ငွေပေးချေမည့်ပုံစံ",
+                                style: Theme.of(context).textTheme.bodyText1),
+                            value: sale.paymentType,
+                            itemHeight: 80,
+                            isExpanded: true,
+                            icon: Icon(Icons.payment),
+                            iconSize: 24,
+                            elevation: 1,
+                            style: TextStyle(color: Colors.deepPurple),
+                            onChanged: (String newValue) {
+                              _saleBloc.add(UpdatePaymentTypeButtonPressed(
+                                  saleId: sale.id, paymentType: newValue));
+                              // setState(() {
+                              //   dropdownValue = newValue;
+                              // });
+                              // _paymentType.text = newValue;
+                            },
+                            items: <String>["အကြွေး", "လက်ငင်း"]
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+
                         DataCell(Text(sale.total.toString() + " ကျပ်",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText2)),
@@ -105,6 +149,22 @@ class SaleListBody extends StatelessWidget {
               )
               .toList(),
         );
+      } else if (state.loading) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Updating',
+                  ),
+                  CircularProgressIndicator(),
+                ],
+              ),
+            ),
+          );
       } else {
         return Center(child: LoadingIndicator());
       }
