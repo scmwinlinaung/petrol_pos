@@ -16,7 +16,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -39,6 +39,7 @@ dependencies:
   equatable: ^1.2.0
   animated_text_kit: ^2.0.0
   json_annotation: ^3.0.0
+  webview_flutter:
   intl:
   jaguar_jwt:
   flutter_widgets: ^0.1.12

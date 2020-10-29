@@ -18,6 +18,8 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       yield* _mapGetPurchasesList();
     } else if (event is CreatePurchaseButtonPressed) {
       yield* _mapCreatePurchase(event.purchase);
+    } else if (event is SearchingPurchases) {
+      yield* _mapSearchPurchasesList(event.searchString);
     }
   }
 
@@ -53,6 +55,28 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
             createdAt: purchase["createdAt"]);
       }).toList();
       print("saleList = " + _purchaseList.toString());
+      yield state.update(
+        purchaseRecords: _purchaseList,
+      );
+    }
+  }
+
+  Stream<PurchaseState> _mapSearchPurchasesList(String searchString) async* {
+    var jsonResponse = await apiCall.callSearchFromPurchases(searchString);
+    List purchaseRecords = jsonResponse["purchaseRecord"];
+    if (jsonResponse.length > 0) {
+      final _purchaseList = purchaseRecords.map((purchase) {
+        return Purchase(
+            companyName: purchase["companyName"],
+            companyPhone: purchase["companyPhone"],
+            goodType: purchase["goodType"],
+            quantity: purchase["quantity"],
+            rateFixed: purchase["rateFixed"],
+            paymentType: purchase["paymentType"],
+            total: purchase["total"],
+            createdAt: purchase["createdAt"]);
+      }).toList();
+      print("_purchaseList = " + _purchaseList.toString());
       yield state.update(
         purchaseRecords: _purchaseList,
       );

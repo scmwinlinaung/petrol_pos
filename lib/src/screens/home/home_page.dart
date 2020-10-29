@@ -48,7 +48,7 @@ class MyHomePage extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: Image(
-                    image: AssetImage('assets/images/purchases_record.png'),
+                    image: AssetImage('assets/images/sales_record.png'),
                     height: 30,
                     width: 30),
                 title: Text(
@@ -66,7 +66,7 @@ class MyHomePage extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: Image(
-                    image: AssetImage('assets/images/sales_record.png'),
+                    image: AssetImage('assets/images/purchases_record.png'),
                     height: 30,
                     width: 30),
                 title: Text(

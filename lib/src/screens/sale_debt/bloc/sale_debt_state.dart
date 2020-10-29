@@ -6,12 +6,10 @@ class SaleDebtState {
   final List<Sale> saleRecords;
   final bool isSuccess;
   final bool isFail;
+  final double saleDebtTotal;
 
-  SaleDebtState({
-    this.saleRecords,
-    this.isSuccess,
-    this.isFail,
-  });
+  SaleDebtState(
+      {this.saleRecords, this.isSuccess, this.isFail, this.saleDebtTotal});
 
   factory SaleDebtState.success() {
     return SaleDebtState(isFail: false, isSuccess: true);
@@ -23,29 +21,29 @@ class SaleDebtState {
 
   factory SaleDebtState.initial() {
     return SaleDebtState(
-      saleRecords: [],
-      isSuccess: false,
-      isFail: false,
-    );
+        saleRecords: [], isSuccess: false, isFail: false, saleDebtTotal: 0);
   }
 
-  SaleDebtState update({
-    List<Sale> saleRecords,
-    String goodType,
-    String paymentType,
-  }) {
+  SaleDebtState update(
+      {List<Sale> saleRecords,
+      String goodType,
+      String paymentType,
+      double saleDebtTotal}) {
     return copyWith(
-        saleRecords: saleRecords, goodType: goodType, paymentType: paymentType);
+        saleRecords: saleRecords,
+        goodType: goodType,
+        paymentType: paymentType,
+        saleDebtTotal: saleDebtTotal);
   }
 
-  SaleDebtState copyWith({
-    List<Sale> saleRecords,
-    String goodType,
-    String paymentType,
-  }) {
+  SaleDebtState copyWith(
+      {List<Sale> saleRecords,
+      String goodType,
+      String paymentType,
+      double saleDebtTotal}) {
     return SaleDebtState(
-      saleRecords: saleRecords ?? this.saleRecords,
-    );
+        saleRecords: saleRecords ?? this.saleRecords,
+        saleDebtTotal: saleDebtTotal ?? this.saleDebtTotal);
   }
 
   @override

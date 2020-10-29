@@ -34,8 +34,9 @@ class PurchaseDebtBloc extends Bloc<PurchaseDebtEvent, PurchaseDebtState> {
       }).toList();
       print("saleList = " + _purchaseList.toString());
       yield state.update(
-        purchaseRecords: _purchaseList,
-      );
+          purchaseRecords: _purchaseList,
+          purchaseDebtTotal:
+              _purchaseList.fold(0, (prev, element) => prev + element.total));
     }
   }
 

@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
-import 'package:OilPos/src/widgets/LoadingIndicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:OilPos/src/SimpleBlocDelegate.dart';
 import 'package:OilPos/src/SplashPage.dart';
@@ -11,7 +9,6 @@ import 'package:OilPos/src/screens/home/home_page.dart';
 import 'package:OilPos/src/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql/client.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 final appTitle = 'Home';
@@ -59,11 +56,10 @@ class App extends StatelessWidget {
         accentColor: articleIndicatorColorHex,
         textTheme: TextTheme(
           headline1: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            wordSpacing: 0.5,
-            color: Colors.white
-          ),
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              wordSpacing: 0.5,
+              color: Colors.white),
           headline5: TextStyle(
               fontSize: 14.0,
               wordSpacing: 0.5,
@@ -92,8 +88,8 @@ class App extends StatelessWidget {
             String phone = state.phoneNum;
             String name = state.name;
             String email = state.email;
-  
-            print("Phone" + phone);  
+
+            print("Phone" + phone);
 
             return MyHomePage();
           }

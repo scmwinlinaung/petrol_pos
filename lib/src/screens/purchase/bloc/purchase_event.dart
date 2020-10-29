@@ -9,7 +9,6 @@ abstract class PurchaseEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
 class CreatePurchaseButtonPressed extends PurchaseEvent {
   final Purchase purchase;
   const CreatePurchaseButtonPressed({this.purchase});
@@ -21,7 +20,6 @@ class CreatePurchaseButtonPressed extends PurchaseEvent {
   String toString() => 'CreatePurchaseButtonPressed { }';
 }
 
-
 class GetPurchasesList extends PurchaseEvent {
   final List<Purchase> purchase;
   const GetPurchasesList({this.purchase});
@@ -31,4 +29,16 @@ class GetPurchasesList extends PurchaseEvent {
 
   @override
   String toString() => 'GetPurchasesList { }';
+}
+
+class SearchingPurchases extends PurchaseEvent {
+  final String searchString;
+
+  SearchingPurchases(this.searchString);
+
+  @override
+  List<Object> get props => [searchString];
+
+  @override
+  String toString() => 'SearchingPurchases { }';
 }

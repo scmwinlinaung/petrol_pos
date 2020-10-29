@@ -8,13 +8,15 @@ class PurchaseDebtState {
   final bool isFail;
   final String goodType;
   final String paymentType;
+  final double purchaseDebtTotal;
 
   PurchaseDebtState(
       {this.purchaseRecords,
       this.isSuccess,
       this.isFail,
       this.goodType,
-      this.paymentType});
+      this.paymentType,
+      this.purchaseDebtTotal});
 
   factory PurchaseDebtState.success() {
     return PurchaseDebtState(isFail: false, isSuccess: true);
@@ -25,29 +27,31 @@ class PurchaseDebtState {
   }
 
   factory PurchaseDebtState.initial() {
-    return PurchaseDebtState(purchaseRecords: []);
+    return PurchaseDebtState(purchaseRecords: [], purchaseDebtTotal: 0);
   }
 
-  PurchaseDebtState update({
-    List<Purchase> purchaseRecords,
-    String goodType,
-    String paymentType,
-  }) {
+  PurchaseDebtState update(
+      {List<Purchase> purchaseRecords,
+      String goodType,
+      String paymentType,
+      double purchaseDebtTotal}) {
     return copyWith(
         purchaseRecords: purchaseRecords,
         goodType: goodType,
-        paymentType: paymentType);
+        paymentType: paymentType,
+        purchaseDebtTotal: purchaseDebtTotal);
   }
 
-  PurchaseDebtState copyWith({
-    List<Purchase> purchaseRecords,
-    String goodType,
-    String paymentType,
-  }) {
+  PurchaseDebtState copyWith(
+      {List<Purchase> purchaseRecords,
+      String goodType,
+      String paymentType,
+      double purchaseDebtTotal}) {
     return PurchaseDebtState(
         purchaseRecords: purchaseRecords ?? this.purchaseRecords,
         goodType: goodType ?? this.goodType,
-        paymentType: paymentType ?? this.paymentType);
+        paymentType: paymentType ?? this.paymentType,
+        purchaseDebtTotal: purchaseDebtTotal ?? this.purchaseDebtTotal);
   }
 
   @override

@@ -40,3 +40,15 @@ class GetSalesList extends SaleEvent {
   @override
   String toString() => 'GetSalesList { }';
 }
+
+class SearchingSales extends SaleEvent {
+  final String searchString;
+
+  SearchingSales(this.searchString);
+
+  @override
+  List<Object> get props => [searchString];
+
+  @override
+  String toString() => 'SearchingSales { }';
+}

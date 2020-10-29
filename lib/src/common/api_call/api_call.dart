@@ -28,6 +28,10 @@ abstract class ApiCall {
 
   Future<dynamic> callUpdatePaymentTypeInSaleApi(
       String saleId, String paymentType);
+
+  Future<dynamic> callSearchFromPurchases(String searchString);
+
+  Future<dynamic> callSearchFromSales(String searchString);
 }
 
 class ApiCallService implements ApiCall {
@@ -138,6 +142,24 @@ class ApiCallService implements ApiCall {
           "paymentType": paymentType,
         }));
     print(result.body);
+    return json.decode(result.body);
+  }
+
+  @override
+  Future callSearchFromPurchases(String searchString) async {
+    var result = await http.get(
+      "$host/purchase_records_with_pagination?sort[createdAt]=-1&&search=" +
+          searchString,
+    );
+    return json.decode(result.body);
+  }
+
+  @override
+  Future callSearchFromSales(String searchString) async {
+    var result = await http.get(
+      "$host/sale_records_with_pagination?sort[createdAt]=-1&&search=" +
+          searchString,
+    );
     return json.decode(result.body);
   }
 }

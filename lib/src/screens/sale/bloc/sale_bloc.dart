@@ -18,8 +18,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapGetSalesList();
     } else if (event is CreateSaleButtonPressed) {
       yield* _mapCreateSale(event.sale);
-    } else if (event is UpdatePaymentTypeButtonPressed) {
-      yield* _mapUpdatePaymentType(event.saleId, event.paymentType);
+    } else if (event is SearchingSales) {
+      yield* _mapSearchSalesList(event.searchString);
     }
   }
 
@@ -72,6 +72,32 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapGetSalesList();
     } catch (err) {
       yield SaleState.fail();
+    }
+  }
+
+  Stream<SaleState> _mapSearchSalesList(String searchString) async* {
+    var jsonResponse = await apiCall.callSearchFromSales(searchString);
+    print("Sale Record - " + jsonResponse["saleRecord"].toString());
+    List saleRecords = jsonResponse["saleRecord"];
+    if (saleRecords.length > 0) {
+      final _salesList = saleRecords.map((sale) {
+        DateTime parseCreatedDate =
+            new DateFormat("yyyy-MM-ddThh:mm:s").parse(sale["createdAt"]);
+        return Sale(
+            id: sale["_id"],
+            customerName: sale["customerName"],
+            customerPhone: sale["customerPhone"],
+            goodType: sale["goodType"],
+            quantity: sale["quantity"],
+            rateFixed: sale["rateFixed"],
+            paymentType: sale["paymentType"],
+            total: sale["total"],
+            createdAt: parseCreatedDate.toString());
+      }).toList();
+      print("saleList = " + _salesList.toString());
+      yield state.update(
+        saleRecords: _salesList,
+      );
     }
   }
 

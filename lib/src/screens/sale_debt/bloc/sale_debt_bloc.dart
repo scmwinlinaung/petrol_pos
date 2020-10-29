@@ -36,8 +36,9 @@ class SaleDebtBloc extends Bloc<SaleDebtEvent, SaleDebtState> {
             createdAt: parseCreatedDate.toString());
       }).toList();
       yield state.update(
-        saleRecords: _salesList,
-      );
+          saleRecords: _salesList,
+          saleDebtTotal:
+              _salesList.fold(0, (prev, element) => prev + element.total));
     }
   }
 
