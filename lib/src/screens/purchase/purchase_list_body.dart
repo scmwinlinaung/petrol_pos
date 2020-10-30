@@ -26,6 +26,10 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
     _purchaseBloc.add(SearchingPurchases(_searchStringCtrl.text));
   }
 
+  void deletePurchase(String id) {
+    _purchaseBloc.add(DeletePurchase(id));
+  }
+
   @override
   void dispose() {
     _searchStringCtrl.dispose();
@@ -121,36 +125,52 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
+                DataColumn(
+                  label: Text(
+                    'Delete',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
               ],
               rows: state
                   .purchaseRecords // Loops through dataColumnText, each iteration assigning the value to element
                   .map(
-                    ((sale) => DataRow(
+                    ((purchase) => DataRow(
                           cells: <DataCell>[
-                            DataCell(Text(sale.companyName,
+                            DataCell(Text(purchase.companyName,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.companyPhone,
+                            DataCell(Text(purchase.companyPhone,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.goodType,
+                            DataCell(Text(purchase.goodType,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.quantity.toString() + " လီတာ",
+                            DataCell(Text(
+                                purchase.quantity.toString() + " လီတာ",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.rateFixed.toString() + " ကျပ်",
+                            DataCell(Text(
+                                purchase.rateFixed.toString() + " ကျပ်",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.paymentType,
+                            DataCell(Text(purchase.paymentType,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.total.toString() + " ကျပ်",
+                            DataCell(Text(purchase.total.toString() + " ကျပ်",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(sale.createdAt,
+                            DataCell(Text(purchase.createdAt,
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText2)),
+                            DataCell(IconButton(
+                              onPressed: () {
+                                deletePurchase(purchase.id);
+                              },
+                              icon: Icon(Icons.delete,
+                                  size: 30, color: Colors.red),
+                            )),
                           ],
                         )),
                   )

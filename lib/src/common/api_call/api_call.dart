@@ -32,6 +32,8 @@ abstract class ApiCall {
   Future<dynamic> callSearchFromPurchases(String searchString);
 
   Future<dynamic> callSearchFromSales(String searchString);
+  Future<dynamic> callDeletePurchase(String id);
+  Future<dynamic> callDeleteSale(String id);
 }
 
 class ApiCallService implements ApiCall {
@@ -159,6 +161,24 @@ class ApiCallService implements ApiCall {
     var result = await http.get(
       "$host/sale_records_with_pagination?sort[createdAt]=-1&&search=" +
           searchString,
+    );
+    return json.decode(result.body);
+  }
+
+  @override
+  Future callDeletePurchase(String id) async {
+    var result = await http.delete(
+      "$host/purchase_records/" + id,
+      headers: {"Content-Type": "application/json"},
+    );
+    return json.decode(result.body);
+  }
+
+  @override
+  Future callDeleteSale(String id) async {
+    var result = await http.delete(
+      "$host/sale_records/" + id,
+      headers: {"Content-Type": "application/json"},
     );
     return json.decode(result.body);
   }

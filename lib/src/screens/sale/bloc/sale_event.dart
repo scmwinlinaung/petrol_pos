@@ -52,3 +52,15 @@ class SearchingSales extends SaleEvent {
   @override
   String toString() => 'SearchingSales { }';
 }
+
+class DeleteSale extends SaleEvent {
+  final String id;
+
+  DeleteSale(this.id);
+
+  @override
+  List<Object> get props => [id];
+
+  @override
+  String toString() => 'DeleteSale { }';
+}

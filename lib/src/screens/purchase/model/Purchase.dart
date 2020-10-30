@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Purchase extends Equatable {
+  final String id;
   final String companyName;
   final String companyPhone;
   final String goodType;
@@ -11,10 +12,31 @@ class Purchase extends Equatable {
   final String status;
   final String createdAt;
 
-  Purchase({ this.companyName, this.companyPhone, this.goodType, this.quantity, this.rateFixed, this.paymentType, this.total, this.status, this.createdAt});
-  
+  Purchase(
+      {this.id,
+      this.companyName,
+      this.companyPhone,
+      this.goodType,
+      this.quantity,
+      this.rateFixed,
+      this.paymentType,
+      this.total,
+      this.status,
+      this.createdAt});
+
   @override
-  List<Object> get props => [companyName, companyPhone, goodType, quantity, rateFixed, paymentType, total, status, createdAt];
+  List<Object> get props => [
+        id,
+        companyName,
+        companyPhone,
+        goodType,
+        quantity,
+        rateFixed,
+        paymentType,
+        total,
+        status,
+        createdAt
+      ];
 
   @override
   String toString() => 'Purchase { companyName: $companyName }';

@@ -20,6 +20,8 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       yield* _mapCreatePurchase(event.purchase);
     } else if (event is SearchingPurchases) {
       yield* _mapSearchPurchasesList(event.searchString);
+    } else if (event is DeletePurchase) {
+      yield* _mapDeletePurchase(event.id);
     }
   }
 
@@ -45,6 +47,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     if (jsonResponse.length > 0) {
       final _purchaseList = purchaseRecords.map((purchase) {
         return Purchase(
+            id: purchase["_id"],
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
             goodType: purchase["goodType"],
@@ -67,6 +70,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     if (jsonResponse.length > 0) {
       final _purchaseList = purchaseRecords.map((purchase) {
         return Purchase(
+            id: purchase["_id"],
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
             goodType: purchase["goodType"],
@@ -80,6 +84,15 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       yield state.update(
         purchaseRecords: _purchaseList,
       );
+    }
+  }
+
+  Stream<PurchaseState> _mapDeletePurchase(String id) async* {
+    try {
+      await apiCall.callDeletePurchase(id);
+      yield* _mapGetPurchasesList();
+    } catch (err) {
+      PurchaseState.fail();
     }
   }
 

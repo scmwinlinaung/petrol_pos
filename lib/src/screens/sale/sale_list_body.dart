@@ -28,6 +28,10 @@ class _SaleListBodyState extends State<SaleListBody> {
     super.initState();
   }
 
+  void deleteSale(String id) {
+    _saleBloc.add(DeleteSale(id));
+  }
+
   @override
   void dispose() {
     _searchStringCtrl.dispose();
@@ -122,6 +126,13 @@ class _SaleListBodyState extends State<SaleListBody> {
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
+                  DataColumn(
+                    label: Text(
+                      'Delete',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
                 ],
                 rows: state
                     .saleRecords // Loops through dataColumnText, each iteration assigning the value to element
@@ -193,6 +204,13 @@ class _SaleListBodyState extends State<SaleListBody> {
                                   textAlign: TextAlign.center,
                                   style:
                                       Theme.of(context).textTheme.bodyText2)),
+                              DataCell(IconButton(
+                                onPressed: () {
+                                  deleteSale(sale.id);
+                                },
+                                icon: Icon(Icons.delete,
+                                    size: 30, color: Colors.red),
+                              )),
                             ],
                           )),
                     )

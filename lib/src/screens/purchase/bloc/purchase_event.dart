@@ -42,3 +42,15 @@ class SearchingPurchases extends PurchaseEvent {
   @override
   String toString() => 'SearchingPurchases { }';
 }
+
+class DeletePurchase extends PurchaseEvent {
+  final String id;
+
+  DeletePurchase(this.id);
+
+  @override
+  List<Object> get props => [id];
+
+  @override
+  String toString() => 'DeletePurchase { }';
+}

@@ -20,6 +20,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield* _mapCreateSale(event.sale);
     } else if (event is SearchingSales) {
       yield* _mapSearchSalesList(event.searchString);
+    } else if (event is DeleteSale) {
+      yield* _mapDeleteSale(event.id);
     }
   }
 
@@ -98,6 +100,15 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       yield state.update(
         saleRecords: _salesList,
       );
+    }
+  }
+
+  Stream<SaleState> _mapDeleteSale(String id) async* {
+    try {
+      await apiCall.callDeleteSale(id);
+      yield* _mapGetSalesList();
+    } catch (err) {
+      SaleState.fail();
     }
   }
 
