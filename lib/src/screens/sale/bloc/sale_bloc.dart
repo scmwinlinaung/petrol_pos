@@ -43,8 +43,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Stream<SaleState> _mapGetSalesList(int page) async* {
     var jsonResponse = await apiCall.callSalesListApi(page);
-    print("Sale Record - " + jsonResponse["saleRecord"].toString());
     List saleRecords = jsonResponse["saleRecord"];
+    var totalCount = jsonResponse["meta"]["total"];
     if (saleRecords.length > 0) {
       final _salesList = saleRecords.map((sale) {
         DateTime parseCreatedDate =
@@ -60,9 +60,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
             total: sale["total"],
             createdAt: parseCreatedDate.toString());
       }).toList();
-      print("saleList = " + _salesList.toString());
-      yield state.update(
-          saleRecords: _salesList, totalCount: jsonResponse["meta"]["total"]);
+      yield state.update(saleRecords: _salesList, totalCount: totalCount);
     }
   }
 

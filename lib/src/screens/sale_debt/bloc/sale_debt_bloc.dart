@@ -15,14 +15,17 @@ class SaleDebtBloc extends Bloc<SaleDebtEvent, SaleDebtState> {
   Stream<SaleDebtState> mapEventToState(SaleDebtEvent event) async* {
     if (event is GetSalesDebtList) {
       print("GetSalesList");
-      yield* _mapGetSalesList();
+      yield* _mapGetSalesDebtList(event.page);
     }
   }
 
-  Stream<SaleDebtState> _mapGetSalesList() async* {
-    var jsonResponse = await apiCall.callSalesDebtListApi();
+  Stream<SaleDebtState> _mapGetSalesDebtList(int page) async* {
+    var jsonResponse = await apiCall.callSalesDebtListApi(page, 10);
+    List saleDebtRecords = jsonResponse["saleRecord"];
+    var totalCount = jsonResponse["meta"]["total"];
+    var totalDebt = jsonResponse["meta"]["totalDebt"];
     if (jsonResponse.length > 0) {
-      final _salesList = jsonResponse.map((saleDebt) {
+      final _salesDebtList = saleDebtRecords.map((saleDebt) {
         DateTime parseCreatedDate =
             new DateFormat("yyyy-MM-ddThh:mm:s").parse(saleDebt["createdAt"]);
         return Sale(
@@ -35,10 +38,11 @@ class SaleDebtBloc extends Bloc<SaleDebtEvent, SaleDebtState> {
             total: saleDebt["total"],
             createdAt: parseCreatedDate.toString());
       }).toList();
+
       yield state.update(
-          saleRecords: _salesList,
-          saleDebtTotal:
-              _salesList.fold(0, (prev, element) => prev + element.total));
+          saleDebtRecords: _salesDebtList,
+          totalCount: totalCount,
+          saleDebtTotal: totalDebt);
     }
   }
 

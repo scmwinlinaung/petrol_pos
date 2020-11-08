@@ -1,10 +1,10 @@
 import 'package:OilPos/src/screens/purchase/bloc/bloc.dart';
-import 'package:OilPos/src/widgets/LoadingIndicator.dart';
-import 'package:OilPos/src/widgets/paginatedTableDataSourceForPurchase.dart';
+import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/purchase_bloc.dart';
+import 'paginatedDataSourceForPurchase.dart';
 
 class PurchaseListBody extends StatefulWidget {
   @override

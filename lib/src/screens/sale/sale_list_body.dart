@@ -1,7 +1,7 @@
 import 'package:OilPos/src/screens/sale/bloc/sale_event.dart';
 import 'package:OilPos/src/screens/sale/bloc/sale_state.dart';
-import 'package:OilPos/src/widgets/LoadingIndicator.dart';
-import 'package:OilPos/src/widgets/paginatedTableDataSourceForSale.dart';
+import 'package:OilPos/src/widgets/loading_indicator.dart';
+import 'package:OilPos/src/screens/sale/paginatedTableDataSourceForSale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/sale_bloc.dart';

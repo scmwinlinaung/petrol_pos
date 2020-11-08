@@ -14,7 +14,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   @override
   Stream<PurchaseState> mapEventToState(PurchaseEvent event) async* {
     if (event is GetPurchasesList) {
-      print("GetPurchasesList");
       yield* _mapGetPurchasesList(event.page);
     } else if (event is CreatePurchaseButtonPressed) {
       yield* _mapCreatePurchase(event.purchase);
@@ -44,6 +43,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   Stream<PurchaseState> _mapGetPurchasesList(int page) async* {
     var jsonResponse = await apiCall.callPurchasesListApi(page);
     List purchaseRecords = jsonResponse["purchaseRecord"];
+    var totalCount = jsonResponse["meta"]["total"];
     if (jsonResponse.length > 0) {
       final _purchaseList = purchaseRecords.map((purchase) {
         return Purchase(
@@ -59,7 +59,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       }).toList();
       yield state.update(
           purchaseRecords: state.purchaseRecords + _purchaseList,
-          totalCount: jsonResponse["meta"]["total"]);
+          totalCount: totalCount);
     }
   }
 

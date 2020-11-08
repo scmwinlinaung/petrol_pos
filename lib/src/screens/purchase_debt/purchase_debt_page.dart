@@ -15,7 +15,8 @@ class PurchaseDebtPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headline1),
       ),
       body: BlocProvider<PurchaseDebtBloc>(
-          create: (context) => PurchaseDebtBloc()..add(GetPurchasesDebtList()),
+          create: (context) =>
+              PurchaseDebtBloc()..add(GetPurchasesDebtList(page: 0)),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: PurchasesDebtList())),
     );

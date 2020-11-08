@@ -3,13 +3,18 @@ import 'package:meta/meta.dart';
 
 @immutable
 class SaleDebtState {
-  final List<Sale> saleRecords;
+  final List<Sale> saleDebtRecords;
+  final int totalCount;
   final bool isSuccess;
   final bool isFail;
   final double saleDebtTotal;
 
   SaleDebtState(
-      {this.saleRecords, this.isSuccess, this.isFail, this.saleDebtTotal});
+      {this.saleDebtRecords,
+      this.totalCount,
+      this.isSuccess,
+      this.isFail,
+      this.saleDebtTotal});
 
   factory SaleDebtState.success() {
     return SaleDebtState(isFail: false, isSuccess: true);
@@ -21,35 +26,43 @@ class SaleDebtState {
 
   factory SaleDebtState.initial() {
     return SaleDebtState(
-        saleRecords: [], isSuccess: false, isFail: false, saleDebtTotal: 0);
+        saleDebtRecords: [],
+        isSuccess: false,
+        isFail: false,
+        saleDebtTotal: 0,
+        totalCount: 0);
   }
 
   SaleDebtState update(
-      {List<Sale> saleRecords,
+      {List<Sale> saleDebtRecords,
+      int totalCount,
       String goodType,
       String paymentType,
       double saleDebtTotal}) {
     return copyWith(
-        saleRecords: saleRecords,
+        saleDebtRecords: saleDebtRecords,
+        totalCount: totalCount,
         goodType: goodType,
         paymentType: paymentType,
         saleDebtTotal: saleDebtTotal);
   }
 
   SaleDebtState copyWith(
-      {List<Sale> saleRecords,
+      {List<Sale> saleDebtRecords,
+      int totalCount,
       String goodType,
       String paymentType,
       double saleDebtTotal}) {
     return SaleDebtState(
-        saleRecords: saleRecords ?? this.saleRecords,
+        saleDebtRecords: saleDebtRecords ?? this.saleDebtRecords,
+        totalCount: totalCount ?? this.totalCount,
         saleDebtTotal: saleDebtTotal ?? this.saleDebtTotal);
   }
 
   @override
   String toString() {
     return '''SaleDebtState {
-      saleRecords: $saleRecords,
+      saleDebtRecords: $saleDebtRecords,
     }''';
   }
 }

@@ -10,11 +10,11 @@ abstract class PurchaseDebtEvent extends Equatable {
 }
 
 class GetPurchasesDebtList extends PurchaseDebtEvent {
-  final List<Purchase> purchase;
-  const GetPurchasesDebtList({this.purchase});
+  final int page;
+  const GetPurchasesDebtList({this.page});
 
   @override
-  List<Object> get props => [purchase];
+  List<Object> get props => [page];
 
   @override
   String toString() => 'GetPurchasesList { }';

@@ -15,7 +15,7 @@ class SaleDebtPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headline1),
       ),
       body: BlocProvider<SaleDebtBloc>(
-          create: (context) => SaleDebtBloc()..add(GetSalesDebtList()),
+          create: (context) => SaleDebtBloc()..add(GetSalesDebtList(page: 0)),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: SalesDebtList())),
     );

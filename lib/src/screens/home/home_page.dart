@@ -1,20 +1,20 @@
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/bloc/bloc.dart';
-import 'package:OilPos/src/widgets/LoadingIndicator.dart';
-import 'package:OilPos/src/widgets/lineChart.dart';
+import 'package:OilPos/src/widgets/loading_indicator.dart';
+import 'package:OilPos/src/widgets/line_chart.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
 import 'package:OilPos/src/screens/in_stock/in_stock_page.dart';
 import 'package:OilPos/src/screens/purchase/purchase_page.dart';
 import 'package:OilPos/src/screens/purchase_debt/purchase_debt_page.dart';
 import 'package:OilPos/src/screens/sale/sale_page.dart';
 import 'package:OilPos/src/screens/sale_debt/sale_debt_page.dart';
-import 'package:OilPos/src/widgets/pieChart.dart';
+import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql/client.dart';
 
-import '../../widgets/groupBarChart.dart';
+import '../../widgets/group_bar_chart.dart';
 
 class MyHomePage extends StatelessWidget {
   @override

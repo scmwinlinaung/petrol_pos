@@ -13,15 +13,17 @@ class PurchaseDebtBloc extends Bloc<PurchaseDebtEvent, PurchaseDebtState> {
   @override
   Stream<PurchaseDebtState> mapEventToState(PurchaseDebtEvent event) async* {
     if (event is GetPurchasesDebtList) {
-      print("GetPurchasesList");
-      yield* _mapGetPurchasesList();
+      yield* _mapGetPurchasesList(event.page);
     }
   }
 
-  Stream<PurchaseDebtState> _mapGetPurchasesList() async* {
-    var jsonResponse = await apiCall.callPurchaseDebtListApi();
+  Stream<PurchaseDebtState> _mapGetPurchasesList(int page) async* {
+    var jsonResponse = await apiCall.callPurchaseDebtListApi(page);
+    List purchaseDebtRecords = jsonResponse["purchaseRecord"];
+    var totalCount = jsonResponse["meta"]["total"];
+    var totalDebt = jsonResponse["meta"]["totalDebt"];
     if (jsonResponse.length > 0) {
-      final _purchaseList = jsonResponse.map((purchase) {
+      final _purchaseDebtList = purchaseDebtRecords.map((purchase) {
         return Purchase(
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
@@ -32,11 +34,10 @@ class PurchaseDebtBloc extends Bloc<PurchaseDebtEvent, PurchaseDebtState> {
             total: purchase["total"],
             createdAt: purchase["createdAt"]);
       }).toList();
-      print("saleList = " + _purchaseList.toString());
       yield state.update(
-          purchaseRecords: _purchaseList,
-          purchaseDebtTotal:
-              _purchaseList.fold(0, (prev, element) => prev + element.total));
+          purchaseDebtRecords: _purchaseDebtList,
+          totalCount: totalCount,
+          purchaseDebtTotal: totalDebt);
     }
   }
 

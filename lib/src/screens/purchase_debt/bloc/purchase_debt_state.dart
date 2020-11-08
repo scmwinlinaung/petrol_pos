@@ -3,7 +3,8 @@ import 'package:meta/meta.dart';
 
 @immutable
 class PurchaseDebtState {
-  final List<Purchase> purchaseRecords;
+  final List<Purchase> purchaseDebtRecords;
+  final int totalCount;
   final bool isSuccess;
   final bool isFail;
   final String goodType;
@@ -11,7 +12,8 @@ class PurchaseDebtState {
   final double purchaseDebtTotal;
 
   PurchaseDebtState(
-      {this.purchaseRecords,
+      {this.purchaseDebtRecords,
+      this.totalCount,
       this.isSuccess,
       this.isFail,
       this.goodType,
@@ -27,28 +29,33 @@ class PurchaseDebtState {
   }
 
   factory PurchaseDebtState.initial() {
-    return PurchaseDebtState(purchaseRecords: [], purchaseDebtTotal: 0);
+    return PurchaseDebtState(
+        purchaseDebtRecords: [], purchaseDebtTotal: 0, totalCount: 0);
   }
 
   PurchaseDebtState update(
-      {List<Purchase> purchaseRecords,
+      {List<Purchase> purchaseDebtRecords,
+      int totalCount,
       String goodType,
       String paymentType,
       double purchaseDebtTotal}) {
     return copyWith(
-        purchaseRecords: purchaseRecords,
+        purchaseDebtRecords: purchaseDebtRecords,
+        totalCount: totalCount,
         goodType: goodType,
         paymentType: paymentType,
         purchaseDebtTotal: purchaseDebtTotal);
   }
 
   PurchaseDebtState copyWith(
-      {List<Purchase> purchaseRecords,
+      {List<Purchase> purchaseDebtRecords,
+      int totalCount,
       String goodType,
       String paymentType,
       double purchaseDebtTotal}) {
     return PurchaseDebtState(
-        purchaseRecords: purchaseRecords ?? this.purchaseRecords,
+        purchaseDebtRecords: purchaseDebtRecords ?? this.purchaseDebtRecords,
+        totalCount: totalCount ?? this.totalCount,
         goodType: goodType ?? this.goodType,
         paymentType: paymentType ?? this.paymentType,
         purchaseDebtTotal: purchaseDebtTotal ?? this.purchaseDebtTotal);
@@ -57,7 +64,7 @@ class PurchaseDebtState {
   @override
   String toString() {
     return '''PurchaseDebtState {
-      purchaseRecords: $purchaseRecords,
+      purchaseDebtRecords: $purchaseDebtRecords,
     }''';
   }
 }

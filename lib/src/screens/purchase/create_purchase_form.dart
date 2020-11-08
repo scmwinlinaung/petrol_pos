@@ -5,9 +5,9 @@ import 'package:OilPos/src/screens/purchase/bloc/purchase_event.dart';
 import 'package:OilPos/src/screens/purchase/model/Purchase.dart';
 import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
 import 'package:OilPos/src/screens/sale/bloc/sale_bloc.dart';
-import 'package:OilPos/src/widgets/CreateRecordButton.dart';
-import 'package:OilPos/src/widgets/GoodTypeDropDown.dart';
-import 'package:OilPos/src/widgets/PaymentTypeDropDown.dart';
+import 'package:OilPos/src/widgets/create_record_button.dart';
+import 'package:OilPos/src/widgets/goodtype_dropdown.dart';
+import 'package:OilPos/src/widgets/payment_type_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
