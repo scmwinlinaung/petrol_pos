@@ -7,7 +7,7 @@ class SaleDebtState {
   final int totalCount;
   final bool isSuccess;
   final bool isFail;
-  final double saleDebtTotal;
+  final int saleDebtTotal;
 
   SaleDebtState(
       {this.saleDebtRecords,
@@ -38,7 +38,7 @@ class SaleDebtState {
       int totalCount,
       String goodType,
       String paymentType,
-      double saleDebtTotal}) {
+      int saleDebtTotal}) {
     return copyWith(
         saleDebtRecords: saleDebtRecords,
         totalCount: totalCount,
@@ -52,7 +52,7 @@ class SaleDebtState {
       int totalCount,
       String goodType,
       String paymentType,
-      double saleDebtTotal}) {
+      int saleDebtTotal}) {
     return SaleDebtState(
         saleDebtRecords: saleDebtRecords ?? this.saleDebtRecords,
         totalCount: totalCount ?? this.totalCount,

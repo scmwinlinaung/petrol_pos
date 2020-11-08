@@ -14,7 +14,6 @@ class SaleDebtBloc extends Bloc<SaleDebtEvent, SaleDebtState> {
   @override
   Stream<SaleDebtState> mapEventToState(SaleDebtEvent event) async* {
     if (event is GetSalesDebtList) {
-      print("GetSalesList");
       yield* _mapGetSalesDebtList(event.page);
     }
   }
@@ -23,7 +22,7 @@ class SaleDebtBloc extends Bloc<SaleDebtEvent, SaleDebtState> {
     var jsonResponse = await apiCall.callSalesDebtListApi(page, 10);
     List saleDebtRecords = jsonResponse["saleRecord"];
     var totalCount = jsonResponse["meta"]["total"];
-    var totalDebt = jsonResponse["meta"]["totalDebt"];
+    int totalDebt = jsonResponse["meta"]["totalDebt"];
     if (jsonResponse.length > 0) {
       final _salesDebtList = saleDebtRecords.map((saleDebt) {
         DateTime parseCreatedDate =
