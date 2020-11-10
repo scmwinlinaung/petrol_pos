@@ -1,20 +1,16 @@
-/// Bar chart with example of a legend with customized position, justification,
-/// desired max rows, and padding. These options are shown as an example of how
-/// to use the customizations, they do not necessary have to be used together in
-/// this way. Choosing [end] as the position does not require the justification
-/// to also be [endDrawArea].
-import 'package:flutter/material.dart';
+import 'package:OilPos/src/screens/home/model/saleReport.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 
-/// Example that shows how to build a datum legend that shows measure values.
-///
-/// Also shows the option to provide a custom measure formatter.
 class PieChart extends StatelessWidget {
-  // final List<charts.Series> seriesList;
+  final List<SaleReport> saleReports;
+
+  const PieChart({Key key, this.saleReports}) : super(key: key);
   // final bool animate;
 
   // PieChart(this.seriesList, {this.animate});
 
+  /// Creates a [PieChart] with sample data and no transition.
   // factory PieChart.withSampleData() {
   //   return new PieChart(
   //     _createSampleData(),
@@ -25,55 +21,50 @@ class PieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.PieChart(
-      _createSampleData(),
-      animate: true,
-      // Add the legend behavior to the chart to turn on legends.
-      // This example shows how to optionally show measure and provide a custom
-      // formatter.
-      behaviors: [
-        new charts.DatumLegend(
-          // Positions for "start" and "end" will be left and right respectively
-          // for widgets with a build context that has directionality ltr.
-          // For rtl, "start" and "end" will be right and left respectively.
-          // Since this example has directionality of ltr, the legend is
-          // positioned on the right side of the chart.
-          position: charts.BehaviorPosition.end,
-          // By default, if the position of the chart is on the left or right of
-          // the chart, [horizontalFirst] is set to false. This means that the
-          // legend entries will grow as new rows first instead of a new column.
-          horizontalFirst: false,
-          // This defines the padding around each legend entry.
-          cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
-          // Set [showMeasures] to true to display measures in series legend.
-          showMeasures: true,
-          // Configure the measure value to be shown by default in the legend.
-          legendDefaultMeasure: charts.LegendDefaultMeasure.firstValue,
-          // Optionally provide a measure formatter to format the measure value.
-          // If none is specified the value is formatted as a decimal.
-          measureFormatter: (num value) {
-            return value == null ? '-' : '${value}k';
-          },
-        ),
-      ],
-    );
+    return new charts.PieChart(_createSampleData(),
+        animate: true,
+        // Add an [ArcLabelDecorator] configured to render labels outside of the
+        // arc with a leader line.
+        //
+        // Text style for inside / outside can be controlled independently by
+        // setting [insideLabelStyleSpec] and [outsideLabelStyleSpec].
+        //
+        // Example configuring different styles for inside/outside:
+        //       new charts.ArcLabelDecorator(
+        //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
+        //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+        defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
+          new charts.ArcLabelDecorator(
+              labelPosition: charts.ArcLabelPosition.outside)
+        ]));
   }
 
-  /// Create series list with one series
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
+  /// Create one series with sample hard coded data.
+  List<charts.Series<LinearSales, String>> _createSampleData() {
+    var foreignOilSales = saleReports
+        .where((element) => element.goodType == "နိုင်ငံခြားဆီ")
+        .fold(
+            0, (previousValue, element) => previousValue + element.totalOfQty);
+
+    var traditionalOilSales = saleReports
+        .where((element) => element.goodType == "ချက်ဆီ")
+        .fold(
+            0, (previousValue, element) => previousValue + element.totalOfQty);
+
     final data = [
-      new LinearSales(0, 100),
-      new LinearSales(1, 75),
-      new LinearSales(2, 25),
-      new LinearSales(3, 5),
+      new LinearSales("နိုင်ငံခြားဆီ", foreignOilSales),
+      new LinearSales("ချက်ဆီ", traditionalOilSales),
     ];
 
     return [
-      new charts.Series<LinearSales, int>(
+      new charts.Series<LinearSales, String>(
         id: 'Sales',
-        domainFn: (LinearSales sales, _) => sales.year,
+        domainFn: (LinearSales sales, _) => sales.goodType,
         measureFn: (LinearSales sales, _) => sales.sales,
         data: data,
+        // Set a label accessor to control the text of the arc label.
+        labelAccessorFn: (LinearSales row, _) =>
+            '${row.goodType}: ${row.sales}',
       )
     ];
   }
@@ -81,8 +72,8 @@ class PieChart extends StatelessWidget {
 
 /// Sample linear data type.
 class LinearSales {
-  final int year;
+  final String goodType;
   final int sales;
 
-  LinearSales(this.year, this.sales);
+  LinearSales(this.goodType, this.sales);
 }

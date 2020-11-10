@@ -77,18 +77,18 @@ class GroupedBarChart extends StatelessWidget {
 
   /// Create series list with multiple series
   List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final foreignOil = saleReports.map((saleReport) {
-      // if (saleReport.goodType == "နိုင်ငံခြားဆီ") {
+    final foreignOil = saleReports
+        .where((element) => element.goodType == "နိုင်ငံခြားဆီ")
+        .map((saleReport) {
       return OrdinalSales(months[saleReport.month],
           int.parse(saleReport.totalOfQty.toString()));
-      // }
     }).toList();
 
-    final traditionalOil = saleReports.map((saleReport) {
-      // if (saleReport.goodType == "ချက်ဆီ") {
+    final traditionalOil = saleReports
+        .where((element) => element.goodType == "ချက်ဆီ")
+        .map((saleReport) {
       return OrdinalSales(months[saleReport.month],
           int.parse(saleReport.totalOfQty.toString()));
-      // }
     }).toList();
 
     // final mobileSalesData = [

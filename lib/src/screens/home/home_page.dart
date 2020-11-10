@@ -199,6 +199,8 @@ class MyHomePage extends StatelessWidget {
               Text("Sale Report",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -225,7 +227,9 @@ class MyHomePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.45,
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: PieChart(),
+                          child: PieChart(
+                            saleReports: state.saleReports,
+                          ),
                         )),
                   )
                 ],
