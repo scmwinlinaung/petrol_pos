@@ -193,17 +193,17 @@ class MyHomePage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           color: Colors.grey[200],
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Sale Report",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -213,11 +213,13 @@ class MyHomePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.45,
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: LineChart(),
+                          child: LineChart(
+                            saleReports: state.saleReports,
+                          ),
                         )),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -235,20 +237,19 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: GroupedBarChart(
-                        saleReports: state.saleReports,
-                      ),
-                    )),
-              )
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      height: 300,
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: GroupedBarChart(
+                          saleReports: state.saleReports,
+                        ),
+                      ))),
             ],
           ),
         ));

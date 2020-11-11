@@ -1,8 +1,13 @@
+import 'package:OilPos/src/screens/home/model/saleReport.dart';
+
 /// Example of a simple line chart.
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 class LineChart extends StatelessWidget {
+  final List<SaleReport> saleReports;
+
+  const LineChart({Key key, this.saleReports}) : super(key: key);
   // final List<charts.Series> seriesList;
   // final bool animate;
 
@@ -23,21 +28,26 @@ class LineChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      new LinearSales(0, 5),
-      new LinearSales(1, 25),
-      new LinearSales(2, 100),
-      new LinearSales(3, 75),
-    ];
+  List<charts.Series<LinearSales, int>> _createSampleData() {
+    final salesReport = saleReports.map((saleReport) {
+      return LinearSales(
+          saleReport.month, int.parse(saleReport.totalOfQty.toString()));
+    }).toList();
+
+    // final data = [
+    //   new LinearSales(0, 5),
+    //   new LinearSales(1, 25),
+    //   new LinearSales(2, 100),
+    //   new LinearSales(3, 75),
+    // ];
 
     return [
       new charts.Series<LinearSales, int>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (LinearSales sales, _) => sales.year,
+        domainFn: (LinearSales sales, _) => sales.month,
         measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
+        data: salesReport,
       )
     ];
   }
@@ -45,8 +55,8 @@ class LineChart extends StatelessWidget {
 
 /// Sample linear data type.
 class LinearSales {
-  final int year;
+  final int month;
   final int sales;
 
-  LinearSales(this.year, this.sales);
+  LinearSales(this.month, this.sales);
 }
