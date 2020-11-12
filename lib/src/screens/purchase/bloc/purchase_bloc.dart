@@ -15,7 +15,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   Stream<PurchaseState> mapEventToState(PurchaseEvent event) async* {
     if (event is GetPurchasesList) {
       print("GetPurchasesList");
-      yield* _mapGetPurchasesList();
+      yield* _mapGetPurchasesList(event.page);
     } else if (event is CreatePurchaseButtonPressed) {
       yield* _mapCreatePurchase(event.purchase);
     } else if (event is SearchingPurchases) {
@@ -41,8 +41,8 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     }
   }
 
-  Stream<PurchaseState> _mapGetPurchasesList() async* {
-    var jsonResponse = await apiCall.callPurchasesListApi();
+  Stream<PurchaseState> _mapGetPurchasesList(int page) async* {
+    var jsonResponse = await apiCall.callPurchasesListApi(page);
     List purchaseRecords = jsonResponse["purchaseRecord"];
     if (jsonResponse.length > 0) {
       final _purchaseList = purchaseRecords.map((purchase) {
@@ -57,10 +57,9 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
             total: purchase["total"],
             createdAt: purchase["createdAt"]);
       }).toList();
-      print("saleList = " + _purchaseList.toString());
       yield state.update(
-        purchaseRecords: _purchaseList,
-      );
+          purchaseRecords: state.purchaseRecords + _purchaseList,
+          totalCount: jsonResponse["meta"]["total"]);
     }
   }
 
@@ -80,7 +79,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
             total: purchase["total"],
             createdAt: purchase["createdAt"]);
       }).toList();
-      print("_purchaseList = " + _purchaseList.toString());
       yield state.update(
         purchaseRecords: _purchaseList,
       );
@@ -90,7 +88,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   Stream<PurchaseState> _mapDeletePurchase(String id) async* {
     try {
       await apiCall.callDeletePurchase(id);
-      yield* _mapGetPurchasesList();
+      yield* _mapGetPurchasesList(0);
     } catch (err) {
       PurchaseState.fail();
     }

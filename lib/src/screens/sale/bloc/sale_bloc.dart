@@ -15,7 +15,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Stream<SaleState> mapEventToState(SaleEvent event) async* {
     if (event is GetSalesList) {
       print("GetSalesList");
-      yield* _mapGetSalesList();
+      yield* _mapGetSalesList(event.page);
     } else if (event is CreateSaleButtonPressed) {
       yield* _mapCreateSale(event.sale);
     } else if (event is SearchingSales) {
@@ -41,8 +41,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     }
   }
 
-  Stream<SaleState> _mapGetSalesList() async* {
-    var jsonResponse = await apiCall.callSalesListApi();
+  Stream<SaleState> _mapGetSalesList(int page) async* {
+    var jsonResponse = await apiCall.callSalesListApi(page);
     print("Sale Record - " + jsonResponse["saleRecord"].toString());
     List saleRecords = jsonResponse["saleRecord"];
     if (saleRecords.length > 0) {
@@ -62,8 +62,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       }).toList();
       print("saleList = " + _salesList.toString());
       yield state.update(
-        saleRecords: _salesList,
-      );
+          saleRecords: _salesList, totalCount: jsonResponse["meta"]["total"]);
     }
   }
 
@@ -71,7 +70,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       String saleId, String paymentType) async* {
     try {
       await apiCall.callUpdatePaymentTypeInSaleApi(saleId, paymentType);
-      yield* _mapGetSalesList();
+      yield* _mapGetSalesList(0);
     } catch (err) {
       yield SaleState.fail();
     }
@@ -106,7 +105,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Stream<SaleState> _mapDeleteSale(String id) async* {
     try {
       await apiCall.callDeleteSale(id);
-      yield* _mapGetSalesList();
+      yield* _mapGetSalesList(0);
     } catch (err) {
       SaleState.fail();
     }

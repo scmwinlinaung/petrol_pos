@@ -21,11 +21,11 @@ class CreatePurchaseButtonPressed extends PurchaseEvent {
 }
 
 class GetPurchasesList extends PurchaseEvent {
-  final List<Purchase> purchase;
-  const GetPurchasesList({this.purchase});
+  final int page;
+  const GetPurchasesList({this.page});
 
   @override
-  List<Object> get props => [purchase];
+  List<Object> get props => [page];
 
   @override
   String toString() => 'GetPurchasesList { }';

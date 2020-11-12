@@ -1,5 +1,6 @@
 import 'package:OilPos/src/screens/purchase/bloc/bloc.dart';
 import 'package:OilPos/src/widgets/LoadingIndicator.dart';
+import 'package:OilPos/src/widgets/paginatedTableDataSourceForPurchase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +13,7 @@ class PurchaseListBody extends StatefulWidget {
 
 class _PurchaseListBodyState extends State<PurchaseListBody> {
   PurchaseBloc _purchaseBloc;
-
+  int _rowPerPage = PaginatedDataTable.defaultRowsPerPage;
   TextEditingController _searchStringCtrl = new TextEditingController();
 
   @override
@@ -41,15 +42,13 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
     return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
       print(state.purchaseRecords.toString());
       if (state.purchaseRecords.length > 0) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Container(
-                height: 50,
-                width: 200,
+        return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: PaginatedDataTable(
+              sortAscending: false,
+              header: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 5, 50, 5),
                 child: TextFormField(
                   controller: _searchStringCtrl,
                   decoration: InputDecoration(
@@ -63,12 +62,7 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
-            ),
-            DataTable(
-              headingRowColor: MaterialStateProperty.all(Colors.grey),
-              headingTextStyle: TextStyle(color: Colors.white),
-              sortAscending: false,
-              columns: const <DataColumn>[
+              columns: [
                 DataColumn(
                   label: Text(
                     'အမည်',
@@ -133,51 +127,20 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
                   ),
                 ),
               ],
-              rows: state
-                  .purchaseRecords // Loops through dataColumnText, each iteration assigning the value to element
-                  .map(
-                    ((purchase) => DataRow(
-                          cells: <DataCell>[
-                            DataCell(Text(purchase.companyName,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(purchase.companyPhone,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(purchase.goodType,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(
-                                purchase.quantity.toString() + " လီတာ",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(
-                                purchase.rateFixed.toString() + " ကျပ်",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(purchase.paymentType,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(purchase.total.toString() + " ကျပ်",
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(Text(purchase.createdAt,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText2)),
-                            DataCell(IconButton(
-                              onPressed: () {
-                                deletePurchase(purchase.id);
-                              },
-                              icon: Icon(Icons.delete,
-                                  size: 30, color: Colors.red),
-                            )),
-                          ],
-                        )),
-                  )
-                  .toList(),
-            ),
-          ],
-        );
+              showCheckboxColumn: true,
+              source: PaginatedTableDataSourceForPurchase(
+                  data: state.purchaseRecords, totalCount: state.totalCount),
+              onPageChanged: (page) {
+                page = page ~/ 10;
+                _purchaseBloc.add(GetPurchasesList(page: page));
+              },
+              // onRowsPerPageChanged: (r) {
+              //   setState(() {
+              //     _rowPerPage = r;
+              //   });
+              // },
+              // rowsPerPage: _rowPerPage,
+            ));
       } else {
         return Center(child: LoadingIndicator());
       }

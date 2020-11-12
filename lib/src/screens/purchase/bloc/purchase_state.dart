@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 @immutable
 class PurchaseState {
   final List<Purchase> purchaseRecords;
+  final int totalCount;
   final bool isSuccess;
   final bool isFail;
   final String goodType;
@@ -11,6 +12,7 @@ class PurchaseState {
 
   PurchaseState(
       {this.purchaseRecords,
+      this.totalCount,
       this.isSuccess,
       this.isFail,
       this.goodType,
@@ -25,27 +27,31 @@ class PurchaseState {
   }
 
   factory PurchaseState.initial() {
-    return PurchaseState(purchaseRecords: []);
+    return PurchaseState(purchaseRecords: [], totalCount: 0);
   }
 
   PurchaseState update({
     List<Purchase> purchaseRecords,
+    int totalCount,
     String goodType,
     String paymentType,
   }) {
     return copyWith(
         purchaseRecords: purchaseRecords,
+        totalCount: totalCount,
         goodType: goodType,
         paymentType: paymentType);
   }
 
   PurchaseState copyWith({
     List<Purchase> purchaseRecords,
+    int totalCount,
     String goodType,
     String paymentType,
   }) {
     return PurchaseState(
         purchaseRecords: purchaseRecords ?? this.purchaseRecords,
+        totalCount: totalCount ?? this.totalCount,
         goodType: goodType ?? this.goodType,
         paymentType: paymentType ?? this.paymentType);
   }

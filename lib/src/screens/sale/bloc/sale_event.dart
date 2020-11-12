@@ -32,7 +32,8 @@ class UpdatePaymentTypeButtonPressed extends SaleEvent {
 }
 
 class GetSalesList extends SaleEvent {
-  const GetSalesList();
+  final int page;
+  const GetSalesList({this.page});
 
   @override
   List<Object> get props => [];

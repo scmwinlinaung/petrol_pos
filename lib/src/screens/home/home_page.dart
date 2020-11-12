@@ -2,19 +2,19 @@ import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/screens/home/bloc/bloc.dart';
 import 'package:OilPos/src/widgets/LoadingIndicator.dart';
-import 'package:OilPos/src/widgets/line_chart.dart';
+import 'package:OilPos/src/widgets/lineChart.dart';
 import 'package:OilPos/src/screens/home/sales_vouncher.dart';
 import 'package:OilPos/src/screens/in_stock/in_stock_page.dart';
 import 'package:OilPos/src/screens/purchase/purchase_page.dart';
 import 'package:OilPos/src/screens/purchase_debt/purchase_debt_page.dart';
 import 'package:OilPos/src/screens/sale/sale_page.dart';
 import 'package:OilPos/src/screens/sale_debt/sale_debt_page.dart';
-import 'package:OilPos/src/widgets/pie_chart.dart';
+import 'package:OilPos/src/widgets/pieChart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql/client.dart';
 
-import '../../widgets/group_bar_chart.dart';
+import '../../widgets/groupBarChart.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -190,7 +190,8 @@ class MyHomePage extends StatelessWidget {
       if (state.saleReports.length > 0) {
         return SingleChildScrollView(
             child: Container(
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
+          // width: MediaQuery.of(context).size.width,
           color: Colors.grey[200],
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -198,46 +199,36 @@ class MyHomePage extends StatelessWidget {
             children: [
               Text("Sale Report",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        height: 250,
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: LineChart(
-                            saleReports: state.saleReports,
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        height: 250,
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: PieChart(
-                            saleReports: state.saleReports,
-                          ),
-                        )),
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    height: 300,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: LineChart(
+                        saleReports: state.saleReports,
+                      ),
+                    )),
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  child: PieChart(
+                    saleReports: state.saleReports,
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white,

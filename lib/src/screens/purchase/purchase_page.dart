@@ -14,14 +14,14 @@ class PurchasePage extends StatelessWidget {
         title: Text("အဝယ်စာရင်း", style: Theme.of(context).textTheme.headline1),
       ),
       body: BlocProvider<PurchaseBloc>(
-          create: (context) => PurchaseBloc()..add(GetPurchasesList()),
+          create: (context) => PurchaseBloc()..add(GetPurchasesList(page: 0)),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: PurchasesList())),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return CreatePurchase();
-                  }));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return CreatePurchase();
+          }));
         },
         child: Icon(
           Icons.add,

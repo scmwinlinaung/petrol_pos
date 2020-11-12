@@ -4,10 +4,10 @@ import "../general.dart";
 
 abstract class ApiCall {
   Future<dynamic> callSignInApi(String phoneNum, String password);
-  Future<dynamic> callSalesListApi();
-  Future<List> callSalesDebtListApi();
-  Future<List> callPurchaseDebtListApi();
-  Future<dynamic> callPurchasesListApi();
+  Future<dynamic> callSalesListApi(int page);
+  Future<dynamic> callSalesDebtListApi();
+  Future<dynamic> callPurchaseDebtListApi();
+  Future<dynamic> callPurchasesListApi(int page);
   Future<List> callInStockListApi();
   Future<dynamic> callCreateSaleApi(
       String customerName,
@@ -47,18 +47,19 @@ class ApiCallService implements ApiCall {
   }
 
   @override
-  Future<dynamic> callSalesListApi() async {
+  Future<dynamic> callSalesListApi(int page) async {
     var result = await http.get(
-      "$host/sale_records_with_pagination?sort[createdAt]=-1",
+      "$host/sale_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
+          page.toString(),
     );
     return json.decode(result.body);
   }
 
   @override
-  Future<dynamic> callPurchasesListApi() async {
+  Future<dynamic> callPurchasesListApi(int page) async {
     var result = await http.get(
-      "$host/purchase_records_with_pagination?sort[createdAt]=-1",
-    );
+        "$host/purchase_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
+            page.toString());
     return json.decode(result.body);
   }
 
@@ -123,7 +124,7 @@ class ApiCallService implements ApiCall {
   @override
   Future<List> callSalesDebtListApi() async {
     var result = await http.get(
-      "$host/sale_debt_records",
+      "$host/sale_debt_records_with_pagination?sort[createdAt]=-1&&limit=10",
     );
     return json.decode(result.body) as List;
   }
@@ -131,7 +132,7 @@ class ApiCallService implements ApiCall {
   @override
   Future<List> callPurchaseDebtListApi() async {
     var result = await http.get(
-      "$host/purchase_debt_records",
+      "$host/purchase_debt_records_with_pagination?sort[createdAt]=-1&&limit=10",
     );
     return json.decode(result.body) as List;
   }

@@ -15,14 +15,14 @@ class SalePage extends StatelessWidget {
             Text("အရောင်းစာရင်း", style: Theme.of(context).textTheme.headline1),
       ),
       body: BlocProvider<SaleBloc>(
-          create: (context) => SaleBloc()..add(GetSalesList()),
+          create: (context) => SaleBloc()..add(GetSalesList(page: 0)),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: SalesList())),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return CreateSale();
-                  }));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return CreateSale();
+          }));
         },
         child: Icon(
           Icons.add,
