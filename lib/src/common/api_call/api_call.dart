@@ -16,7 +16,8 @@ abstract class ApiCall {
       int quantity,
       int rateFixed,
       String paymentType,
-      int total);
+      int total,
+      String createdAt);
   Future<dynamic> callCreatePurchaseApi(
       String companyName,
       String companyPhone,
@@ -24,7 +25,8 @@ abstract class ApiCall {
       int quantity,
       int rateFixed,
       String paymentType,
-      int total);
+      int total,
+      String createdAt);
 
   Future<dynamic> callUpdatePaymentTypeInSaleApi(
       String saleId, String paymentType);
@@ -79,7 +81,8 @@ class ApiCallService implements ApiCall {
       int quantity,
       int rateFixed,
       String paymentType,
-      int total) async {
+      int total,
+      String createAt) async {
     var result = await http.post("$host/sale_records",
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -90,7 +93,8 @@ class ApiCallService implements ApiCall {
           "rateFixed": rateFixed,
           "paymentType": paymentType,
           "total": total,
-          "status": "active"
+          "status": "active",
+          "createdAt": createAt
         }));
     print(result.body);
     return json.decode(result.body);
@@ -104,7 +108,8 @@ class ApiCallService implements ApiCall {
       int quantity,
       int rateFixed,
       String paymentType,
-      int total) async {
+      int total,
+      String createAt) async {
     var result = await http.post("$host/purchase_records",
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -115,7 +120,8 @@ class ApiCallService implements ApiCall {
           "rateFixed": rateFixed,
           "paymentType": paymentType,
           "total": total,
-          "status": "active"
+          "status": "active",
+          "createdAt": createAt
         }));
     print(result.body);
     return json.decode(result.body);

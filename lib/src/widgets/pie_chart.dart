@@ -1,4 +1,4 @@
-import 'package:OilPos/src/screens/home/model/saleReport.dart';
+import 'package:OilPos/src/views/home/model/saleReport.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 

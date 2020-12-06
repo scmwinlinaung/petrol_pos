@@ -1,5 +1,5 @@
-import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
-import 'package:OilPos/src/screens/sale/bloc/sale_bloc.dart';
+import 'package:OilPos/src/views/sale/bloc/bloc.dart';
+import 'package:OilPos/src/views/sale/bloc/sale_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,7 +8,8 @@ class GoodTypeDropDown extends StatefulWidget {
   final List<String> itemList;
   final TextEditingController goodType;
 
-  const GoodTypeDropDown({Key key, this.hint, this.itemList, this.goodType}) : super(key: key);
+  const GoodTypeDropDown({Key key, this.hint, this.itemList, this.goodType})
+      : super(key: key);
   @override
   _GoodTypeDropDownState createState() => _GoodTypeDropDownState();
 }
@@ -19,11 +20,10 @@ class _GoodTypeDropDownState extends State<GoodTypeDropDown> {
   List<String> get _itemList => widget.itemList;
 
   TextEditingController get _goodType => widget.goodType;
-  
+
   set _goodType(TextEditingController goodType) {
     this._goodType = goodType;
   }
-
 
   @override
   void initState() {

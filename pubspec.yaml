@@ -44,11 +44,6 @@ dependencies:
   jaguar_jwt:
   flutter_widgets: ^0.1.12
   jose:
-  graphql:
-    git:
-      url: git://github.com/zino-app/graphql-flutter.git
-      ref: beta
-      path: packages/graphql
   http:
   native_pdf_view: ^2.1.1
   permission_handler: ^4.3.0

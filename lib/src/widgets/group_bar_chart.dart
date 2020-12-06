@@ -1,4 +1,4 @@
-import 'package:OilPos/src/screens/home/model/saleReport.dart';
+import 'package:OilPos/src/views/home/model/saleReport.dart';
 
 /// Bar chart with example of a legend with customized position, justification,
 /// desired max rows, and padding. These options are shown as an example of how

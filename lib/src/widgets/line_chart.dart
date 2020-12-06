@@ -1,4 +1,4 @@
-import 'package:OilPos/src/screens/home/model/saleReport.dart';
+import 'package:OilPos/src/views/home/model/saleReport.dart';
 
 /// Example of a simple line chart.
 import 'package:charts_flutter/flutter.dart' as charts;

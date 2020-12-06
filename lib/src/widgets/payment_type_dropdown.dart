@@ -1,4 +1,4 @@
-import 'package:OilPos/src/screens/sale/bloc/bloc.dart';
+import 'package:OilPos/src/views/sale/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +49,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
           setState(() {
             dropdownValue = newValue;
           });
-         _paymentType.text = newValue;
+          _paymentType.text = newValue;
         },
         items: <String>["အကြွေး", "လက်ငင်း"]
             .map<DropdownMenuItem<String>>((String value) {
