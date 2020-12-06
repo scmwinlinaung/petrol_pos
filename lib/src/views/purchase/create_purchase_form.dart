@@ -253,7 +253,7 @@ class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
                                 controller: _totalCtrl,
                                 decoration: InputDecoration(
                                   icon: Icon(
-                                    Icons.category,
+                                    Icons.money,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                   labelText: "စုစုပေါင်း",

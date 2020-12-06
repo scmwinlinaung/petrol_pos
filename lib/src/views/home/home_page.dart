@@ -23,7 +23,7 @@ class MyHomePage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor,
           title: Text(
-            'Home',
+            'Sale Report',
             style: Theme.of(context).textTheme.headline1,
           ),
           actions: <Widget>[
@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
               },
             )
           ],
-          iconTheme: new IconThemeData(color: Colors.white),
+          // iconTheme: new IconThemeData(color: Colors.white),
         ),
         drawer: Drawer(
           child: ListView(
@@ -196,8 +196,6 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Sale Report",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
