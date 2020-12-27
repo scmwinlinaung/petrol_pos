@@ -2,7 +2,7 @@ import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
-import 'package:OilPos/src/views/home/sales_vouncher.dart';
+// import 'package:OilPos/src/views/home/sales_vouncher.dart';
 import 'package:OilPos/src/views/in_stock/in_stock_page.dart';
 import 'package:OilPos/src/views/purchase/purchase_page.dart';
 import 'package:OilPos/src/views/purchase_debt/purchase_debt_page.dart';
@@ -176,12 +176,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     'အရောင်းဘောင်ချာထုတ်ရန်',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return SalesVouncher();
-                    }));
-                  },
+                  // onTap: () {
+                  //   Navigator.pop(context);
+                  //   Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  //     return SalesVouncher();
+                  //   }));
+                  // },
                 ),
               ),
             ],
@@ -201,56 +201,68 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: 300,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Consumer<HomeViewModel>(
-                        builder: (context, homeViewModel, child) {
-                      return LineChart(
-                        saleReports: homeViewModel.saleReports,
-                      );
-                    }))),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: 300,
-                width: MediaQuery.of(context).size.width,
-                child: Consumer<HomeViewModel>(
-                    builder: (context, homeViewModel, child) {
-                  return PieChart(
-                    saleReports: homeViewModel.saleReports,
-                  );
-                })),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  height: 300,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Consumer<HomeViewModel>(
-                          builder: (context, homeViewModel, child) {
-                        return GroupedBarChart(
-                          saleReports: homeViewModel.saleReports,
-                        );
-                      })))),
+          _buildLineChart(),
+          _buildPieChart(),
+          _buildGroupedBarChart(),
         ],
       ),
     ));
+  }
+
+  Widget _buildLineChart() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          height: 300,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Consumer<HomeViewModel>(
+                  builder: (context, homeViewModel, child) {
+                return LineChart(
+                  saleReports: homeViewModel.saleReports,
+                );
+              }))),
+    );
+  }
+
+  Widget _buildPieChart() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          height: 300,
+          width: MediaQuery.of(context).size.width,
+          child:
+              Consumer<HomeViewModel>(builder: (context, homeViewModel, child) {
+            return PieChart(
+              saleReports: homeViewModel.saleReports,
+            );
+          })),
+    );
+  }
+
+  Widget _buildGroupedBarChart() {
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            height: 300,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Consumer<HomeViewModel>(
+                    builder: (context, homeViewModel, child) {
+                  return GroupedBarChart(
+                    saleReports: homeViewModel.saleReports,
+                  );
+                }))));
   }
 }
