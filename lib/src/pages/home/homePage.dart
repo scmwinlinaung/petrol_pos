@@ -1,7 +1,6 @@
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
-import 'package:OilPos/src/views/home/bloc/bloc.dart';
-import 'package:OilPos/src/widgets/loading_indicator.dart';
+import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
 import 'package:OilPos/src/views/home/sales_vouncher.dart';
 import 'package:OilPos/src/views/in_stock/in_stock_page.dart';
@@ -12,10 +11,20 @@ import 'package:OilPos/src/views/sale_debt/sale_debt_page.dart';
 import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:provider/provider.dart';
 import '../../widgets/group_bar_chart.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,72 +187,70 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
         ),
-        body: BlocProvider<HomeBloc>(
-          create: (context) => HomeBloc()..add(GetSaleReport()),
-          child: _buildMainDesign(context),
-        ));
+        body: _buildMainDesign(context));
   }
 
   Widget _buildMainDesign(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-      if (state.saleReports.length > 0) {
-        return SingleChildScrollView(
+    //
+    return SingleChildScrollView(
+        child: Container(
+      // height: MediaQuery.of(context).size.height,
+      // width: MediaQuery.of(context).size.width,
+      color: Colors.grey[200],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
             child: Container(
-          // height: MediaQuery.of(context).size.height,
-          // width: MediaQuery.of(context).size.width,
-          color: Colors.grey[200],
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    height: 300,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: LineChart(
-                        saleReports: state.saleReports,
-                      ),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Consumer<HomeViewModel>(
+                        builder: (context, homeViewModel, child) {
+                      return LineChart(
+                        saleReports: homeViewModel.saleReports,
+                      );
+                    }))),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: Consumer<HomeViewModel>(
+                    builder: (context, homeViewModel, child) {
+                  return PieChart(
+                    saleReports: homeViewModel.saleReports,
+                  );
+                })),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   height: 300,
                   width: MediaQuery.of(context).size.width,
-                  child: PieChart(
-                    saleReports: state.saleReports,
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      height: 300,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: GroupedBarChart(
-                          saleReports: state.saleReports,
-                        ),
-                      ))),
-            ],
-          ),
-        ));
-      } else {
-        return LoadingIndicator();
-      }
-    });
+                  child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Consumer<HomeViewModel>(
+                          builder: (context, homeViewModel, child) {
+                        return GroupedBarChart(
+                          saleReports: homeViewModel.saleReports,
+                        );
+                      })))),
+        ],
+      ),
+    ));
   }
 }

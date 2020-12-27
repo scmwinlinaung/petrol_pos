@@ -1,3 +1,4 @@
+import 'package:OilPos/src/viewModels/home/saleReportViewModal.dart';
 import 'package:OilPos/src/views/home/model/saleReport.dart';
 
 /// Bar chart with example of a legend with customized position, justification,
@@ -24,7 +25,7 @@ List months = [
 ];
 
 class GroupedBarChart extends StatelessWidget {
-  final List<SaleReport> saleReports;
+  final List<SaleReportViewModal> saleReports;
 
   const GroupedBarChart({Key key, this.saleReports}) : super(key: key);
   // final bool animate;

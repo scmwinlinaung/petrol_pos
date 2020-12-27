@@ -1,9 +1,9 @@
-import 'package:OilPos/src/views/home/model/saleReport.dart';
+import 'package:OilPos/src/viewModels/home/saleReportViewModal.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 class PieChart extends StatelessWidget {
-  final List<SaleReport> saleReports;
+  final List<SaleReportViewModal> saleReports;
 
   const PieChart({Key key, this.saleReports}) : super(key: key);
   // final bool animate;
