@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-
-class SaleReport {
+class SaleReportModel {
   final int month;
   final String goodType;
   final int totalOfQty;
   final int totalPrice;
 
-  SaleReport({
+  SaleReportModel({
     this.month,
     this.goodType,
     this.totalOfQty,
@@ -16,8 +14,8 @@ class SaleReport {
   @override
   String toString() => 'SaleReport {  }';
 
-  factory SaleReport.fromJson(Map<String, dynamic> saleReport) {
-    return SaleReport(
+  factory SaleReportModel.fromJson(Map<String, dynamic> saleReport) {
+    return SaleReportModel(
         month: saleReport["_id"]["month"],
         goodType: saleReport["_id"]["goodType"],
         totalOfQty: saleReport["totalOfQty"],

@@ -49,6 +49,7 @@ dependencies:
   permission_handler: ^4.3.0
   pointycastle:
   charts_flutter:
+  localstorage:
 dev_dependencies:
   flutter_test:
     sdk: flutter

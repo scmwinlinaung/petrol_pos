@@ -8,6 +8,7 @@ import 'package:OilPos/src/views/purchase/purchase_page.dart';
 import 'package:OilPos/src/views/purchase_debt/purchase_debt_page.dart';
 import 'package:OilPos/src/views/sale/sale_page.dart';
 import 'package:OilPos/src/views/sale_debt/sale_debt_page.dart';
+import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -222,9 +223,12 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(5.0),
               child: Consumer<HomeViewModel>(
                   builder: (context, homeViewModel, child) {
-                return LineChart(
-                  saleReports: homeViewModel.saleReports,
-                );
+                if (homeViewModel.saleReports.length > 0)
+                  return LineChart(
+                    saleReports: homeViewModel.saleReports,
+                  );
+                else
+                  return LoadingIndicator();
               }))),
     );
   }
@@ -240,9 +244,12 @@ class _MyHomePageState extends State<MyHomePage> {
           width: MediaQuery.of(context).size.width,
           child:
               Consumer<HomeViewModel>(builder: (context, homeViewModel, child) {
-            return PieChart(
-              saleReports: homeViewModel.saleReports,
-            );
+            if (homeViewModel.saleReports.length > 0)
+              return PieChart(
+                saleReports: homeViewModel.saleReports,
+              );
+            else
+              return LoadingIndicator();
           })),
     );
   }
@@ -260,9 +267,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(15.0),
                 child: Consumer<HomeViewModel>(
                     builder: (context, homeViewModel, child) {
-                  return GroupedBarChart(
-                    saleReports: homeViewModel.saleReports,
-                  );
+                  if (homeViewModel.saleReports.length > 0)
+                    return GroupedBarChart(
+                      saleReports: homeViewModel.saleReports,
+                    );
+                  else
+                    return LoadingIndicator();
                 }))));
   }
 }

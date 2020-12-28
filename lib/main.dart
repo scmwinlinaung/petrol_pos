@@ -1,6 +1,10 @@
+import 'package:OilPos/src/SplashPage.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
+import 'package:OilPos/src/common/general.dart';
 import 'package:OilPos/src/pages/home/homePage.dart';
+import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
+import 'package:OilPos/src/views/login/login_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:OilPos/src/SimpleBlocDelegate.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
@@ -20,16 +24,21 @@ void main() async {
   final UserRepository userRepository = UserRepository();
 
   // application.onLocaleChanged = onLocaleChange;
-  runApp(
-    BlocProvider(
-      create: (context) => AuthenticationBloc(
-        userRepository: userRepository,
-      )..add(AppStarted()),
-      child: App(
-        userRepository: userRepository,
-      ),
+  runApp(ChangeNotifierProvider(
+    create: (context) => AuthenticationViewModel(),
+    child: App(
+      userRepository: userRepository,
     ),
-  );
+  )
+      // BlocProvider(
+      //   create: (context) => AuthenticationBloc(
+      //     userRepository: userRepository,
+      //   )..add(AppStarted()),
+      //   child: App(
+      //     userRepository: userRepository,
+      //   ),
+      // ),
+      );
 }
 
 class App extends StatelessWidget {
@@ -78,10 +87,24 @@ class App extends StatelessWidget {
                 letterSpacing: 0.4),
           ),
         ),
-        home: ChangeNotifierProvider(
-          create: (context) => HomeViewModel(),
-          child: MyHomePage(),
-        )
+        home: Consumer<AuthenticationViewModel>(
+            builder: (context, authenticationViewModel, child) {
+          print("State");
+          print(authenticationViewModel.authenticationModel.state);
+          if (authenticationViewModel.authenticationModel.state == 1) {
+            return LoginScreen(userRepository: _userRepository);
+          } else if (authenticationViewModel.authenticationModel.state == 2) {
+            tokenStorage.setItem("LOGIN_TOKEN",
+                authenticationViewModel.authenticationModel.token);
+
+            return ChangeNotifierProvider(
+              create: (context) => HomeViewModel(),
+              child: MyHomePage(),
+            );
+          } else
+            return SplashPage();
+        })
+
         // home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         //   builder: (context, state) {
         //     if (state.state == AuthStates.UNAUTHENTICATED) {

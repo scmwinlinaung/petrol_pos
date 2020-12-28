@@ -1,7 +1,7 @@
-import 'package:OilPos/src/models/home/saleReport.dart';
+import 'package:OilPos/src/models/home/saleReportModel.dart';
 
 class SaleReportViewModal {
-  final SaleReport saleReport;
+  final SaleReportModel saleReport;
 
   SaleReportViewModal({this.saleReport});
 

@@ -1,5 +1,5 @@
 import 'package:OilPos/src/common/api_call/api_call.dart';
-import 'package:OilPos/src/models/home/saleReport.dart';
+import 'package:OilPos/src/models/home/saleReportModel.dart';
 import 'package:OilPos/src/viewModels/home/saleReportViewModal.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class HomeViewModel extends ChangeNotifier {
     print("REPOST");
     this.saleReports = results
         .map((saleReport) => SaleReportViewModal(
-            saleReport: SaleReport(
+            saleReport: SaleReportModel(
                 month: saleReport["_id"]["month"],
                 goodType: saleReport["_id"]["goodType"],
                 totalOfQty: saleReport["totalOfQty"],
