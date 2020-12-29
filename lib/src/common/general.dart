@@ -9,7 +9,7 @@ String get host {
   return "https://petrol-pos-api-tk4q2h2k5a-uc.a.run.app/api/v1";
 }
 
-final LocalStorage tokenStorage = new LocalStorage('PETROL_POS');
+final LocalStorage appStorage = new LocalStorage('PETROL_POS');
 
 Uint8List createUint8ListFromHexString(String hex) {
   var result = Uint8List(hex.length ~/ 2);

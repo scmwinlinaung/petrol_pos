@@ -36,7 +36,7 @@ class AuthenticationViewModel extends ChangeNotifier {
 
   Future<void> appStart() async {
     try {
-      final loginToken = tokenStorage.getItem("LOGIN_TOKEN");
+      final loginToken = appStorage.getItem("LOGIN_TOKEN");
       print("TOKEN");
       print(loginToken);
       if (loginToken != null) {
@@ -75,7 +75,7 @@ class AuthenticationViewModel extends ChangeNotifier {
     UserRepository userRepository = new UserRepository();
     final result = await userRepository.getUser();
     AuthStates authStates = AuthStates.AUTHENTICATED;
-    AuthenticationModel(
+    authenticationModel = AuthenticationModel(
         state: authStates.state,
         token: result['token'],
         phoneNum: result['phone'],

@@ -1,5 +1,3 @@
-import 'package:OilPos/src/authentication_bloc/authentication_state.dart';
-
 enum AuthStates {
   UNINITIALIZED,
   UNAUTHENTICATED,

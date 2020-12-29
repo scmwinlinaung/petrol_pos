@@ -1,10 +1,9 @@
 import 'package:OilPos/src/authentication_bloc/user_repository.dart';
+import 'package:OilPos/src/viewModels/login/loginViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bloc/login_bloc.dart';
-import 'login_form.dart';
+import 'package:provider/provider.dart';
+import 'loginForm.dart';
 
 class LoginScreen extends StatelessWidget {
   final UserRepository _userRepository;
@@ -16,11 +15,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(userRepository: _userRepository),
-        child: LoginForm(userRepository: _userRepository),
-      ),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => LoginViewModel(),
+        child: Scaffold(body: LoginForm(userRepository: _userRepository)));
   }
 }

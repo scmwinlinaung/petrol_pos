@@ -1,50 +1,57 @@
 import 'package:OilPos/src/authentication_bloc/user_repository.dart';
+import 'package:OilPos/src/common/general.dart';
+import 'package:OilPos/src/models/login/loginModel.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  bool isSubmitting;
-  bool isSuccess;
-  bool isFailure;
-
   UserRepository userRepository = new UserRepository();
-
-  LoginViewModel({this.isSubmitting, this.isSuccess, this.isFailure}) {
-    LoginViewModel.initial(); // set Initial state in login view model
+  LoginModel loginModel = new LoginModel();
+  LoginViewModel() {
+    initial();
   }
 
-  factory LoginViewModel.initial() {
-    return LoginViewModel(
-        isSubmitting: false, isSuccess: false, isFailure: false);
+  void initial() {
+    loginModel =
+        LoginModel(isSubmitting: false, isSuccess: false, isFailure: false);
   }
 
-  factory LoginViewModel.loading() {
-    return LoginViewModel(
+  void loading() {
+    loginModel = LoginModel(
         isSubmitting: true,
         isSuccess: false,
         isFailure: false); // loading state
   }
 
-  factory LoginViewModel.success() {
-    return LoginViewModel(
-        isSubmitting: false,
-        isSuccess: true,
-        isFailure: false); // success state
+  void success() {
+    loginModel =
+        LoginModel(isSubmitting: false, isSuccess: true, isFailure: false);
+
+    /// success state
   }
 
-  factory LoginViewModel.failure() {
-    return LoginViewModel(
-        isSubmitting: false, isSuccess: false, isFailure: true);
-
-    /// fail state
+  void failure() {
+    loginModel =
+        LoginModel(isSubmitting: false, isSuccess: false, isFailure: true);
   }
 
   Future<void> login(String username, String password) async {
-    LoginViewModel.loading();
+    loading();
     try {
-      await userRepository.signInWithCredentials(username, password);
-      LoginViewModel.success();
+      final token =
+          await userRepository.signInWithCredentials(username, password);
+      print("TOKe n = " + token.length.toString());
+      if (token.length > 0 && token != "null") {
+        print("success");
+        appStorage.setItem("LOGIN_TOKEN", token);
+        success();
+        notifyListeners();
+      } else {
+        failure();
+        notifyListeners();
+      }
     } catch (_) {
-      LoginViewModel.failure();
+      failure();
+      notifyListeners();
     }
   }
 }

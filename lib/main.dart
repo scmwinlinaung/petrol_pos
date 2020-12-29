@@ -2,9 +2,10 @@ import 'package:OilPos/src/SplashPage.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/common/general.dart';
 import 'package:OilPos/src/pages/home/homePage.dart';
+import 'package:OilPos/src/pages/login/loginScreen.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
-import 'package:OilPos/src/views/login/login_screen.dart';
+import 'package:OilPos/src/viewModels/login/loginViewModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:OilPos/src/SimpleBlocDelegate.dart';
 import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
@@ -89,12 +90,13 @@ class App extends StatelessWidget {
         ),
         home: Consumer<AuthenticationViewModel>(
             builder: (context, authenticationViewModel, child) {
+          print("Auth");
           print("State");
           print(authenticationViewModel.authenticationModel.state);
           if (authenticationViewModel.authenticationModel.state == 1) {
             return LoginScreen(userRepository: _userRepository);
           } else if (authenticationViewModel.authenticationModel.state == 2) {
-            tokenStorage.setItem("LOGIN_TOKEN",
+            appStorage.setItem("LOGIN_TOKEN",
                 authenticationViewModel.authenticationModel.token);
 
             return ChangeNotifierProvider(

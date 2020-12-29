@@ -16,24 +16,31 @@ class UserRepository {
 
   ApiCall apiCall = ApiCallService();
 
-  Future<String> authenticate({
-    @required String username,
-    @required String password,
-  }) async {
-    await Future.delayed(Duration(seconds: 1));
-    username = username;
-    token = 'token';
-    return token;
+  UserRepository() {
+    this.token = '';
   }
 
-  Future<String> signInWithCredentials(String phoneNum, String password) async {
-    var jsonResponse = await apiCall.callSignInApi(phoneNum, password);
+  // Future<String> authenticate({
+  //   @required String username,
+  //   @required String password,
+  // }) async {
+  //   await Future.delayed(Duration(seconds: 1));
+  //   username = username;
+  //   token = 'token';
+  //   return token;
+  // }
+
+  Future<String> signInWithCredentials(String name, String password) async {
+    var jsonResponse = await apiCall.callSignInApi(name, password);
     this.errorMessage =
         jsonResponse['message']; // need to add top of other data item
     this.token = jsonResponse['token'].toString();
     this.phoneNum = jsonResponse['phone'].toString();
     this.username = jsonResponse['name'].toString();
     this.email = jsonResponse['email'].toString();
+    print(jsonResponse);
+    print("this.token");
+    print(this.token);
     return this.token;
   }
 
