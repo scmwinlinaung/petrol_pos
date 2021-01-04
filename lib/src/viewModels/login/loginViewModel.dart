@@ -42,7 +42,7 @@ class LoginViewModel extends ChangeNotifier {
       final token = await signInWithCredentials(username, password);
       print("TOKe n = " + token);
       if (token.length > 0 && token != "null") {
-        await appStorage.setItem(loginToken, token);
+        // await appStorage.setItem(loginToken, token);
         success();
         print("success");
         notifyListeners();

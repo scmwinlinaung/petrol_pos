@@ -126,21 +126,19 @@ class _LoginFormState extends State<LoginForm> {
       }
 
       if (loginViewModel.loginModel.isSubmitting) {
-        Scaffold.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Logging In',
-                  ),
-                  CircularProgressIndicator(),
-                ],
-              ),
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Logging In',
+                ),
+                CircularProgressIndicator(),
+              ],
             ),
-          );
+          ),
+        );
       }
       if (loginViewModel.loginModel.isSuccess) {
         final authViewModel =
