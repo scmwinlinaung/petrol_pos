@@ -5,53 +5,29 @@ import 'package:OilPos/src/models/login/loginModel.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  LoginModel loginModel = new LoginModel();
   AuthenticationModel authenticationModel = AuthenticationModel();
+  LoginModel loginModel = new LoginModel();
   ApiCall apiCall = new ApiCallService();
   LoginViewModel() {
-    initial();
-  }
-
-  void initial() {
-    loginModel =
-        LoginModel(isSubmitting: false, isSuccess: false, isFailure: false);
-  }
-
-  void loading() {
-    loginModel = LoginModel(
-        isSubmitting: true,
-        isSuccess: false,
-        isFailure: false); // loading state
-  }
-
-  void success() {
-    loginModel =
-        LoginModel(isSubmitting: false, isSuccess: true, isFailure: false);
-
-    /// success state
-  }
-
-  void failure() {
-    loginModel =
-        LoginModel(isSubmitting: false, isSuccess: false, isFailure: true);
+    loginModel = LoginModel.initial();
   }
 
   Future<void> login(String username, String password) async {
-    loading();
+    loginModel = LoginModel.loading();
     try {
       final token = await signInWithCredentials(username, password);
       print("TOKe n = " + token);
       if (token.length > 0 && token != "null") {
         // await appStorage.setItem(loginToken, token);
-        success();
+        loginModel = LoginModel.success();
         print("success");
         notifyListeners();
       } else {
-        failure();
+        loginModel = LoginModel.failure();
         notifyListeners();
       }
     } catch (_) {
-      failure();
+      loginModel = LoginModel.failure();
       notifyListeners();
     }
   }

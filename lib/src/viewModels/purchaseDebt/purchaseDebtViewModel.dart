@@ -18,7 +18,7 @@ class PurchaseDebtViewModel extends ChangeNotifier {
     var totalCount = jsonResponse["meta"]["total"];
     var totalDebt = jsonResponse["meta"]["totalDebt"];
     if (jsonResponse.length > 0) {
-      this.purchaseDebtRecords = purchaseDebtRecords.map((purchase) {
+      this.purchaseDebtRecords += purchaseDebtRecords.map((purchase) {
         return PurchaseModel(
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
@@ -31,6 +31,7 @@ class PurchaseDebtViewModel extends ChangeNotifier {
       }).toList();
       this.totalCount = totalCount;
       this.purchaseDebtTotal = totalDebt;
+      notifyListeners();
     }
   }
 }

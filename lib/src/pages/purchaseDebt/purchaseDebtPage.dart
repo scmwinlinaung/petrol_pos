@@ -1,9 +1,8 @@
-import 'package:OilPos/src/views/purchase_debt/purchase_debt_list.dart';
+import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtList.dart';
+import 'package:OilPos/src/viewModels/purchaseDebt/purchaseDebtViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bloc/bloc.dart';
+import 'package:provider/provider.dart';
 
 class PurchaseDebtPage extends StatelessWidget {
   @override
@@ -14,9 +13,8 @@ class PurchaseDebtPage extends StatelessWidget {
         title: Text("အဝယ်ကြွေးကျန်စာရင်း",
             style: Theme.of(context).textTheme.headline1),
       ),
-      body: BlocProvider<PurchaseDebtBloc>(
-          create: (context) =>
-              PurchaseDebtBloc()..add(GetPurchasesDebtList(page: 0)),
+      body: ChangeNotifierProvider(
+          create: (context) => PurchaseDebtViewModel(),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: PurchasesDebtList())),
     );

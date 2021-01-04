@@ -1,4 +1,4 @@
-import 'package:OilPos/src/views/purchase_debt/purchase_debt_list_body.dart';
+import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtListBody.dart';
 import 'package:flutter/cupertino.dart';
 
 class PurchasesDebtList extends StatefulWidget {

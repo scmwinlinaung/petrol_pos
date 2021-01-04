@@ -1,7 +1,9 @@
 import 'package:OilPos/src/pages/purchase/paginatedDataSourceForPurchase.dart';
+import 'package:OilPos/src/viewModels/purchaseDebt/purchaseDebtViewModel.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class PurchaseDebtListBody extends StatefulWidget {
   @override
@@ -9,20 +11,17 @@ class PurchaseDebtListBody extends StatefulWidget {
 }
 
 class _PurchaseDebtListBodyState extends State<PurchaseDebtListBody> {
-  PurchaseDebtBloc _purchaseDebtBloc;
-
   @override
   void initState() {
-    _purchaseDebtBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PurchaseDebtBloc, PurchaseDebtState>(
-        builder: (context, state) {
-      print(state.purchaseDebtRecords.toString());
-      if (state.purchaseDebtRecords.length > 0) {
+    return Consumer<PurchaseDebtViewModel>(
+        builder: (context, purchaseDebtViewModel, child) {
+      print(purchaseDebtViewModel.purchaseDebtRecords.toString());
+      if (purchaseDebtViewModel.purchaseDebtRecords.length > 0) {
         return Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -31,7 +30,8 @@ class _PurchaseDebtListBodyState extends State<PurchaseDebtListBody> {
               header: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 5, 50, 5),
                   child: Text(
-                    state.purchaseDebtTotal.toString() + " ကျပ်",
+                    purchaseDebtViewModel.purchaseDebtTotal.toString() +
+                        " ကျပ်",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -104,11 +104,11 @@ class _PurchaseDebtListBodyState extends State<PurchaseDebtListBody> {
               ],
               // showCheckboxColumn: true,
               source: PaginatedTableDataSourceForPurchase(
-                  // data: state.purchaseDebtRecords,
-                  totalCount: state.totalCount),
-              onPageChanged: (page) {
+                  data: purchaseDebtViewModel.purchaseDebtRecords,
+                  totalCount: purchaseDebtViewModel.totalCount),
+              onPageChanged: (page) async {
                 page = page ~/ 10;
-                _purchaseDebtBloc.add(GetPurchasesDebtList(page: page));
+                await purchaseDebtViewModel.getPurchaseDebtsList(page);
               },
               // onRowsPerPageChanged: (r) {
               //   setState(() {

@@ -1,9 +1,9 @@
 import 'package:OilPos/src/pages/purchase/purchasePage.dart';
+import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtPage.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
 // import 'package:OilPos/src/views/home/sales_vouncher.dart';
 import 'package:OilPos/src/views/in_stock/in_stock_page.dart';
-import 'package:OilPos/src/views/purchase_debt/purchase_debt_page.dart';
 import 'package:OilPos/src/views/sale/sale_page.dart';
 import 'package:OilPos/src/views/sale_debt/sale_debt_page.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
