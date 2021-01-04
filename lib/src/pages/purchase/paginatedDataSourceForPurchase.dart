@@ -1,4 +1,4 @@
-import 'package:OilPos/src/models/purchase/purchase.dart';
+import 'package:OilPos/src/models/purchase/purchaseModel.dart';
 import 'package:flutter/material.dart';
 
 class PaginatedTableDataSourceForPurchase extends DataTableSource {

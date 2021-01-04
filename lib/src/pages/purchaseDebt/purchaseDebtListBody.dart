@@ -20,7 +20,6 @@ class _PurchaseDebtListBodyState extends State<PurchaseDebtListBody> {
   Widget build(BuildContext context) {
     return Consumer<PurchaseDebtViewModel>(
         builder: (context, purchaseDebtViewModel, child) {
-      print(purchaseDebtViewModel.purchaseDebtRecords.toString());
       if (purchaseDebtViewModel.purchaseDebtRecords.length > 0) {
         return Container(
             width: MediaQuery.of(context).size.width,

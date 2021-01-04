@@ -116,6 +116,17 @@ class _LoginFormState extends State<LoginForm> {
     loginViewModel
         .login(_usernameController.text, _passwordController.text)
         .then((response) {
+      print("IS Submitting = " +
+          loginViewModel.loginModel.isSubmitting.toString());
+      if (loginViewModel.loginModel.isSubmitting) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Logging In',
+                style: TextStyle(fontSize: 16, color: Colors.white)),
+            backgroundColor: Colors.black,
+          ),
+        );
+      }
       if (loginViewModel.loginModel.isFailure) {
         Scaffold.of(context).showSnackBar(
           SnackBar(
@@ -125,21 +136,6 @@ class _LoginFormState extends State<LoginForm> {
         );
       }
 
-      if (loginViewModel.loginModel.isSubmitting) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Logging In',
-                ),
-                CircularProgressIndicator(),
-              ],
-            ),
-          ),
-        );
-      }
       if (loginViewModel.loginModel.isSuccess) {
         final authViewModel =
             Provider.of<AuthenticationViewModel>(context, listen: false);

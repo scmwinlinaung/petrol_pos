@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:OilPos/src/models/purchase/purchase.dart';
+import 'package:OilPos/src/models/purchase/purchaseModel.dart';
 import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
 import 'package:OilPos/src/widgets/create_record_button.dart';
 import 'package:OilPos/src/widgets/date_picker.dart';

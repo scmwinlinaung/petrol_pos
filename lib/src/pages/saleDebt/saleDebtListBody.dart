@@ -1,8 +1,8 @@
+import 'package:OilPos/src/viewModels/saleDebt/saleDebtVIewModel.dart';
 import 'package:OilPos/src/views/sale/paginatedTableDataSourceForSale.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/bloc.dart';
+import 'package:provider/provider.dart';
 
 class SaleDebtListBody extends StatefulWidget {
   @override
@@ -10,18 +10,16 @@ class SaleDebtListBody extends StatefulWidget {
 }
 
 class _SaleDebtListBodyState extends State<SaleDebtListBody> {
-  SaleDebtBloc _saleDebtBloc;
-
   @override
   void initState() {
-    _saleDebtBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleDebtBloc, SaleDebtState>(builder: (context, state) {
-      if (state.saleDebtRecords.length > 0) {
+    return Consumer<SaleDebtViewModel>(
+        builder: (context, saleDebtViewModel, child) {
+      if (saleDebtViewModel.saleDebtRecords.length > 0) {
         return Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -29,7 +27,8 @@ class _SaleDebtListBodyState extends State<SaleDebtListBody> {
               sortAscending: false,
               header: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 5, 50, 5),
-                child: Text(state.saleDebtTotal.toString() + " ကျပ်",
+                child: Text(
+                    saleDebtViewModel.saleDebtTotal.toString() + " ကျပ်",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -103,10 +102,11 @@ class _SaleDebtListBodyState extends State<SaleDebtListBody> {
               ],
               showCheckboxColumn: true,
               source: PaginatedTableDataSourceForSale(
-                  data: state.saleDebtRecords, totalCount: state.totalCount),
+                  data: saleDebtViewModel.saleDebtRecords,
+                  totalCount: saleDebtViewModel.totalCount),
               onPageChanged: (page) {
                 page = page ~/ 10;
-                _saleDebtBloc.add(GetSalesDebtList(page: page));
+                saleDebtViewModel.getSaleDebtsList(page);
               },
               // onRowsPerPageChanged: (r) {
               //   setState(() {

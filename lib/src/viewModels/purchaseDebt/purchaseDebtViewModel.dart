@@ -1,5 +1,5 @@
 import 'package:OilPos/src/common/api_call/api_call.dart';
-import 'package:OilPos/src/models/purchase/purchase.dart';
+import 'package:OilPos/src/models/purchase/purchaseModel.dart';
 import 'package:flutter/foundation.dart';
 
 class PurchaseDebtViewModel extends ChangeNotifier {

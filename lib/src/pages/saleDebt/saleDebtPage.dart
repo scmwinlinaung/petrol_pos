@@ -1,9 +1,8 @@
-import 'package:OilPos/src/views/sale/sale_list.dart';
-import 'package:OilPos/src/views/sale_debt/sale_debt_list.dart';
+import 'package:OilPos/src/pages/saleDebt/saleDebtList.dart';
+import 'package:OilPos/src/viewModels/saleDebt/saleDebtVIewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/bloc.dart';
+import 'package:provider/provider.dart';
 
 class SaleDebtPage extends StatelessWidget {
   @override
@@ -14,8 +13,8 @@ class SaleDebtPage extends StatelessWidget {
         title: Text("အရောင်းကြွေးကျန်စာရင်း",
             style: Theme.of(context).textTheme.headline1),
       ),
-      body: BlocProvider<SaleDebtBloc>(
-          create: (context) => SaleDebtBloc()..add(GetSalesDebtList(page: 0)),
+      body: ChangeNotifierProvider(
+          create: (context) => SaleDebtViewModel(),
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: SalesDebtList())),
     );

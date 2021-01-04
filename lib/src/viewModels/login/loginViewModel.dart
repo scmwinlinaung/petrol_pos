@@ -14,13 +14,12 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> login(String username, String password) async {
     loginModel = LoginModel.loading();
+    notifyListeners();
     try {
       final token = await signInWithCredentials(username, password);
-      print("TOKe n = " + token);
       if (token.length > 0 && token != "null") {
         // await appStorage.setItem(loginToken, token);
         loginModel = LoginModel.success();
-        print("success");
         notifyListeners();
       } else {
         loginModel = LoginModel.failure();
