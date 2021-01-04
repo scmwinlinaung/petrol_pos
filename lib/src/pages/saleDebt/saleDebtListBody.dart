@@ -1,5 +1,5 @@
+import 'package:OilPos/src/pages/sale/paginatedTableDataSourceForSale.dart';
 import 'package:OilPos/src/viewModels/saleDebt/saleDebtVIewModel.dart';
-import 'package:OilPos/src/views/sale/paginatedTableDataSourceForSale.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

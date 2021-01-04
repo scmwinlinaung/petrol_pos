@@ -1,5 +1,6 @@
 import 'package:OilPos/src/pages/purchase/purchasePage.dart';
 import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtPage.dart';
+import 'package:OilPos/src/pages/sale/salePage.dart';
 import 'package:OilPos/src/pages/saleDebt/saleDebtPage.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
@@ -67,9 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    //   return SalePage();
-                    // }));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return SalePage();
+                    }));
                   },
                 ),
               ),

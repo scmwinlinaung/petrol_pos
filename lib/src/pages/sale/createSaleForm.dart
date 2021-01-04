@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:OilPos/src/views/sale/bloc/bloc.dart';
-import 'package:OilPos/src/views/sale/bloc/sale_bloc.dart';
+import 'package:OilPos/src/models/sale/saleModel.dart';
+import 'package:OilPos/src/viewModels/sale/saleVIewModel.dart';
 import 'package:OilPos/src/widgets/create_record_button.dart';
 import 'package:OilPos/src/widgets/date_picker.dart';
 import 'package:OilPos/src/widgets/goodtype_dropdown.dart';
 import 'package:OilPos/src/widgets/payment_type_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'model/Sale.dart';
+import 'package:provider/provider.dart';
 
 class CreateSaleForm extends StatefulWidget {
   @override
@@ -29,8 +28,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   bool _enabled = true;
 
-  SaleBloc _saleBloc;
-
   void _createSaleRecord() async {
     if (_customerNameCtrl.text != "" &&
         _customerPhoneCtrl.text != "" &&
@@ -39,15 +36,16 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
         _rateFixedCtrl.text != "" &&
         _paymentTypeCtrl.text != "" &&
         _totalCtrl.text != "") {
-      _saleBloc.add(CreateSaleButtonPressed(
-          sale: Sale(
-              customerName: _customerNameCtrl.text,
-              customerPhone: _customerPhoneCtrl.text,
-              goodType: _goodTypeCtrl.text,
-              quantity: int.parse(_quantityCtrl.text),
-              rateFixed: int.parse(_rateFixedCtrl.text),
-              paymentType: _paymentTypeCtrl.text,
-              total: int.parse(_totalCtrl.text))));
+      final saleViewModel = Provider.of<SaleViewModel>(context, listen: false);
+      await saleViewModel.createSale(SaleModel(
+          customerName: _customerNameCtrl.text,
+          customerPhone: _customerPhoneCtrl.text,
+          goodType: _goodTypeCtrl.text,
+          quantity: int.parse(_quantityCtrl.text),
+          rateFixed: int.parse(_rateFixedCtrl.text),
+          paymentType: _paymentTypeCtrl.text,
+          total: int.parse(_totalCtrl.text),
+          createdAt: selectedDate.toString()));
       // Disable GestureDetector's 'onTap' property.
       setState(() => _enabled = false);
       await _showMyDialog();
@@ -61,7 +59,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   @override
   void initState() {
-    _saleBloc = BlocProvider.of(context);
     super.initState();
   }
 
@@ -134,7 +131,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+    return Consumer<SaleViewModel>(builder: (context, saleViewModel, child) {
       return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 35),
           child: Card(
@@ -162,7 +159,7 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                 ),
                                 style: Theme.of(context).textTheme.bodyText2,
                                 keyboardType: TextInputType.name,
-                                autovalidate: true,
+
                                 autocorrect: false,
                                 // validator: (_) {
                                 //   return !state.isPhoneNumValid
@@ -186,7 +183,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                 ),
                                 style: Theme.of(context).textTheme.bodyText2,
                                 keyboardType: TextInputType.phone,
-                                autovalidate: true,
                                 autocorrect: false,
                               ),
                               SizedBox(
@@ -212,7 +208,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                       Theme.of(context).textTheme.bodyText1,
                                 ),
                                 style: Theme.of(context).textTheme.bodyText2,
-                                autovalidate: true,
                                 autocorrect: false,
                                 keyboardType: TextInputType.number,
                               ),
@@ -231,7 +226,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                       Theme.of(context).textTheme.bodyText1,
                                 ),
                                 style: Theme.of(context).textTheme.bodyText2,
-                                autovalidate: true,
                                 autocorrect: false,
                                 keyboardType: TextInputType.number,
                               ),
@@ -257,7 +251,6 @@ class _CreateSaleFormState extends State<CreateSaleForm> {
                                       Theme.of(context).textTheme.bodyText1,
                                 ),
                                 style: Theme.of(context).textTheme.bodyText2,
-                                autovalidate: true,
                                 autocorrect: false,
                                 keyboardType: TextInputType.number,
                               ),

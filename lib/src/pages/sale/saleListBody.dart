@@ -1,10 +1,9 @@
-import 'package:OilPos/src/views/sale/bloc/sale_event.dart';
-import 'package:OilPos/src/views/sale/bloc/sale_state.dart';
+import 'package:OilPos/src/pages/sale/paginatedTableDataSourceForSale.dart';
+import 'package:OilPos/src/viewModels/sale/saleVIewModel.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
-import 'package:OilPos/src/views/sale/paginatedTableDataSourceForSale.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/sale_bloc.dart';
+import 'package:provider/provider.dart';
 
 class SaleListBody extends StatefulWidget {
   @override
@@ -12,23 +11,17 @@ class SaleListBody extends StatefulWidget {
 }
 
 class _SaleListBodyState extends State<SaleListBody> {
-  SaleBloc _saleBloc;
-
   TextEditingController _searchStringCtrl = new TextEditingController();
 
   void liveSearching() {
-    _saleBloc.add(SearchingSales(_searchStringCtrl.text));
+    final saleViewModel = Provider.of<SaleViewModel>(context, listen: false);
+    saleViewModel.searchingSales(_searchStringCtrl.text);
   }
 
   @override
   void initState() {
-    _saleBloc = BlocProvider.of(context);
     _searchStringCtrl.addListener(liveSearching);
     super.initState();
-  }
-
-  void deleteSale(String id) {
-    _saleBloc.add(DeleteSale(id));
   }
 
   @override
@@ -39,8 +32,8 @@ class _SaleListBodyState extends State<SaleListBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.saleRecords.length > 0) {
+    return Consumer<SaleViewModel>(builder: (context, saleViewModel, child) {
+      if (saleViewModel.saleRecords.length > 0) {
         return Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -128,10 +121,11 @@ class _SaleListBodyState extends State<SaleListBody> {
               ],
               showCheckboxColumn: true,
               source: PaginatedTableDataSourceForSale(
-                  data: state.saleRecords, totalCount: state.totalCount),
+                  data: saleViewModel.saleRecords,
+                  totalCount: saleViewModel.totalCount),
               onPageChanged: (page) {
                 page = page ~/ 10;
-                _saleBloc.add(GetSalesList(page: page));
+                saleViewModel.getSalesList(page);
               },
               // onRowsPerPageChanged: (r) {
               //   setState(() {

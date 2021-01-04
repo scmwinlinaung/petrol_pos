@@ -1,7 +1,4 @@
-import 'package:OilPos/src/views/sale/bloc/bloc.dart';
-import 'package:OilPos/src/views/sale/bloc/sale_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GoodTypeDropDown extends StatefulWidget {
   final String hint;

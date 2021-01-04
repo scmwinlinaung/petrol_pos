@@ -1,8 +1,7 @@
+import 'package:OilPos/src/viewModels/sale/saleVIewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bloc/bloc.dart';
-import 'create_sale_form.dart';
+import 'package:provider/provider.dart';
+import 'createSaleForm.dart';
 
 class CreateSale extends StatelessWidget {
   @override
@@ -13,8 +12,8 @@ class CreateSale extends StatelessWidget {
           title: Text("အရောင်းစာရင်းအသစ်",
               style: Theme.of(context).textTheme.headline1),
         ),
-        body: BlocProvider<SaleBloc>(
-            create: (context) => SaleBloc(),
+        body: ChangeNotifierProvider(
+            create: (context) => SaleViewModel(),
             child: SingleChildScrollView(child: CreateSaleForm())));
   }
 }
