@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'in_stock_list_body.dart';
+import 'inStockListBody.dart';
 
 class InStockList extends StatefulWidget {
   @override

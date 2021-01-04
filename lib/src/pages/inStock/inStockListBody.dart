@@ -1,15 +1,14 @@
-import 'package:OilPos/src/views/in_stock/bloc/bloc.dart';
-import 'package:OilPos/src/views/in_stock/bloc/in_stock_bloc.dart';
+import 'package:OilPos/src/viewModels/inStock/inStockViewModel.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class InStockListBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InStockBloc, InStockState>(builder: (context, state) {
-      print(state.inStockRecords.toString());
-      if (state.inStockRecords.length > 0) {
+    return Consumer<InStockViewModel>(
+        builder: (context, inStockViewModel, child) {
+      if (inStockViewModel.inStockRecords.length > 0) {
         return Container(
           width: MediaQuery.of(context).size.width,
           child: DataTable(
@@ -31,7 +30,7 @@ class InStockListBody extends StatelessWidget {
                 ),
               ),
             ],
-            rows: state
+            rows: inStockViewModel
                 .inStockRecords // Loops through dataColumnText, each iteration assigning the value to element
                 .map(
                   ((sale) => DataRow(

@@ -1,12 +1,10 @@
+import 'package:OilPos/src/pages/inStock/inStockPage.dart';
 import 'package:OilPos/src/pages/purchase/purchasePage.dart';
 import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtPage.dart';
 import 'package:OilPos/src/pages/sale/salePage.dart';
 import 'package:OilPos/src/pages/saleDebt/saleDebtPage.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
-// import 'package:OilPos/src/views/home/sales_vouncher.dart';
-import 'package:OilPos/src/views/in_stock/in_stock_page.dart';
-// import 'package:OilPos/src/views/sale/sale_page.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
