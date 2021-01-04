@@ -1,5 +1,3 @@
-import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
-import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/pages/purchase/purchasePage.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
 import 'package:OilPos/src/widgets/line_chart.dart';
@@ -11,7 +9,6 @@ import 'package:OilPos/src/views/sale_debt/sale_debt_page.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/group_bar_chart.dart';
 
@@ -39,9 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-              },
+              onPressed: () {},
             )
           ],
           // iconTheme: new IconThemeData(color: Colors.white),

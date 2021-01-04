@@ -11,7 +11,7 @@ class SplashPage extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage('assets/images/oil_production.jpg'),
+          image: AssetImage('assets/icons/BooleanPOSIcon.png'),
         ),
       ),
     )));

@@ -9,6 +9,8 @@ class PurchaseModel {
   int total;
   String status;
   String createdAt;
+  bool isFail;
+  bool isSuccess;
 
   PurchaseModel(
       {this.id,
@@ -20,7 +22,9 @@ class PurchaseModel {
       this.paymentType,
       this.total,
       this.status,
-      this.createdAt});
+      this.createdAt,
+      this.isFail,
+      this.isSuccess});
 
   String get getId => this.id;
   String get getCompanyName => this.companyName;
@@ -44,6 +48,14 @@ class PurchaseModel {
   set setTotal(int total) => this.total = total;
   set setStatus(String status) => this.status = status;
   set setCreatedAt(String createdAt) => this.createdAt = createdAt;
+
+  factory PurchaseModel.success() {
+    return PurchaseModel(isFail: false, isSuccess: true);
+  }
+
+  factory PurchaseModel.fail() {
+    return PurchaseModel(isFail: true, isSuccess: false);
+  }
 
   @override
   String toString() => 'Purchase { companyName: $companyName }';

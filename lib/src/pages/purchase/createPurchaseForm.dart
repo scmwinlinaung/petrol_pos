@@ -1,14 +1,12 @@
 import 'dart:async';
-
-import 'package:OilPos/src/views/purchase/bloc/bloc.dart';
-import 'package:OilPos/src/views/purchase/bloc/purchase_event.dart';
-import 'package:OilPos/src/views/purchase/model/Purchase.dart';
+import 'package:OilPos/src/models/purchase/purchase.dart';
+import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
 import 'package:OilPos/src/widgets/create_record_button.dart';
 import 'package:OilPos/src/widgets/date_picker.dart';
 import 'package:OilPos/src/widgets/goodtype_dropdown.dart';
 import 'package:OilPos/src/widgets/payment_type_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class CreatePurchaseForm extends StatefulWidget {
   @override
@@ -28,7 +26,7 @@ class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
 
   bool _enabled = true;
 
-  PurchaseBloc _purchaseBloc;
+  // PurchaseBloc _purchaseBloc;
 
   void _createPurchaseRecord() async {
     if (_companyNameCtrl.text != "" &&
@@ -38,16 +36,17 @@ class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
         _rateFixedCtrl.text != "" &&
         _paymentTypeCtrl.text != "" &&
         _totalCtrl.text != "") {
-      _purchaseBloc.add(CreatePurchaseButtonPressed(
-          purchase: Purchase(
-              companyName: _companyNameCtrl.text,
-              companyPhone: _companyPhoneCtrl.text,
-              goodType: _goodTypeCtrl.text,
-              quantity: int.parse(_quantityCtrl.text),
-              rateFixed: int.parse(_rateFixedCtrl.text),
-              paymentType: _paymentTypeCtrl.text,
-              total: int.parse(_totalCtrl.text),
-              createdAt: selectedDate.toString())));
+      final purchaseViewModel =
+          Provider.of<PurchaseViewModel>(context, listen: false);
+      await purchaseViewModel.createPurchase(PurchaseModel(
+          companyName: _companyNameCtrl.text,
+          companyPhone: _companyPhoneCtrl.text,
+          goodType: _goodTypeCtrl.text,
+          quantity: int.parse(_quantityCtrl.text),
+          rateFixed: int.parse(_rateFixedCtrl.text),
+          paymentType: _paymentTypeCtrl.text,
+          total: int.parse(_totalCtrl.text),
+          createdAt: selectedDate.toString()));
       // Disable GestureDetector's 'onTap' property.
       setState(() => _enabled = false);
       await _showCompleteDialog();
@@ -68,7 +67,6 @@ class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
     _rateFixedCtrl.clear();
     _paymentTypeCtrl.clear();
     _totalCtrl.clear();
-    _purchaseBloc = BlocProvider.of(context);
     super.initState();
   }
 
@@ -141,7 +139,8 @@ class _CreatePurchaseFormState extends State<CreatePurchaseForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
+    return Consumer<PurchaseViewModel>(
+        builder: (context, purchaseViewModel, child) {
       return Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 35),
           child: Card(

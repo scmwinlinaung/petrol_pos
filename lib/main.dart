@@ -4,9 +4,7 @@ import 'package:OilPos/src/pages/home/homePage.dart';
 import 'package:OilPos/src/pages/login/loginScreen.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
-import 'package:flutter/foundation.dart';
 import 'package:OilPos/src/SimpleBlocDelegate.dart';
-import 'package:OilPos/src/authentication_bloc/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -19,14 +17,10 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
   HydratedCubit.storage = await HydratedStorage.build();
 
-  final UserRepository userRepository = UserRepository();
-
   // application.onLocaleChanged = onLocaleChange;
   runApp(ChangeNotifierProvider(
     create: (context) => AuthenticationViewModel(),
-    child: App(
-      userRepository: userRepository,
-    ),
+    child: App(),
   )
       // BlocProvider(
       //   create: (context) => AuthenticationBloc(
@@ -40,15 +34,6 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  final UserRepository _userRepository;
-
-  App({
-    Key key,
-    @required UserRepository userRepository,
-  })  : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
-
   @override
   Widget build(BuildContext context) {
     // var notiContract = await contractDeploy("Noti.sol",args);
@@ -91,7 +76,7 @@ class App extends StatelessWidget {
           print("State");
           print(authenticationViewModel.authenticationModel.state);
           if (authenticationViewModel.authenticationModel.state == 1) {
-            return LoginScreen(userRepository: _userRepository);
+            return LoginScreen();
           } else if (authenticationViewModel.authenticationModel.state == 2) {
             appStorage.setItem("LOGIN_TOKEN",
                 authenticationViewModel.authenticationModel.token);

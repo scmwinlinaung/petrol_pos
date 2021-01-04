@@ -1,8 +1,6 @@
 import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
-import 'package:OilPos/src/views/purchase/bloc/bloc.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import '../../pages/purchase/paginatedDataSourceForPurchase.dart';
 
@@ -22,11 +20,10 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
   }
 
   void liveSearching() {
+    final purchaseViewModel =
+        Provider.of<PurchaseViewModel>(context, listen: false);
+    purchaseViewModel.searchingPurchases(_searchStringCtrl.text);
     // _purchaseBloc.add(SearchingPurchases(_searchStringCtrl.text));
-  }
-
-  void deletePurchase(String id) {
-    // _purchaseBloc.add(DeletePurchase(id));
   }
 
   @override
@@ -128,7 +125,8 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
               showCheckboxColumn: true,
               source: PaginatedTableDataSourceForPurchase(
                   data: purchaseViewModel.purchaseRecords,
-                  totalCount: purchaseViewModel.totalCount),
+                  totalCount: purchaseViewModel.totalCount,
+                  purchaseViewModel: purchaseViewModel),
               onPageChanged: (page) async {
                 page = page ~/ 10;
                 await purchaseViewModel.getPurchasesList(page);

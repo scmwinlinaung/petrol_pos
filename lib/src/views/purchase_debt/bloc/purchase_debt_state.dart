@@ -1,9 +1,9 @@
-import 'package:OilPos/src/views/purchase/model/Purchase.dart';
+import 'package:OilPos/src/models/purchase/purchase.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 class PurchaseDebtState {
-  final List<Purchase> purchaseDebtRecords;
+  final List<PurchaseModel> purchaseDebtRecords;
   final int totalCount;
   final bool isSuccess;
   final bool isFail;
@@ -34,7 +34,7 @@ class PurchaseDebtState {
   }
 
   PurchaseDebtState update(
-      {List<Purchase> purchaseDebtRecords,
+      {List<PurchaseModel> purchaseDebtRecords,
       int totalCount,
       String goodType,
       String paymentType,
@@ -48,7 +48,7 @@ class PurchaseDebtState {
   }
 
   PurchaseDebtState copyWith(
-      {List<Purchase> purchaseDebtRecords,
+      {List<PurchaseModel> purchaseDebtRecords,
       int totalCount,
       String goodType,
       String paymentType,

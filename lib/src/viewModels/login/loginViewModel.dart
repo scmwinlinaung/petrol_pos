@@ -1,11 +1,13 @@
-import 'package:OilPos/src/authentication_bloc/user_repository.dart';
+import 'package:OilPos/src/common/api_call/api_call.dart';
 import 'package:OilPos/src/common/general.dart';
+import 'package:OilPos/src/models/authentication/authenticationModel.dart';
 import 'package:OilPos/src/models/login/loginModel.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  UserRepository userRepository = new UserRepository();
   LoginModel loginModel = new LoginModel();
+  AuthenticationModel authenticationModel = AuthenticationModel();
+  ApiCall apiCall = new ApiCallService();
   LoginViewModel() {
     initial();
   }
@@ -37,13 +39,12 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> login(String username, String password) async {
     loading();
     try {
-      final token =
-          await userRepository.signInWithCredentials(username, password);
-      print("TOKe n = " + token.length.toString());
+      final token = await signInWithCredentials(username, password);
+      print("TOKe n = " + token);
       if (token.length > 0 && token != "null") {
-        print("success");
-        appStorage.setItem("LOGIN_TOKEN", token);
+        await appStorage.setItem(loginToken, token);
         success();
+        print("success");
         notifyListeners();
       } else {
         failure();
@@ -53,5 +54,17 @@ class LoginViewModel extends ChangeNotifier {
       failure();
       notifyListeners();
     }
+  }
+
+  Future<String> signInWithCredentials(String name, String password) async {
+    var jsonResponse = await apiCall.callSignInApi(name, password);
+    var errorMessage =
+        jsonResponse['message']; // need to add top of other data item
+    var token = jsonResponse['token'].toString();
+    var phoneNum = jsonResponse['phone'].toString();
+    var username = jsonResponse['name'].toString();
+    var email = jsonResponse['email'].toString();
+    appStorage.setItem(loginToken, token);
+    return token;
   }
 }

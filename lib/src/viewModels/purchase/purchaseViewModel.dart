@@ -30,19 +30,57 @@ class PurchaseViewModel extends ChangeNotifier {
             createdAt: purchase["createdAt"]);
       }).toList();
     }
-    print(purchaseRecords);
     notifyListeners();
   }
 
-  Future<void> createPurchase() async {
-    notifyListeners();
+  Future<void> createPurchase(PurchaseModel purchase) async {
+    try {
+      await apiCall.callCreatePurchaseApi(
+          purchase.companyName,
+          purchase.companyPhone,
+          purchase.goodType,
+          purchase.quantity,
+          purchase.rateFixed,
+          purchase.paymentType,
+          purchase.total,
+          purchase.createdAt);
+
+      PurchaseModel.success();
+      notifyListeners();
+    } catch (err) {
+      PurchaseModel.fail();
+      notifyListeners();
+    }
   }
 
-  Future<void> searchingPurchases() async {
-    notifyListeners();
+  Future<void> searchingPurchases(String searchString) async {
+    var jsonResponse = await apiCall.callSearchFromPurchases(searchString);
+    List purchaseRecords = jsonResponse["purchaseRecord"];
+    if (jsonResponse.length > 0) {
+      this.purchaseRecords = purchaseRecords.map((purchase) {
+        return PurchaseModel(
+            id: purchase["_id"],
+            companyName: purchase["companyName"],
+            companyPhone: purchase["companyPhone"],
+            goodType: purchase["goodType"],
+            quantity: purchase["quantity"],
+            rateFixed: purchase["rateFixed"],
+            paymentType: purchase["paymentType"],
+            total: purchase["total"],
+            createdAt: purchase["createdAt"]);
+      }).toList();
+      notifyListeners();
+    }
   }
 
-  Future<void> deletePurchase() async {
-    notifyListeners();
+  Future<void> deletePurchase(String id) async {
+    try {
+      await apiCall.callDeletePurchase(id);
+      await this.getPurchasesList(0);
+      notifyListeners();
+    } catch (err) {
+      PurchaseModel.fail();
+      notifyListeners();
+    }
   }
 }

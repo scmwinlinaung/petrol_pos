@@ -1,4 +1,3 @@
-import 'package:OilPos/src/authentication_bloc/user_repository.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/login/loginViewModel.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -8,12 +7,6 @@ import 'package:provider/provider.dart';
 import 'loginButton.dart';
 
 class LoginForm extends StatefulWidget {
-  final UserRepository _userRepository;
-  LoginForm({Key key, @required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
-
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -22,8 +15,6 @@ class _LoginFormState extends State<LoginForm> {
   // LoginBloc _loginBloc;
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  UserRepository get _userRepository => widget._userRepository;
 
   bool get isPopulated =>
       _usernameController.text.isNotEmpty &&
@@ -46,36 +37,11 @@ class _LoginFormState extends State<LoginForm> {
         padding: EdgeInsets.fromLTRB(20, 50, 20, 50),
         child: ListView(
           children: <Widget>[
-            Container(
-              height: 70,
-              child: Center(
-                child: TypewriterAnimatedTextKit(
-                    isRepeatingAnimation: true,
-                    text: ["Petrol Hla Mya Oil Trading Co.Ltd"],
-                    textStyle: TextStyle(
-                        fontSize: 25.0,
-                        fontFamily: "Roboto",
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.start,
-                    totalRepeatCount: 1000000,
-                    speed: new Duration(milliseconds: 250),
-                    alignment:
-                        AlignmentDirectional.topStart // or Alignment.topLeft
-                    ),
-              ),
+            Image.asset(
+              "assets/icons/BooleanPOSIcon.png",
+              width: 100,
+              height: 100,
             ),
-            SizedBox(
-              height: 20,
-            ),
-            new Container(
-                width: 50,
-                height: 200,
-                decoration: new BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    image: new DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/oil_pump.gif')))),
             SizedBox(
               height: 50,
             ),
@@ -158,6 +124,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
         );
       }
+
       if (loginViewModel.loginModel.isSubmitting) {
         Scaffold.of(context)
           ..hideCurrentSnackBar()

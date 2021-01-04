@@ -1,4 +1,3 @@
-import 'package:OilPos/src/views/purchase/model/Purchase.dart';
 import 'package:OilPos/src/views/sale/model/Sale.dart';
 import 'package:equatable/equatable.dart';
 

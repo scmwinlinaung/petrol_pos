@@ -1,5 +1,6 @@
 import 'package:OilPos/src/common/api_call/api_call.dart';
-import 'package:OilPos/src/views/purchase/model/Purchase.dart';
+import 'package:OilPos/src/models/purchase/purchase.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc.dart';
@@ -25,7 +26,7 @@ class PurchaseDebtBloc extends Bloc<PurchaseDebtEvent, PurchaseDebtState> {
     var totalDebt = jsonResponse["meta"]["totalDebt"];
     if (jsonResponse.length > 0) {
       final _purchaseDebtList = purchaseDebtRecords.map((purchase) {
-        return Purchase(
+        return PurchaseModel(
             companyName: purchase["companyName"],
             companyPhone: purchase["companyPhone"],
             goodType: purchase["goodType"],

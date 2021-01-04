@@ -61,6 +61,7 @@ class _CreateRecordButtonState extends State<CreateRecordButton> {
                   height: 20,
                   width: 20,
                   child: CircularProgressIndicator(
+                    strokeWidth: 10,
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ))),
         ],

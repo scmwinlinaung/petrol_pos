@@ -1,17 +1,22 @@
 import 'package:OilPos/src/models/purchase/purchase.dart';
+import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PaginatedTableDataSourceForPurchase extends DataTableSource {
-  PaginatedTableDataSourceForPurchase({this.data, this.totalCount});
+  PaginatedTableDataSourceForPurchase(
+      {this.data, this.totalCount, this.purchaseViewModel});
   // PurchaseBloc _purchaseBloc;
 
   final List<PurchaseModel> data;
   final int totalCount;
+  final purchaseViewModel;
 
-  // void deletePurchase(String id) {
-  //   _purchaseBloc.add(DeletePurchase(id));
-  // }
+  void deletePurchase(String id) async {
+    await purchaseViewModel.deletePurchase(id);
+    // _purchaseBloc.add(DeletePurchase(id));
+  }
 
   @override
   DataRow getRow(int index) {
@@ -85,7 +90,7 @@ class PaginatedTableDataSourceForPurchase extends DataTableSource {
           )),
           DataCell(IconButton(
             onPressed: () {
-              // deletePurchase(data[index].id);
+              deletePurchase(data[index].id);
             },
             icon: Icon(Icons.delete, size: 30, color: Colors.red),
           ))

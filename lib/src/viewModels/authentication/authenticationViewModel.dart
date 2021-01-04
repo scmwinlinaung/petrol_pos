@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:OilPos/src/authentication_bloc/user_repository.dart';
 import 'package:OilPos/src/common/api_call/api_call.dart';
 import 'package:OilPos/src/common/general.dart';
 import 'package:OilPos/src/models/authentication/authenticationModel.dart';
@@ -36,7 +35,7 @@ class AuthenticationViewModel extends ChangeNotifier {
 
   void appStart() async {
     try {
-      final token = appStorage.getItem(loginToken);
+      final token = await appStorage.getItem(loginToken);
       print("TOKEN");
       print(token);
       if (token != null) {
@@ -72,33 +71,19 @@ class AuthenticationViewModel extends ChangeNotifier {
   }
 
   Future<void> loginState() async {
-    UserRepository userRepository = new UserRepository();
-    final result = await userRepository.getUser();
     AuthStates authStates = AuthStates.AUTHENTICATED;
     authenticationModel = AuthenticationModel(
         state: authStates.state,
-        token: result['token'],
-        phoneNum: result['phone'],
-        userId: result['userId'],
-        name: result['name'],
-        email: result['email']);
+        token: authenticationModel.token,
+        phoneNum: authenticationModel.phoneNum,
+        userId: authenticationModel.userId,
+        name: authenticationModel.name,
+        email: authenticationModel.email);
 
     notifyListeners();
   }
 
   Future<void> logoutState() {}
-
-  Future<String> signInWithCredentials(String phoneNum, String password) async {
-    var jsonResponse = await apiCall.callSignInApi(phoneNum, password);
-    this.errorMessage =
-        jsonResponse['message']; // need to add top of other data item
-    this.token = jsonResponse['token'].toString();
-    this.phoneNum = jsonResponse['phone'].toString();
-    this.username = jsonResponse['name'].toString();
-    this.email = jsonResponse['email'].toString();
-    appStorage.setItem(loginToken, this.token);
-    return this.token;
-  }
 
   // Future<String> signUpWithCredentials(
   //     String username, String phoneNum, String password) async {
