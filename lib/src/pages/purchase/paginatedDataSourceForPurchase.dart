@@ -1,11 +1,12 @@
-import 'package:OilPos/src/views/purchase/model/Purchase.dart';
+import 'package:OilPos/src/models/purchase/purchase.dart';
+
 import 'package:flutter/material.dart';
 
 class PaginatedTableDataSourceForPurchase extends DataTableSource {
   PaginatedTableDataSourceForPurchase({this.data, this.totalCount});
   // PurchaseBloc _purchaseBloc;
 
-  final List<Purchase> data;
+  final List<PurchaseModel> data;
   final int totalCount;
 
   // void deletePurchase(String id) {

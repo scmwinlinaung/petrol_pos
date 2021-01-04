@@ -13,7 +13,6 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> getSaleReports() async {
     ApiCall apiCall = new ApiCallService();
     final results = await apiCall.callSaleReport();
-    print("REPOST");
     this.saleReports = results
         .map((saleReport) => SaleReportViewModal(
             saleReport: SaleReportModel(
@@ -23,8 +22,6 @@ class HomeViewModel extends ChangeNotifier {
                 totalPrice: saleReport["totalPrice"])))
         .toList();
     this.saleReports.sort((a, b) => a.month.compareTo(b.month));
-    print("REPOST");
-    print(this.saleReports);
     notifyListeners();
   }
 }

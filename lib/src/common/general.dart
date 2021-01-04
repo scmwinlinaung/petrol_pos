@@ -1,7 +1,5 @@
-import 'dart:typed_data';
 import 'dart:convert';
-
-import 'dart:ui';
+import 'dart:typed_data';
 
 import 'package:localstorage/localstorage.dart';
 
@@ -10,6 +8,7 @@ String get host {
 }
 
 final LocalStorage appStorage = new LocalStorage('PETROL_POS');
+final loginToken = "LOGIN_TOKEN";
 
 Uint8List createUint8ListFromHexString(String hex) {
   var result = Uint8List(hex.length ~/ 2);

@@ -1,14 +1,11 @@
 import 'package:OilPos/src/SplashPage.dart';
-import 'package:OilPos/src/authentication_bloc/authentication_bloc.dart';
 import 'package:OilPos/src/common/general.dart';
 import 'package:OilPos/src/pages/home/homePage.dart';
 import 'package:OilPos/src/pages/login/loginScreen.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
-import 'package:OilPos/src/viewModels/login/loginViewModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:OilPos/src/SimpleBlocDelegate.dart';
-import 'package:OilPos/src/authentication_bloc/authentication_event.dart';
 import 'package:OilPos/src/authentication_bloc/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

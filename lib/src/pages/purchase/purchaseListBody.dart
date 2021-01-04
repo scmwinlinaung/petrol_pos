@@ -1,10 +1,10 @@
+import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
 import 'package:OilPos/src/views/purchase/bloc/bloc.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bloc/purchase_bloc.dart';
-import 'paginatedDataSourceForPurchase.dart';
+import 'package:provider/provider.dart';
+import '../../pages/purchase/paginatedDataSourceForPurchase.dart';
 
 class PurchaseListBody extends StatefulWidget {
   @override
@@ -12,23 +12,21 @@ class PurchaseListBody extends StatefulWidget {
 }
 
 class _PurchaseListBodyState extends State<PurchaseListBody> {
-  PurchaseBloc _purchaseBloc;
   int _rowPerPage = PaginatedDataTable.defaultRowsPerPage;
   TextEditingController _searchStringCtrl = new TextEditingController();
 
   @override
   void initState() {
-    _purchaseBloc = BlocProvider.of(context);
     _searchStringCtrl.addListener(liveSearching);
     super.initState();
   }
 
   void liveSearching() {
-    _purchaseBloc.add(SearchingPurchases(_searchStringCtrl.text));
+    // _purchaseBloc.add(SearchingPurchases(_searchStringCtrl.text));
   }
 
   void deletePurchase(String id) {
-    _purchaseBloc.add(DeletePurchase(id));
+    // _purchaseBloc.add(DeletePurchase(id));
   }
 
   @override
@@ -39,9 +37,9 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PurchaseBloc, PurchaseState>(builder: (context, state) {
-      print(state.purchaseRecords.toString());
-      if (state.purchaseRecords.length > 0) {
+    return Consumer<PurchaseViewModel>(
+        builder: (context, purchaseViewModel, child) {
+      if (purchaseViewModel.purchaseRecords.length > 0) {
         return Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -129,10 +127,11 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
               ],
               showCheckboxColumn: true,
               source: PaginatedTableDataSourceForPurchase(
-                  data: state.purchaseRecords, totalCount: state.totalCount),
-              onPageChanged: (page) {
+                  data: purchaseViewModel.purchaseRecords,
+                  totalCount: purchaseViewModel.totalCount),
+              onPageChanged: (page) async {
                 page = page ~/ 10;
-                _purchaseBloc.add(GetPurchasesList(page: page));
+                await purchaseViewModel.getPurchasesList(page);
               },
               // onRowsPerPageChanged: (r) {
               //   setState(() {

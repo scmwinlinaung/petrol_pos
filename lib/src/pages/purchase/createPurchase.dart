@@ -1,8 +1,8 @@
-import 'package:OilPos/src/views/purchase/create_purchase_form.dart';
+import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-import 'bloc/bloc.dart';
+import 'createPurchaseForm.dart';
 
 class CreatePurchase extends StatelessWidget {
   @override
@@ -13,8 +13,8 @@ class CreatePurchase extends StatelessWidget {
           title: Text("အဝယ်စာရင်းအသစ်",
               style: Theme.of(context).textTheme.headline1),
         ),
-        body: BlocProvider<PurchaseBloc>(
-            create: (context) => PurchaseBloc(),
+        body: ChangeNotifierProvider(
+            create: (context) => PurchaseViewModel(),
             child: SingleChildScrollView(child: CreatePurchaseForm())));
   }
 }

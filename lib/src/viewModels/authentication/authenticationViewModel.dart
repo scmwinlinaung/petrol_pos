@@ -34,12 +34,12 @@ class AuthenticationViewModel extends ChangeNotifier {
     return token;
   }
 
-  Future<void> appStart() async {
+  void appStart() async {
     try {
-      final loginToken = appStorage.getItem("LOGIN_TOKEN");
+      final token = appStorage.getItem(loginToken);
       print("TOKEN");
-      print(loginToken);
-      if (loginToken != null) {
+      print(token);
+      if (token != null) {
         AuthStates authStates = AuthStates.AUTHENTICATED;
         authenticationModel = AuthenticationModel(
             state: authStates.state,
@@ -82,6 +82,7 @@ class AuthenticationViewModel extends ChangeNotifier {
         userId: result['userId'],
         name: result['name'],
         email: result['email']);
+
     notifyListeners();
   }
 
@@ -95,6 +96,7 @@ class AuthenticationViewModel extends ChangeNotifier {
     this.phoneNum = jsonResponse['phone'].toString();
     this.username = jsonResponse['name'].toString();
     this.email = jsonResponse['email'].toString();
+    appStorage.setItem(loginToken, this.token);
     return this.token;
   }
 

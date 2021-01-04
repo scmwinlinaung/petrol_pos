@@ -1,4 +1,4 @@
-import 'package:OilPos/src/views/purchase/paginatedDataSourceForPurchase.dart';
+import 'package:OilPos/src/pages/purchase/paginatedDataSourceForPurchase.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,7 +106,7 @@ class _PurchaseDebtListBodyState extends State<PurchaseDebtListBody> {
               ],
               // showCheckboxColumn: true,
               source: PaginatedTableDataSourceForPurchase(
-                  data: state.purchaseDebtRecords,
+                  // data: state.purchaseDebtRecords,
                   totalCount: state.totalCount),
               onPageChanged: (page) {
                 page = page ~/ 10;
