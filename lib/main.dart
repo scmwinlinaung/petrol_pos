@@ -78,9 +78,6 @@ class App extends StatelessWidget {
           if (authenticationViewModel.authenticationModel.state == 1) {
             return LoginScreen();
           } else if (authenticationViewModel.authenticationModel.state == 2) {
-            appStorage.setItem("LOGIN_TOKEN",
-                authenticationViewModel.authenticationModel.token);
-
             return ChangeNotifierProvider(
               create: (context) => HomeViewModel(),
               child: MyHomePage(),

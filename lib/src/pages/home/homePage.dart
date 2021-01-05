@@ -1,3 +1,6 @@
+import 'package:OilPos/src/pages/home/barChartPage.dart';
+import 'package:OilPos/src/pages/home/lineChartPage.dart';
+import 'package:OilPos/src/pages/home/pieChartPage.dart';
 import 'package:OilPos/src/pages/inStock/inStockPage.dart';
 import 'package:OilPos/src/pages/purchase/purchasePage.dart';
 import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtPage.dart';
@@ -17,9 +20,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+  List<Widget> _children = new List(3);
   @override
   void initState() {
+    _children = [LineChartPage(), PieChartPage(), BarChartPage()];
     super.initState();
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -182,30 +194,56 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: _buildMainDesign(context));
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: onTabTapped, // new
+          selectedItemColor: Theme.of(context).primaryColor,
+
+          currentIndex: _currentIndex, //
+          // this will be set when a new tab is tapped
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.show_chart,
+                ),
+                label: "Daily"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.pie_chart,
+                ),
+                label: "Monthly"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.bar_chart,
+                ),
+                label: "Yearly"),
+          ],
+        ));
   }
 
-  Widget _buildMainDesign(BuildContext context) {
-    //
-    return SingleChildScrollView(
-        child: Container(
-      // height: MediaQuery.of(context).size.height,
-      // width: MediaQuery.of(context).size.width,
-      color: Colors.grey[200],
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _buildLineChart(),
-          _buildPieChart(),
-          _buildGroupedBarChart(),
-        ],
-      ),
-    ));
-  }
+  // Widget _buildMainDesign(BuildContext context) {
+  //   //
+  //   return SingleChildScrollView(
+  //       child: Container(
+  //     // height: MediaQuery.of(context).size.height,
+  //     // width: MediaQuery.of(context).size.width,
+  //     color: Colors.grey[200],
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: [
+  //         _buildLineChart(),
+  //         _buildPieChart(),
+  //         _buildGroupedBarChart(),
+  //       ],
+  //     ),
+  //   ));
+  // }
 
-  Widget _buildLineChart() {
-    return Padding(
+  Widget _buildLineChart(BuildContext context) {
+    return Scaffold(
+        body: Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
           decoration: BoxDecoration(
@@ -224,11 +262,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 else
                   return LoadingIndicator();
               }))),
-    );
+    ));
   }
 
-  Widget _buildPieChart() {
-    return Padding(
+  Widget _buildPieChart(BuildContext context) {
+    return Scaffold(
+        body: Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
           decoration: BoxDecoration(
@@ -245,28 +284,29 @@ class _MyHomePageState extends State<MyHomePage> {
             else
               return LoadingIndicator();
           })),
-    );
+    ));
   }
 
-  Widget _buildGroupedBarChart() {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            height: 300,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Consumer<HomeViewModel>(
-                    builder: (context, homeViewModel, child) {
-                  if (homeViewModel.saleReports.length > 0)
-                    return GroupedBarChart(
-                      saleReports: homeViewModel.saleReports,
-                    );
-                  else
-                    return LoadingIndicator();
-                }))));
+  Widget _buildGroupedBarChart(BuildContext context) {
+    return Scaffold(
+        body: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Consumer<HomeViewModel>(
+                        builder: (context, homeViewModel, child) {
+                      if (homeViewModel.saleReports.length > 0)
+                        return GroupedBarChart(
+                          saleReports: homeViewModel.saleReports,
+                        );
+                      else
+                        return LoadingIndicator();
+                    })))));
   }
 }
