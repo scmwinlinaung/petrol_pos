@@ -6,13 +6,7 @@ import 'package:OilPos/src/pages/purchase/purchasePage.dart';
 import 'package:OilPos/src/pages/purchaseDebt/purchaseDebtPage.dart';
 import 'package:OilPos/src/pages/sale/salePage.dart';
 import 'package:OilPos/src/pages/saleDebt/saleDebtPage.dart';
-import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
-import 'package:OilPos/src/widgets/line_chart.dart';
-import 'package:OilPos/src/widgets/loading_indicator.dart';
-import 'package:OilPos/src/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../widgets/group_bar_chart.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -57,10 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                child: Text(
-                  'လှမြဆီရောင်းဝယ်ရေး',
-                  style: Theme.of(context).textTheme.headline1,
-                  textAlign: TextAlign.center,
+                child: Center(
+                  child: Image.asset(
+                    "assets/icons/BooleanPOSIcon.png",
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
@@ -220,93 +216,5 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: "Yearly"),
           ],
         ));
-  }
-
-  // Widget _buildMainDesign(BuildContext context) {
-  //   //
-  //   return SingleChildScrollView(
-  //       child: Container(
-  //     // height: MediaQuery.of(context).size.height,
-  //     // width: MediaQuery.of(context).size.width,
-  //     color: Colors.grey[200],
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: [
-  //         _buildLineChart(),
-  //         _buildPieChart(),
-  //         _buildGroupedBarChart(),
-  //       ],
-  //     ),
-  //   ));
-  // }
-
-  Widget _buildLineChart(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          height: 300,
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Consumer<HomeViewModel>(
-                  builder: (context, homeViewModel, child) {
-                if (homeViewModel.saleReports.length > 0)
-                  return LineChart(
-                    saleReports: homeViewModel.saleReports,
-                  );
-                else
-                  return LoadingIndicator();
-              }))),
-    ));
-  }
-
-  Widget _buildPieChart(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          height: 300,
-          width: MediaQuery.of(context).size.width,
-          child:
-              Consumer<HomeViewModel>(builder: (context, homeViewModel, child) {
-            if (homeViewModel.saleReports.length > 0)
-              return PieChart(
-                saleReports: homeViewModel.saleReports,
-              );
-            else
-              return LoadingIndicator();
-          })),
-    ));
-  }
-
-  Widget _buildGroupedBarChart(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                height: 300,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Consumer<HomeViewModel>(
-                        builder: (context, homeViewModel, child) {
-                      if (homeViewModel.saleReports.length > 0)
-                        return GroupedBarChart(
-                          saleReports: homeViewModel.saleReports,
-                        );
-                      else
-                        return LoadingIndicator();
-                    })))));
   }
 }
