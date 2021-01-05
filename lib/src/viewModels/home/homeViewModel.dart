@@ -48,7 +48,7 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> getYearlySaleReports() async {
     ApiCall apiCall = new ApiCallService();
-    final results = await apiCall.callMonthlySaleReport();
+    final results = await apiCall.callYearlySaleReport();
     this.yearlySaleReports = results
         .map((saleReport) => SaleReportViewModal(
             saleReport: SaleReportModel(
