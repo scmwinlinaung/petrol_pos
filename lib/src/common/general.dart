@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:localstorage/localstorage.dart';
 
 String get host {
-  // return "https://petrol-pos-api-tk4q2h2k5a-uc.a.run.app/api/v1";
-  return "http://10.0.2.2:8000/api/v1";
+  return "https://petrol-pos-api-tk4q2h2k5a-uc.a.run.app/api/v1";
+  // return "http://10.0.2.2:8000/api/v1";
 }
 
 final LocalStorage appStorage = new LocalStorage('PETROL_POS');
