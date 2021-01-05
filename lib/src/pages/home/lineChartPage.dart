@@ -19,9 +19,9 @@ class LineChartPage extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
                 child: Consumer<HomeViewModel>(
                     builder: (context, homeViewModel, child) {
-                  if (homeViewModel.saleReports.length > 0)
+                  if (homeViewModel.dailySaleReports.length > 0)
                     return LineChart(
-                      saleReports: homeViewModel.saleReports,
+                      saleReports: homeViewModel.dailySaleReports,
                     );
                   else
                     return LoadingIndicator();

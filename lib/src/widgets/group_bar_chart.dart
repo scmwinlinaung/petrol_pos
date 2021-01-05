@@ -80,14 +80,16 @@ class GroupedBarChart extends StatelessWidget {
     final foreignOil = saleReports
         .where((element) => element.goodType == "နိုင်ငံခြားဆီ")
         .map((saleReport) {
-      return OrdinalSales(months[saleReport.month],
+      return OrdinalSales(months[saleReport.month - 1],
           int.parse(saleReport.totalOfQty.toString()));
     }).toList();
 
     final traditionalOil = saleReports
         .where((element) => element.goodType == "ချက်ဆီ")
         .map((saleReport) {
-      return OrdinalSales(months[saleReport.month],
+      return OrdinalSales(
+          months[saleReport.month -
+              1], // reduce -1 to get correct month name as array starts from 0
           int.parse(saleReport.totalOfQty.toString()));
     }).toList();
 

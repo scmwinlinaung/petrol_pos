@@ -1,5 +1,4 @@
 import 'package:OilPos/src/SplashPage.dart';
-import 'package:OilPos/src/common/general.dart';
 import 'package:OilPos/src/pages/home/homePage.dart';
 import 'package:OilPos/src/pages/login/loginScreen.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';

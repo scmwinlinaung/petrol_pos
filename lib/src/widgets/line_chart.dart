@@ -31,7 +31,7 @@ class LineChart extends StatelessWidget {
   List<charts.Series<LinearSales, int>> _createSampleData() {
     final salesReport = saleReports.map((saleReport) {
       return LinearSales(
-          saleReport.month, int.parse(saleReport.totalOfQty.toString()));
+          saleReport.day, int.parse(saleReport.totalOfQty.toString()));
     }).toList();
 
     // final data = [

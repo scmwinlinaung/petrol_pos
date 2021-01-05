@@ -17,9 +17,9 @@ class PieChartPage extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Consumer<HomeViewModel>(
                 builder: (context, homeViewModel, child) {
-              if (homeViewModel.saleReports.length > 0)
+              if (homeViewModel.monthlySaleReports.length > 0)
                 return PieChart(
-                  saleReports: homeViewModel.saleReports,
+                  saleReports: homeViewModel.monthlySaleReports,
                 );
               else
                 return LoadingIndicator();

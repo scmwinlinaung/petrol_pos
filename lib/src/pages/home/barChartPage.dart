@@ -19,9 +19,9 @@ class BarChartPage extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Consumer<HomeViewModel>(
                   builder: (context, homeViewModel, child) {
-                if (homeViewModel.saleReports.length > 0)
+                if (homeViewModel.monthlySaleReports.length > 0)
                   return GroupedBarChart(
-                    saleReports: homeViewModel.saleReports,
+                    saleReports: homeViewModel.yearlySaleReports,
                   );
                 else
                   return LoadingIndicator();

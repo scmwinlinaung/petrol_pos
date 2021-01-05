@@ -5,6 +5,10 @@ class SaleReportViewModal {
 
   SaleReportViewModal({this.saleReport});
 
+  int get day {
+    return this.saleReport.day;
+  }
+
   int get month {
     return this.saleReport.month;
   }

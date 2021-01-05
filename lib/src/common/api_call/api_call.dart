@@ -36,7 +36,9 @@ abstract class ApiCall {
   Future<dynamic> callSearchFromSales(String searchString);
   Future<dynamic> callDeletePurchase(String id);
   Future<dynamic> callDeleteSale(String id);
-  Future<List> callSaleReport();
+  Future<List> callDailySaleReport();
+  Future<List> callMonthlySaleReport();
+  Future<List> callYearlySaleReport();
 }
 
 class ApiCallService implements ApiCall {
@@ -193,9 +195,25 @@ class ApiCallService implements ApiCall {
   }
 
   @override
-  Future<List> callSaleReport() async {
+  Future<List> callMonthlySaleReport() async {
     var result = await http.get(
       "$host/monthly_sale_reports",
+    );
+    return json.decode(result.body) as List;
+  }
+
+  @override
+  Future<List> callDailySaleReport() async {
+    var result = await http.get(
+      "$host/daily_sale_reports",
+    );
+    return json.decode(result.body) as List;
+  }
+
+  @override
+  Future<List> callYearlySaleReport() async {
+    var result = await http.get(
+      "$host/yearly_sale_reports",
     );
     return json.decode(result.body) as List;
   }

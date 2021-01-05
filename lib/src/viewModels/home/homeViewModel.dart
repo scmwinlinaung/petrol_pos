@@ -4,24 +4,61 @@ import 'package:OilPos/src/viewModels/home/saleReportViewModal.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  List<SaleReportViewModal> saleReports = List<SaleReportViewModal>();
+  List<SaleReportViewModal> dailySaleReports = List<SaleReportViewModal>();
+  List<SaleReportViewModal> monthlySaleReports = List<SaleReportViewModal>();
+  List<SaleReportViewModal> yearlySaleReports = List<SaleReportViewModal>();
 
   HomeViewModel() {
-    this.getSaleReports(); // get data when home page opens
+    this.getDailySaleReports(); // get data when home page opens
+    this.getMonthlySaleReports();
+    this.getYearlySaleReports();
   }
 
-  Future<void> getSaleReports() async {
+  Future<void> getDailySaleReports() async {
     ApiCall apiCall = new ApiCallService();
-    final results = await apiCall.callSaleReport();
-    this.saleReports = results
+    final results = await apiCall.callDailySaleReport();
+    this.dailySaleReports = results
         .map((saleReport) => SaleReportViewModal(
             saleReport: SaleReportModel(
+                day: saleReport["_id"]["day"],
                 month: saleReport["_id"]["month"],
                 goodType: saleReport["_id"]["goodType"],
                 totalOfQty: saleReport["totalOfQty"],
                 totalPrice: saleReport["totalPrice"])))
         .toList();
-    this.saleReports.sort((a, b) => a.month.compareTo(b.month));
+    this.dailySaleReports.sort((a, b) => a.month.compareTo(b.month));
+    notifyListeners();
+  }
+
+  Future<void> getMonthlySaleReports() async {
+    ApiCall apiCall = new ApiCallService();
+    final results = await apiCall.callMonthlySaleReport();
+    this.monthlySaleReports = results
+        .map((saleReport) => SaleReportViewModal(
+            saleReport: SaleReportModel(
+                day: saleReport["_id"]["day"],
+                month: saleReport["_id"]["month"],
+                goodType: saleReport["_id"]["goodType"],
+                totalOfQty: saleReport["totalOfQty"],
+                totalPrice: saleReport["totalPrice"])))
+        .toList();
+    this.monthlySaleReports.sort((a, b) => a.month.compareTo(b.month));
+    notifyListeners();
+  }
+
+  Future<void> getYearlySaleReports() async {
+    ApiCall apiCall = new ApiCallService();
+    final results = await apiCall.callMonthlySaleReport();
+    this.yearlySaleReports = results
+        .map((saleReport) => SaleReportViewModal(
+            saleReport: SaleReportModel(
+                day: saleReport["_id"]["day"],
+                month: saleReport["_id"]["month"],
+                goodType: saleReport["_id"]["goodType"],
+                totalOfQty: saleReport["totalOfQty"],
+                totalPrice: saleReport["totalPrice"])))
+        .toList();
+    this.yearlySaleReports.sort((a, b) => a.month.compareTo(b.month));
     notifyListeners();
   }
 }
