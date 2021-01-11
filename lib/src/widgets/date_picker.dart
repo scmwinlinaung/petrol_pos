@@ -33,23 +33,25 @@ class DatePicker extends StatelessWidget {
                     border: InputBorder.none,
                   ),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Icon(
-                          Icons.today,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
                         Padding(
                             padding: const EdgeInsets.only(left: 5.0),
                             child: Text(
                               DateFormat.yMMMd().format(selectedDate),
                               textAlign: TextAlign.start,
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 14),
                             )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
+                          child: Icon(
+                            Icons.today,
+                            color: Colors.red,
+                          ),
+                        )
                       ]))))
     ]);
   }

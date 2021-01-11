@@ -1,5 +1,7 @@
 import 'package:OilPos/src/viewModels/purchase/purchaseViewModel.dart';
+import 'package:OilPos/src/widgets/date_picker.dart';
 import 'package:OilPos/src/widgets/loading_indicator.dart';
+import 'package:OilPos/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../pages/purchase/paginatedDataSourceForPurchase.dart';
@@ -10,9 +12,11 @@ class PurchaseListBody extends StatefulWidget {
 }
 
 class _PurchaseListBodyState extends State<PurchaseListBody> {
-  int _rowPerPage = PaginatedDataTable.defaultRowsPerPage;
-  TextEditingController _searchStringCtrl = new TextEditingController();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
 
+  TextEditingController _searchStringCtrl = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     _searchStringCtrl.addListener(liveSearching);
@@ -32,6 +36,93 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
     super.dispose();
   }
 
+  Future<void> openFilterPopup() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              content: Container(
+            width: MediaQuery.of(context).size.width * 0.95,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Start Date"),
+                          Container(
+                            width: 110,
+                            height: 50,
+                            child: DatePicker(
+                                selectedDate: startDate,
+                                onChanged: ((DateTime date) {
+                                  if (date != null) {
+                                    setState(() {
+                                      startDate = date;
+                                    });
+                                  }
+                                })),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("End Date"),
+                          Container(
+                            width: 110,
+                            height: 50,
+                            child: DatePicker(
+                                selectedDate: endDate,
+                                onChanged: ((DateTime date) {
+                                  if (date != null) {
+                                    setState(() {
+                                      endDate = date;
+                                    });
+                                  }
+                                })),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ));
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PurchaseViewModel>(
@@ -42,20 +133,47 @@ class _PurchaseListBodyState extends State<PurchaseListBody> {
             height: MediaQuery.of(context).size.height,
             child: PaginatedDataTable(
               sortAscending: false,
-              header: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 5, 50, 5),
-                child: TextFormField(
-                  controller: _searchStringCtrl,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.search,
-                      color: Theme.of(context).primaryColor,
+              header: Row(
+                children: [
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.white)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Filter",
+                            style: Theme.of(context).textTheme.headline1),
+                        Icon(
+                          Icons.filter_alt,
+                          size: 25,
+                          color: Colors.white,
+                        )
+                      ],
                     ),
-                    labelText: "Search",
-                    labelStyle: Theme.of(context).textTheme.bodyText1,
+                    color: Colors.purple[300],
+                    onPressed: openFilterPopup,
                   ),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    width: 150,
+                    height: 40,
+                    child: TextFormField(
+                      controller: _searchStringCtrl,
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.search,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: "Search",
+                        labelStyle: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
+                ],
               ),
               columns: [
                 DataColumn(

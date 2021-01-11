@@ -30,6 +30,7 @@ class SaleViewModel extends ChangeNotifier {
             createdAt: sale["createdAt"]);
       }).toList();
     }
+    print(saleRecords.length);
     notifyListeners();
   }
 

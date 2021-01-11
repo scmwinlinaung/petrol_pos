@@ -1,6 +1,6 @@
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/login/loginViewModel.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:OilPos/src/widgets/progressButton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -77,9 +77,18 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 50,
             ),
-            LoginButton(
-              onPressed: () => _onFormSubmitted(context),
-            )
+            ProgressButton(
+              title: "ဝင်ရန်",
+              color: !loginViewModel.loginModel.isSubmitting
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+              onPressed: () {
+                if (!loginViewModel.loginModel.isSubmitting) {
+                  this._onFormSubmitted(context);
+                } else
+                  return null;
+              },
+            ),
           ],
         ),
       ));

@@ -34,10 +34,11 @@ class AuthenticationViewModel extends ChangeNotifier {
   }
 
   void appStart() async {
+    await Future.delayed(
+        Duration(seconds: 1)); // wait 1 second to display splash image
     try {
-      final token = await appStorage.getItem(loginToken);
-      print("TOKEN");
-      print(token);
+      await appStorage.ready;
+      final token = appStorage.getItem(loginToken);
       if (token != null) {
         AuthStates authStates = AuthStates.AUTHENTICATED;
         authenticationModel = AuthenticationModel(
@@ -83,7 +84,7 @@ class AuthenticationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logoutState() {}
+  Future<void> logoutState() async {}
 
   // Future<String> signUpWithCredentials(
   //     String username, String phoneNum, String password) async {

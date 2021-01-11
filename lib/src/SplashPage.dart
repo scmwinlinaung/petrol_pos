@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         image: DecorationImage(
-          fit: BoxFit.fill,
+          fit: BoxFit.contain,
           image: AssetImage('assets/icons/BooleanPOSIcon.png'),
         ),
       ),
