@@ -64,6 +64,18 @@ class PieChart extends StatelessWidget {
         measureFn: (LinearSales sales, _) => sales.sales,
         data: data,
         // Set a label accessor to control the text of the arc label.
+        colorFn: (LinearSales sales, _) {
+          if (sales.goodType == "ချက်ဆီ")
+            return charts.MaterialPalette.deepOrange.shadeDefault;
+          else
+            return charts.MaterialPalette.blue.shadeDefault;
+        },
+        insideLabelStyleAccessorFn: (LinearSales sales, _) {
+          return new charts.TextStyleSpec(
+              color: charts.MaterialPalette.white,
+              fontSize: 14,
+              fontFamily: 'Pyidaungsu');
+        },
         labelAccessorFn: (LinearSales row, _) =>
             '${row.goodType}: ${row.sales}',
       )

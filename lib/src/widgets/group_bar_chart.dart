@@ -113,12 +113,18 @@ class GroupedBarChart extends StatelessWidget {
         domainFn: (OrdinalSales sales, _) => sales.month,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: foreignOil,
+        colorFn: (OrdinalSales sales, _) {
+          return charts.MaterialPalette.blue.shadeDefault;
+        },
       ),
       new charts.Series<OrdinalSales, String>(
         id: 'ချက်ဆီ ',
         domainFn: (OrdinalSales sales, _) => sales.month,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: traditionalOil,
+        colorFn: (OrdinalSales sales, _) {
+          return charts.MaterialPalette.deepOrange.shadeDefault;
+        },
       ),
       // new charts.Series<OrdinalSales, String>(
       //   id: 'Mobile',
