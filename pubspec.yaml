@@ -28,9 +28,6 @@ dependencies:
   google_fonts: 
   fluttertoast: 
   font_awesome_flutter: 
-  bloc: 
-  flutter_bloc: 
-  hydrated_bloc: 
   equatable: 
   json_annotation: 
   webview_flutter:

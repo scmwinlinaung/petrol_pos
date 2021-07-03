@@ -7,7 +7,6 @@ import 'package:OilPos/src/widgets/date_picker.dart';
 import 'package:OilPos/src/widgets/goodtype_dropdown.dart';
 import 'package:OilPos/src/widgets/payment_type_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class CreateSaleForm extends StatefulWidget {

@@ -44,7 +44,8 @@ abstract class ApiCall {
 class ApiCallService implements ApiCall {
   @override
   Future callSignInApi(String name, String password) async {
-    var result = await http.post("$host/user_log_in",
+    final url = Uri.parse("$host/user_log_in");
+    var result = await http.post(url,
         headers: {"Content-Type": "application/json"},
         body: json.encode({"name": name, "password": password}));
     return json.decode(result.body);
@@ -52,25 +53,29 @@ class ApiCallService implements ApiCall {
 
   @override
   Future<dynamic> callSalesListApi(int page) async {
+    final url = Uri.parse(
+        "$host/sale_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
+            page.toString());
     var result = await http.get(
-      "$host/sale_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
-          page.toString(),
+      url,
     );
     return json.decode(result.body);
   }
 
   @override
   Future<dynamic> callPurchasesListApi(int page) async {
-    var result = await http.get(
+    final url = Uri.parse(
         "$host/purchase_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
             page.toString());
+    var result = await http.get(url);
     return json.decode(result.body);
   }
 
   @override
   Future<List> callInStockListApi() async {
+    final url = Uri.parse("$host/in_stock_records");
     var result = await http.get(
-      "$host/in_stock_records",
+      url,
     );
     return json.decode(result.body) as List;
   }
@@ -85,7 +90,8 @@ class ApiCallService implements ApiCall {
       String paymentType,
       int total,
       String createAt) async {
-    var result = await http.post("$host/sale_records",
+    final url = Uri.parse("$host/sale_records");
+    var result = await http.post(url,
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "customerName": customerName,
@@ -112,7 +118,8 @@ class ApiCallService implements ApiCall {
       String paymentType,
       int total,
       String createAt) async {
-    var result = await http.post("$host/purchase_records",
+    final url = Uri.parse("$host/purchase_records");
+    var result = await http.post(url,
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "companyName": companyName,
@@ -131,17 +138,21 @@ class ApiCallService implements ApiCall {
 
   @override
   Future<dynamic> callSalesDebtListApi(int page, int limit) async {
+    final url = Uri.parse(
+        "$host/sale_debt_records_with_pagination?sort[createdAt]=-1&&limit=$limit&&page=$page");
     var result = await http.get(
-      "$host/sale_debt_records_with_pagination?sort[createdAt]=-1&&limit=$limit&&page=$page",
+      url,
     );
     return json.decode(result.body);
   }
 
   @override
   Future<dynamic> callPurchaseDebtListApi(int page) async {
+    final url = Uri.parse(
+        "$host/purchase_debt_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
+            page.toString());
     var result = await http.get(
-      "$host/purchase_debt_records_with_pagination?sort[createdAt]=-1&&limit=10&&page=" +
-          page.toString(),
+      url,
     );
     return json.decode(result.body);
   }
@@ -149,7 +160,8 @@ class ApiCallService implements ApiCall {
   @override
   Future callUpdatePaymentTypeInSaleApi(
       String saleId, String paymentType) async {
-    var result = await http.put("$host/sale_records/" + saleId,
+    final url = Uri.parse("$host/sale_records/" + saleId);
+    var result = await http.put(url,
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "paymentType": paymentType,
@@ -160,26 +172,31 @@ class ApiCallService implements ApiCall {
 
   @override
   Future callSearchFromPurchases(String searchString) async {
+    final url = Uri.parse(
+        "$host/purchase_records_with_pagination?sort[createdAt]=-1&&search=" +
+            searchString);
     var result = await http.get(
-      "$host/purchase_records_with_pagination?sort[createdAt]=-1&&search=" +
-          searchString,
+      url,
     );
     return json.decode(result.body);
   }
 
   @override
   Future callSearchFromSales(String searchString) async {
+    final url = Uri.parse(
+        "$host/sale_records_with_pagination?sort[createdAt]=-1&&search=" +
+            searchString);
     var result = await http.get(
-      "$host/sale_records_with_pagination?sort[createdAt]=-1&&search=" +
-          searchString,
+      url,
     );
     return json.decode(result.body);
   }
 
   @override
   Future callDeletePurchase(String id) async {
+    final url = Uri.parse("$host/purchase_records/" + id);
     var result = await http.delete(
-      "$host/purchase_records/" + id,
+      url,
       headers: {"Content-Type": "application/json"},
     );
     return json.decode(result.body);
@@ -187,8 +204,9 @@ class ApiCallService implements ApiCall {
 
   @override
   Future callDeleteSale(String id) async {
+    final url = Uri.parse("$host/sale_records/" + id);
     var result = await http.delete(
-      "$host/sale_records/" + id,
+      url,
       headers: {"Content-Type": "application/json"},
     );
     return json.decode(result.body);
@@ -196,24 +214,27 @@ class ApiCallService implements ApiCall {
 
   @override
   Future<List> callMonthlySaleReport() async {
+    final url = Uri.parse("$host/monthly_sale_reports");
     var result = await http.get(
-      "$host/monthly_sale_reports",
+      url,
     );
     return json.decode(result.body) as List;
   }
 
   @override
   Future<List> callDailySaleReport() async {
+    final url = Uri.parse("$host/daily_sale_reports");
     var result = await http.get(
-      "$host/daily_sale_reports",
+      url,
     );
     return json.decode(result.body) as List;
   }
 
   @override
   Future<List> callYearlySaleReport() async {
+    final url = Uri.parse("$host/yearly_sale_reports");
     var result = await http.get(
-      "$host/yearly_sale_reports",
+      url,
     );
     return json.decode(result.body) as List;
   }

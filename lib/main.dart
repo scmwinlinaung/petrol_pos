@@ -3,18 +3,12 @@ import 'package:OilPos/src/pages/home/homePage.dart';
 import 'package:OilPos/src/pages/login/loginScreen.dart';
 import 'package:OilPos/src/viewModels/authentication/authenticationViewModel.dart';
 import 'package:OilPos/src/viewModels/home/homeViewModel.dart';
-import 'package:OilPos/src/SimpleBlocDelegate.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:provider/provider.dart';
 
 final appTitle = 'Home';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  Bloc.observer = SimpleBlocObserver();
-  HydratedCubit.storage = await HydratedStorage.build();
 
   // application.onLocaleChanged = onLocaleChange;
   runApp(ChangeNotifierProvider(
